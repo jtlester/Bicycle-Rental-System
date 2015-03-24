@@ -1,6 +1,4 @@
-// specify the package
 package model;
-
 // system imports
 import java.sql.SQLException;
 import java.util.Enumeration;
