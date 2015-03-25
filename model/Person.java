@@ -1,3 +1,10 @@
+package model;
+
+//System Imports
+import java.util.Properties;
+import java.util.Enumeration;
+import java.sql.SQLException;
+
 public abstract class Person extends EntityBase {
 
 	public int personId;
@@ -6,8 +13,10 @@ public abstract class Person extends EntityBase {
 	public String phoneNumber;
 	public String email;
 	public String bannerId;
-	public static final myTableName = "Person";
+	public static final String myTableName = "Person";
 	Properties persistentState;
+	protected Properties dependencies;
+	private String updateStatusMessage;
 		
 	public Person(Properties p) {
 		
@@ -19,7 +28,7 @@ public abstract class Person extends EntityBase {
 		while (allKeys.hasMoreElements() == true)
 		{
 			String nextKey = (String)allKeys.nextElement();
-			String nextValue = props.getProperty(nextKey);
+			String nextValue = p.getProperty(nextKey);  //Was props.getProperty(nextKey);
 
 			if (nextValue != null)
 			{
@@ -65,6 +74,12 @@ public abstract class Person extends EntityBase {
 			System.out.println(updateStatusMessage);
 		}
 		//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
+	}
+	private void setDependencies()
+	{
+		dependencies = new Properties();
+	
+		myRegistry.setDependencies(dependencies);
 	}
 
 }
