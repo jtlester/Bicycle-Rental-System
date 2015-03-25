@@ -6,13 +6,34 @@ public abstract class Person extends EntityBase {
 	public String phoneNumber;
 	public String email;
 	public String bannerId;
+	public static final myTableName = "Person";
+	Properties persistentState;
 		
 	public Person(Properties p) {
 		
-		//Properties crap
+		super(myTableName);
+
+		setDependencies();
+		persistentState = new Properties();
+		Enumeration allKeys = p.propertyNames();
+		while (allKeys.hasMoreElements() == true)
+		{
+			String nextKey = (String)allKeys.nextElement();
+			String nextValue = props.getProperty(nextKey);
+
+			if (nextValue != null)
+			{
+				persistentState.setProperty(nextKey, nextValue);
+			}
+		}
 		
 	}
-
+	
+	public void update()
+	{
+		updateStateInDatabase();
+	}
+	
 	private void updateStateInDatabase() 
 	{
 		try
