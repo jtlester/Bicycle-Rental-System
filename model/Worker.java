@@ -122,12 +122,12 @@ public class Worker extends Person implements IView
 	}
 	
 	//-----------------------------------------------------------------------------------
-		protected void initializeSchema(String tableName)
+	protected void initializeSchema(String tableName)
+	{
+		if (mySchema == null)
 		{
-			if (mySchema == null)
-			{
 				mySchema = getSchemaInfo(tableName);
-			}
 		}
+	}
 	
 }
