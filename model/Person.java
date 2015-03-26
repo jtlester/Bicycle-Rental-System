@@ -14,21 +14,19 @@ public abstract class Person extends EntityBase {
 	public String email;
 	public String bannerId;
 	public static final String myTableName = "Person";
-	Properties persistentState;
-	protected Properties dependencies;
 	private String updateStatusMessage;
+	private Properties persistentState;
 		
 	public Person(Properties p) {
 		
-		super(myTableName);
+		persistentState = p;
 
 		setDependencies();
-		persistentState = new Properties();
-		Enumeration allKeys = p.propertyNames();
+		Enumeration allKeys = persistentState.propertyNames();
 		while (allKeys.hasMoreElements() == true)
 		{
 			String nextKey = (String)allKeys.nextElement();
-			String nextValue = p.getProperty(nextKey);  //Was props.getProperty(nextKey);
+			String nextValue = persistentState.getProperty(nextKey);
 
 			if (nextValue != null)
 			{
@@ -50,8 +48,7 @@ public abstract class Person extends EntityBase {
 			if (persistentState.getProperty("personId") != null)
 			{
 				Properties whereClause = new Properties();
-				whereClause.setProperty("personId",
-				persistentState.getProperty("personId"));
+				whereClause.setProperty("personId", persistentState.getProperty("personId"));
 				updatePersistentState(mySchema, persistentState, whereClause);
 				updateStatusMessage = "Person data for person id : " + persistentState.getProperty("personId") + " updated successfully in database!";
 				System.out.println(updateStatusMessage);
