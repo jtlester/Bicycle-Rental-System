@@ -6,41 +6,34 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-import javax.swing.JFrame;
 
-import exception.InvalidPrimaryKeyException;
-import database.*;
-import impresario.IView;
-
-import userinterface.View;
-import userinterface.ViewFactory;
 
 /**Class contains the Workers**/
 //----------------------------------------------------------
 public class Worker extends Person implements IView
 {
 	private static final String myTableName = "Worker";
-	protected Properties dependencies;
+	protected Properties persistentState;
 	
 	private String updateStatusMessage = "";
 	
 	//Constructor number one for this class
 	//------------------------------------------------------
-	/*public Worker(String bannerId) throws InvalidPrimaryKeyException
+	public Worker(String bannerId) throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
 		
 		setDependencies();
 		
 		String query = "SELECT * FROM " + myTableName + "WHERE (bannerId = " + bannerId + ")";
-		Vector allDataRetrieved = getSelectQueryResults(query);
+		Vector allDataRetrieved =  getSelectQueryResults(query);
 		
 		//Need to bring back at least one worker, error checking here
 		if(allDataRetrieved != null)
 		{
 			int size = allDataRetrieved.size();
 			
-			if(size = 1)
+			if(size == 1)
 			{
 				throw new InvalidPrimaryKeyException("Multiple workers match the banner id of: " + bannerId);
 			}
@@ -70,7 +63,7 @@ public class Worker extends Person implements IView
 		{
 			throw new InvalidPrimaryKeyException("No worker matching the banner id: " + bannerId);
 		}
-	}*/
+	}
 	
 	public Worker(Properties p)
 	{
@@ -123,6 +116,18 @@ public class Worker extends Person implements IView
 		
 	}
 	
-
+	private void setDependencies()
+	{	
+		myRegistry.setDependencies(persistentState);
+	}
+	
+	//-----------------------------------------------------------------------------------
+		protected void initializeSchema(String tableName)
+		{
+			if (mySchema == null)
+			{
+				mySchema = getSchemaInfo(tableName);
+			}
+		}
 	
 }
