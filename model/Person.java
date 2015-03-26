@@ -72,11 +72,25 @@ public abstract class Person extends EntityBase {
 		}
 		//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
 	}
-	private void setDependencies()
+
+//------------------------------------------------------------------------
+
+	public Object getState(String key)
 	{
-		dependencies = new Properties();
-	
-		myRegistry.setDependencies(dependencies);
+		if (key.equals("UpdateStatusMessage") == true)
+			return updateStatusMessage;
+
+		return persistentState.getProperty(key);
+	}
+
+	public void stateChangeRequest(String key, Object value)
+	{
+		myRegistry.updateSubscribers(key, this);
+	}
+
+	private void setDependencies()
+	{	
+		myRegistry.setDependencies(persistentState);
 	}
 
 }
