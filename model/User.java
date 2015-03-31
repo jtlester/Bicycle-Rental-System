@@ -22,7 +22,7 @@ import userinterface.ViewFactory;
 
 
 
-public class User extends Person //will change to: extends Person
+public class User extends EntityBase
 {
         
     private static final String myTableName = "user";
