@@ -6,14 +6,23 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
+import javax.swing.JFrame;
 
+// project imports
+import exception.InvalidPrimaryKeyException;
+import database.*;
+
+import impresario.IView;
+
+import userinterface.View;
+import userinterface.ViewFactory;
 
 /**Class contains the Workers**/
 //----------------------------------------------------------
-public class Worker extends Person implements IView
+public class Worker extends EntityBase implements IView
 {
 	private static final String myTableName = "Worker";
-	protected Properties persistentState;
+	protected Properties dependencies;
 	
 	private String updateStatusMessage = "";
 	
@@ -26,7 +35,7 @@ public class Worker extends Person implements IView
 		setDependencies();
 		
 		String query = "SELECT * FROM " + myTableName + "WHERE (bannerId = " + bannerId + ")";
-		Vector allDataRetrieved =  getSelectQueryResults(query);
+		Vector allDataRetrieved =  getSelectQueryResult(query);
 		
 		//Need to bring back at least one worker, error checking here
 		if(allDataRetrieved != null)
@@ -67,10 +76,10 @@ public class Worker extends Person implements IView
 	
 	public Worker(Properties p)
 	{
-		super(p);
+		super(myTableName);
 		
 		setDependencies();
-		Properties persistentState = new Properties();
+		persistentState = new Properties();
 		Enumeration allKeys = p.propertyNames();
 		while(allKeys.hasMoreElements() == true)
 		{
@@ -86,23 +95,26 @@ public class Worker extends Person implements IView
 	
 	public void update()
 	{
-		super.update();
+		//super.update();
 		
 		try
 		{
-			if (persistentState.getProperty("personId") != null)
+			if (persistentState.getProperty("workerId") != null)
 			{
 				Properties whereClause = new Properties();
-				whereClause.setProperty("personId",
-				persistentState.getProperty("personId"));
+				whereClause.setProperty("workerId",
+				persistentState.getProperty("workerId"));
 				updatePersistentState(mySchema, persistentState, whereClause);
-				updateStatusMessage = "Person data for person id : " + persistentState.getProperty("personId") + " updated successfully in database!";
+				updateStatusMessage = "Person data for person id : " + persistentState.getProperty("workerId") + " updated successfully in database!";
 				System.out.println(updateStatusMessage);
 			}
 			else
 			{
-				
-				updateStatusMessage = "Error in inserting worker information";
+				Integer workerId =
+					insertAutoIncrementalPersistentState(mySchema, persistentState);
+				persistentState.setProperty("workerId", "" + workerId.intValue());
+			
+				updateStatusMessage = "It worked!!";
 					
 					System.out.println(updateStatusMessage);
 			}
@@ -116,9 +128,12 @@ public class Worker extends Person implements IView
 		
 	}
 	
+	//-----------------------------------------------------------------------------------
 	private void setDependencies()
-	{	
-		myRegistry.setDependencies(persistentState);
+	{
+		dependencies = new Properties();
+	
+		myRegistry.setDependencies(dependencies);
 	}
 	
 	//-----------------------------------------------------------------------------------
@@ -126,8 +141,42 @@ public class Worker extends Person implements IView
 	{
 		if (mySchema == null)
 		{
-				mySchema = getSchemaInfo(tableName);
+			mySchema = getSchemaInfo(tableName);
 		}
+	}
+	//--------------------------------------------------------------------------
+	/*public Vector getEntryListView()
+	{
+		Vector v = new Vector();
+
+		v.addElement(persistentState.getProperty("AccountNumber"));
+		v.addElement(persistentState.getProperty("Type"));
+		v.addElement(persistentState.getProperty("Balance"));
+		v.addElement(persistentState.getProperty("ServiceCharge"));
+
+		return v;
+	}*/
+	
+	public void stateChangeRequest(String key, Object value)
+	{
+
+		myRegistry.updateSubscribers(key, this);
+	}
+	
+	//----------------------------------------------------------
+	public Object getState(String key)
+	{
+		if (key.equals("UpdateStatusMessage") == true)
+			return updateStatusMessage;
+
+		return persistentState.getProperty(key);
+	}
+	
+	/** Called via the IView relationship */
+	//----------------------------------------------------------
+	public void updateState(String key, Object value)
+	{
+		stateChangeRequest(key, value);
 	}
 	
 }
