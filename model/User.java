@@ -22,7 +22,7 @@ import userinterface.ViewFactory;
 
 
 
-public class User extends EntityBase
+public class User extends EntityBase implements IView
 {
         
     private static final String myTableName = "user";
