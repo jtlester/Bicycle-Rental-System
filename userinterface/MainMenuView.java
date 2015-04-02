@@ -6,17 +6,23 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.EventObject;
+import java.util.ResourceBundle;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
+
+
 
 // project imports
 import impresario.IModel;
@@ -29,7 +35,6 @@ public class MainMenuView extends JPanel implements ActionListener
 
 	private MessageView statusLog;
 
-	public Locale currentLocale;
 	public ResourceBundle localizedBundle;
 	
 	//----------------------------------------------------------------
@@ -44,17 +49,7 @@ public class MainMenuView extends JPanel implements ActionListener
 		
 		add(createStatusLog("     "));
 
-		String language;
-     	String country;
-		if (args.length != 2) {
-            language = new String("en");
-            country = new String("US");
-        } else {
-            language = new String(args[0]);
-            country = new String(args[1]);
-        }
-
-        currentLocale = new Locale(language, country);
+        Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	//----------------------------------------------------------------
