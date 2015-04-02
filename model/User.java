@@ -42,7 +42,7 @@ public class User extends EntityBase implements IView
 
        
 
-        super(props);
+        super(myTableName);
 
         setDependencies();
         persistentState = new Properties();
@@ -102,13 +102,14 @@ public class User extends EntityBase implements IView
              mySchema = getSchemaInfo(tableName);
          }
      }
+
+    public void stateChangeRequest(String key, Object value)
+    {
+        myRegistry.updateSubscribers(key, this);
+    }
       
     private void updateStateInDatabase() 
     {
-
-       super.update();//Will be used from the user class to communicate with person super class in order to update both tables
-    
-    
     
         try
         {
