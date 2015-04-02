@@ -25,13 +25,13 @@ import model.*;
 public class MainMenuView extends JPanel implements ActionListener
 {
 	private Peon man;
-	
 	private JButton insertNewWorkerButton, doneButton;
 
-	
 	private MessageView statusLog;
+
+	public Locale currentLocale;
+	public ResourceBundle localizedBundle;
 	
-	public MainMenuView(){}
 	//----------------------------------------------------------------
 	public MainMenuView(Peon guy)
 	{
@@ -43,6 +43,19 @@ public class MainMenuView extends JPanel implements ActionListener
 		add(createNavigationButtons());
 		
 		add(createStatusLog("     "));
+
+		String language;
+     	String country;
+		if (args.length != 2) {
+            language = new String("en");
+            country = new String("US");
+        } else {
+            language = new String(args[0]);
+            country = new String(args[1]);
+        }
+
+        currentLocale = new Locale(language, country);
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	//----------------------------------------------------------------
 	private JPanel createTitle()
@@ -50,7 +63,7 @@ public class MainMenuView extends JPanel implements ActionListener
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		JLabel label = new JLabel("   Bicycle Rental System   ");
+		JLabel label = new JLabel(localizedBundle.getString("greetings"));
 		Font myFont = new Font("Arial", Font.BOLD, 24);
 		label.setFont(myFont);
 		temp.add(label);
@@ -64,12 +77,12 @@ public class MainMenuView extends JPanel implements ActionListener
 		
 		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
 		
-		insertNewWorkerButton = new JButton("Insert New Worker");
+		insertNewWorkerButton = new JButton(localizedBundle.getString("newWorker");
 		insertNewWorkerButton.addActionListener(this);
 		temp.add(insertNewWorkerButton);
 		temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
 		
-		doneButton = new JButton("Cancel");
+		doneButton = new JButton(localizedBundle.getString("cancel");
 		doneButton.addActionListener(this);
 		temp.add(doneButton);
 		temp.setAlignmentX(doneButton.CENTER_ALIGNMENT);

@@ -51,6 +51,9 @@ public class WorkerView extends JPanel implements ActionListener
 	private JComboBox adminComboBox;
 	
 	private MessageView statusLog;
+
+	public Locale currentLocale;
+    public ResourceBundle localizedBundle;
 	
 	//-----------------------------------------------------------------
 	public WorkerView(Peon otherPeon)
@@ -64,8 +67,20 @@ public class WorkerView extends JPanel implements ActionListener
 		add(createChoiceBox());
 		add(createNavigationButtons());
 		
-		
 		add(createStatusLog("         "));
+
+		String language;
+     	String country;
+		if (args.length != 2) {
+            language = new String("en");
+            country = new String("US");
+        } else {
+            language = new String(args[0]);
+            country = new String(args[1]);
+        }
+
+        currentLocale = new Locale(language, country);
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	
 	// Create the labels and fields
@@ -75,7 +90,7 @@ public class WorkerView extends JPanel implements ActionListener
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		JLabel lbl = new JLabel("        Add Worker       ");
+		JLabel lbl = new JLabel(localizedBundle.getString("addWorker"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
 		temp.add(lbl);
@@ -92,42 +107,42 @@ public class WorkerView extends JPanel implements ActionListener
 		temp.setLayout(new GridLayout(6,2));
 
 		// data entry fields		
-		JLabel bannerLabel = new JLabel("BannerID : ");
+		JLabel bannerLabel = new JLabel(localizedBundle.getString("bannerID") + ": ");
 		temp.add(bannerLabel);
 
 		bannerTextField = new JTextField(20);
 		bannerTextField.addActionListener(this);
 		temp.add(bannerTextField);
 		//
-		JLabel passwordLabel = new JLabel("Password : ");
+		JLabel passwordLabel = new JLabel(localizedBundle.getString("password") + ": ");
 		temp.add(passwordLabel);
 
 		passwordTextField = new JTextField(20);
 		passwordTextField.addActionListener(this);
 		temp.add(passwordTextField);
 		//
-		JLabel firstNameLabel = new JLabel("First Name : ");
+		JLabel firstNameLabel = new JLabel(localizedBundle.getString("firstName") + ": ");
 		temp.add(firstNameLabel);
 
 		firstNameTextField = new JTextField(20);
 		firstNameTextField.addActionListener(this);
 		temp.add(firstNameTextField);
 		//
-		JLabel lastNameLabel = new JLabel("Last Name : ");
+		JLabel lastNameLabel = new JLabel(localizedBundle.getString("lastName") + ": ");
 		temp.add(lastNameLabel);
 
 		lastNameTextField = new JTextField(20);
 		lastNameTextField.addActionListener(this);
 		temp.add(lastNameTextField);
 		//
-		JLabel phoneLabel = new JLabel("Phone Number : ");
+		JLabel phoneLabel = new JLabel(localizedBundle.getString("phoneNumber") + ": ");
 		temp.add(phoneLabel);
 
 		phoneTextField = new JTextField(20);
 		phoneTextField.addActionListener(this);
 		temp.add(phoneTextField);
 		//
-		JLabel emailLabel = new JLabel("Email : ");
+		JLabel emailLabel = new JLabel(localizedBundle.getString("email") + ": ");
 		temp.add(emailLabel);
 
 		emailTextField = new JTextField(20);
@@ -149,11 +164,11 @@ public class WorkerView extends JPanel implements ActionListener
 		temp.setLayout(f1);
 
 		// create the buttons, listen for events, add them to the panel
-		submitButton = new JButton("Submit");
+		submitButton = new JButton(localizedBundle.getString("submit");
 		submitButton.addActionListener(this);
 		temp.add(submitButton);
 		
-		doneButton = new JButton("Done");
+		doneButton = new JButton(localizedBundle.getString("done");
 		doneButton.addActionListener(this);
 		temp.add(doneButton);
 
@@ -169,10 +184,10 @@ public class WorkerView extends JPanel implements ActionListener
 		f1.setHgap(25);
 		temp.setLayout(f1);
 		
-		JLabel adminLabel = new JLabel("Administrator?");
+		JLabel adminLabel = new JLabel(localizedBundle.getString("administrator") + "?");
 		temp.add(adminLabel);
 		
-		String [] adminPossibilites = { "Yes", "No" };
+		String [] adminPossibilites = { localizedBundle.getString("yes"), localizedBundle.getString("no") };
 		adminComboBox = new JComboBox(adminPossibilites);
 		adminComboBox.addActionListener(this);
 		temp.add(adminComboBox);

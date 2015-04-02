@@ -42,6 +42,9 @@ public class BicycleView extends JPanel implements ActionListener
 	private JButton submitButton;
 	private JButton doneButton;
 	private MessageView statusLog;
+
+	public Locale currentLocale;
+    public ResourceBundle localizedBundle;
 	
 	//-----------------------------------------------------------------
 	public BicycleView(Peon otherPeon)
@@ -53,6 +56,19 @@ public class BicycleView extends JPanel implements ActionListener
 		add(createChoiceBox());
 		add(createNavigationButtons());
 		add(createStatusLog(" "));
+
+		String language;
+     	String country;
+		if (args.length != 2) {
+            language = new String("en");
+            country = new String("US");
+        } else {
+            language = new String(args[0]);
+            country = new String(args[1]);
+        }
+
+        currentLocale = new Locale(language, country);
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	
 	// Create the labels and fields
@@ -61,7 +77,7 @@ public class BicycleView extends JPanel implements ActionListener
 	{
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel lbl = new JLabel(" Add Bicycle ");
+		JLabel lbl = new JLabel(localizedBundle.getString("addBicycle"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
 		temp.add(lbl);
@@ -76,37 +92,37 @@ public class BicycleView extends JPanel implements ActionListener
 		// set the layout for this panel
 		temp.setLayout(new GridLayout(6,2));
 		// data entry fields
-		JLabel makeLabel = new JLabel("Make : ");
+		JLabel makeLabel = new JLabel(localizedBundle.getString("make") + ": ";
 		temp.add(makeLabel);
 		bannerTextField = new JTextField(20);
 		bannerTextField.addActionListener(this);
 		temp.add(makeTextField);
 		//
-		JLabel modelLabel = new JLabel("Model : ");
+		JLabel modelLabel = new JLabel(localizedBundle.getString("model") + ": ");
 		temp.add(modelLabel);
 		passwordTextField = new JTextField(20);
 		passwordTextField.addActionListener(this);
 		temp.add(modelTextField);
 		//
-		JLabel bikeConditionLabel = new JLabel("Bike Condition : ");
+		JLabel bikeConditionLabel = new JLabel(localizedBundle.getString("condition") + ": ");
 		temp.add(bikeConditionLabel);
 		firstNameTextField = new JTextField(20);
 		firstNameTextField.addActionListener(this);
 		temp.add(bikeConditionTextField);
 		//
-		JLabel colorLabel = new JLabel("Color : ");
+		JLabel colorLabel = new JLabel(localizedBundle.getString("color") + ": ");
 		temp.add(colorLabel);
 		lastNameTextField = new JTextField(20);
 		lastNameTextField.addActionListener(this);
 		temp.add(colorTextField);
 		//
-		JLabel serialNumberLabel = new JLabel("Serial Number : ");
+		JLabel serialNumberLabel = new JLabel(localizedBundle.getString("serialNumber") + ": ");
 		temp.add(serialNumberLabel);
 		phoneTextField = new JTextField(20);
 		phoneTextField.addActionListener(this);
 		temp.add(serialNumberTextField);
 		//
-		JLabel locationOnCampusLabel = new JLabel("Location On Campus : ");
+		JLabel locationOnCampusLabel = new JLabel(localizedBundle.getString("campusLocation") + ": ");
 		temp.add(locationOnCampusLabel);
 		emailTextField = new JTextField(20);
 		emailTextField.addActionListener(this);
@@ -131,10 +147,10 @@ public class BicycleView extends JPanel implements ActionListener
 		f1.setHgap(25);
 		temp.setLayout(f1);
 		// create the buttons, listen for events, add them to the panel
-		submitButton = new JButton("Submit");
+		submitButton = new JButton(localizedBundle.getString("submit") + ": ");
 		submitButton.addActionListener(this);
 		temp.add(submitButton);
-		doneButton = new JButton("Done");
+		doneButton = new JButton(localizedBundle.getString("Done") + ": ");
 		doneButton.addActionListener(this);
 		temp.add(doneButton);
 		return temp;
@@ -147,9 +163,9 @@ public class BicycleView extends JPanel implements ActionListener
 		f1.setVgap(1);
 		f1.setHgap(25);
 		temp.setLayout(f1);
-		JLabel rentalLabel = new JLabel("In or Out?");
+		JLabel rentalLabel = new JLabel(localizedBundle.getString("inOrOut") + ": ");
 		temp.add(rentalLabel);
-		String [] rentalPossibilites = { "In", "Out" };
+		String [] rentalPossibilites = { localizedBundle.getString('in') + ": ", localizedBundle.getString("Out") + ": " };
 		rentalComboBox = new JComboBox(rentalPossibilites);
 		rentalComboBox.addActionListener(this);
 		temp.add(rentalComboBox);
