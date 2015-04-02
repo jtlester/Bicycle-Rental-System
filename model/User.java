@@ -5,20 +5,10 @@ package model;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.Vector;
-import javax.swing.JFrame;
-
-
-
-// project imports
-//import exception.InvalidPrimaryKeyException;
-import database.*;
 
 
 //GUI Imports
 import impresario.IView;
-import userinterface.View;
-import userinterface.ViewFactory;
 
 
 
@@ -26,8 +16,7 @@ public class User extends EntityBase implements IView
 {
         
     private static final String myTableName = "user";
-        protected Properties dependencies;
-        protected Properties persistentState;
+    protected Properties dependencies;
     
     private String updateStatusMessage = "";
 
@@ -66,35 +55,14 @@ public class User extends EntityBase implements IView
 
     }
 
-
     private void setDependencies()
     {
         dependencies = new Properties();
     
         myRegistry.setDependencies(dependencies);
     }
-
-
-    //Takes an array of strings to insert user into Database
-    public void addUser(String[] Values)
-    {
-        super.addperson();
-        String insertStatusMessage;
-        try {
-            if (persistentState.getProperty("patronId") != null)
-            {
-                insertPersistentState(mySchema, persistentState);
-                insertStatusMessage = "Account data for account number : " + persistentState.getProperty("patronId") + " Inserted successfully!";
-            
-            }
-        }   
-        catch (SQLException e)
-        {
-            updateStatusMessage = "Error in Adding User Data To Database!";
-        }
-            
-     }
-
+    
+    @Override
      protected void initializeSchema(String tableName)
      {
          if (mySchema == null)
@@ -103,36 +71,82 @@ public class User extends EntityBase implements IView
          }
      }
 
+ 
+    @Override
     public void stateChangeRequest(String key, Object value)
     {
         myRegistry.updateSubscribers(key, this);
     }
-      
-    private void updateStateInDatabase() 
+
+    public void update()
     {
+            //super.update();
+
+            try
+            {
+                    if (persistentState.getProperty("userId") != null)
+                    {
+                            Properties whereClause = new Properties();
+                            whereClause.setProperty("userId",
+                            persistentState.getProperty("userId"));
+                            updatePersistentState(mySchema, persistentState, whereClause);
+                            updateStatusMessage = "User data for userId : " + persistentState.getProperty("userId") + " updated successfully in database!";
+                            System.out.println(updateStatusMessage);
+                    }
+                    else
+                    {
+                            Integer userId =
+                                    insertAutoIncrementalPersistentState(mySchema, persistentState);
+                            persistentState.setProperty("userId", "" + userId.intValue());
+
+                            updateStatusMessage = "Inserted user "+persistentState.getProperty("userId");
+
+                            System.out.println(updateStatusMessage);
+                    }
+            }
+            catch (SQLException ex)
+            {
+                    updateStatusMessage = "Error in installing user data in database!";
+                    System.out.println(updateStatusMessage);
+            }
+            //DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
+
+	}
     
-        try
+        public void delete()
         {
-            if (persistentState.getProperty("BannerId") != null)
+            try
             {
-                Properties whereClause = new Properties();
-                whereClause.setProperty("AccountNumber",
-                persistentState.getProperty("AccountNumber"));
-                updatePersistentState(mySchema, persistentState, whereClause);
-                updateStatusMessage = "Account data for account number : " + persistentState.getProperty("AccountNumber") + " updated successfully in database!";
+                if (persistentState.getProperty("userId") != null)
+                {
+                    Properties whereClause = new Properties();
+                    whereClause.setProperty("userId", persistentState.getProperty("userId"));
+                    
+                    deletePersistentState(persistentState,whereClause);
+                    updateStatusMessage="Deleted user id: "+persistentState.getProperty("userId");
+                    System.out.println(updateStatusMessage);
+                }
             }
-                else
+            catch(SQLException sqle)
             {
-
-                System.out.println("BannerID == NULL");
-                                
+                updateStatusMessage="Deletion failed";
+                System.out.println(updateStatusMessage);
             }
         }
-        catch (SQLException ex)
-        {
-            updateStatusMessage = "Error in installing account data in database!";
-        }
-        //DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
-    }
+	
+	//----------------------------------------------------------
+        @Override
+	public Object getState(String key)
+	{
+		if (key.equals("UpdateStatusMessage") == true)
+			return updateStatusMessage;
 
+		return persistentState.getProperty(key);
+	}
+	
+        @Override
+	public void updateState(String key, Object value)
+	{
+		stateChangeRequest(key, value);
+	}
 }
