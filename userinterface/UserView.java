@@ -4,6 +4,8 @@ package userinterface;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.awt.GridLayout;
 import java.util.Properties;
 import java.util.EventObject;
@@ -46,7 +48,6 @@ public class UserView extends JPanel implements ActionListener
 	private JButton submitButton;
 	private JButton doneButton;
 
-	public Locale currentLocale;
     public ResourceBundle localizedBundle;
 
 	public UserView(Peon otherPeon)
@@ -57,18 +58,8 @@ public class UserView extends JPanel implements ActionListener
 		add(createDataEntryFields());
 		add(createNavigationButtons());
 		add(createStatusLog(" "));
-
-		String language;
-     	String country;
-		if (args.length != 2) {
-            language = new String("en");
-            country = new String("US");
-        } else {
-            language = new String(args[0]);
-            country = new String(args[1]);
-        }
-
-        currentLocale = new Locale(language, country);
+		
+        Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	private JPanel createTitle()
