@@ -30,7 +30,7 @@ public class Bicycle extends EntityBase implements IView
     public Bicycle(Properties props)
     {
 
-        super(props);
+        super(myTableName);
 
         setDependencies();
         persistentState = new Properties();
@@ -82,8 +82,6 @@ public class Bicycle extends EntityBase implements IView
       
     private void updateStateInDatabase() 
     {
-
-       super.update();    
     
         try
         {
