@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Properties;
 import java.util.EventObject;
+import java.util.Locale;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -227,7 +228,7 @@ public class LoginView extends JPanel implements ActionListener
         String Languege = new String();
         if (English.isSelected() == true)
         {
-            Languege = "ENGLISH";
+            LocaleConfig.setLocale(new Loca)
         }
         else
         {
