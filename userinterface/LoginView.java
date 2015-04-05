@@ -29,7 +29,7 @@ import model.*;
 public class LoginView extends JPanel implements ActionListener
 {
     // GUI stuff
-    private peon man;
+    private Peon man;
     private JTextField bannerID;
     private JPasswordField password;
     private JButton submitButton;
@@ -228,13 +228,13 @@ public class LoginView extends JPanel implements ActionListener
         String Languege = new String();
         if (English.isSelected() == true)
         {
-            LocaleConfig.setLocale(new Loca)
+            LocaleConfig.setLocale(new Locale("en", "US"));
         }
         else
         {
-            Languege = "FRENCH";
+            LocaleConfig.setLocale(new Locale("fr", "FR"));
         }
-		man.AuthenticateLogin(props, Languege);
+		man.authenticateLogin(props);
 	}
 
 	//---------------------------------------------------------

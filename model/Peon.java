@@ -28,14 +28,21 @@ public class Peon
 	public Peon myModel;
 	public MainMenuView mainMenuView;
 	public WorkerView workerView;
+	public LoginView loginView;
 	
 	
 	//-----------------------------------------------------------------
 	public Peon()
 	{
 		myFrame = MainFrame.getInstance();
+		createAndShowLoginView();
+	}
+
+	public void authenticateLogin(Properties props) {
+		//TODO actually authenticate info
 		createAndShowMainMenuView();
 	}
+
 	//-----------------------------------------------------------------
 	public void createNewWorker()
 	{
@@ -67,6 +74,21 @@ public class Peon
 		System.exit(0);
 	}
 	
+	//------------------------------------------------------------------
+	public void createAndShowLoginView()
+	{
+		if(loginView == null)
+		{
+			loginView = new LoginView(this);
+			myFrame.getContentPane().add(loginView);
+			myFrame.pack();
+		}
+		else
+		{
+			swapToView(loginView);
+		}
+	}
+
 	//------------------------------------------------------------------
 	public void createAndShowMainMenuView()
 	{
