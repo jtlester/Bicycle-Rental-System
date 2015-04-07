@@ -72,12 +72,12 @@ public class MainMenuView extends JPanel implements ActionListener
 		
 		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
 		
-		insertNewWorkerButton = new JButton(localizedBundle.getString("newWorker");
+		insertNewWorkerButton = new JButton(localizedBundle.getString("newWorker"));
 		insertNewWorkerButton.addActionListener(this);
 		temp.add(insertNewWorkerButton);
 		temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
 		
-		doneButton = new JButton(localizedBundle.getString("cancel");
+		doneButton = new JButton(localizedBundle.getString("cancel"));
 		doneButton.addActionListener(this);
 		temp.add(doneButton);
 		temp.setAlignmentX(doneButton.CENTER_ALIGNMENT);
