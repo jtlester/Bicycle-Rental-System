@@ -41,7 +41,7 @@ public class LoginView extends JPanel implements ActionListener
     private MessageView statusLog;
 
     
-    public LoginView(peon guy)
+    public LoginView(Peon guy)
     {
         //super(model, "LoginView");
         man = guy;
