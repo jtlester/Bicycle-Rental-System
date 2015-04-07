@@ -53,14 +53,15 @@ public class UserView extends JPanel implements ActionListener
 	public UserView(Peon otherPeon)
 	{
 		myPeon = otherPeon;
+		Locale currentLocale = LocaleConfig.currentLocale();
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
+		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(createTitle());
 		add(createDataEntryFields());
 		add(createNavigationButtons());
 		add(createStatusLog(" "));
 		
-        Locale currentLocale = LocaleConfig.currentLocale();
-		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	private JPanel createTitle()
 	{
