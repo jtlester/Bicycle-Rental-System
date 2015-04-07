@@ -42,15 +42,15 @@ public class MainMenuView extends JPanel implements ActionListener
 	{
 		man = guy;
 		
+		Locale currentLocale = LocaleConfig.currentLocale();
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
+		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		add(createTitle());
 		add(createNavigationButtons());
 		
 		add(createStatusLog("     "));
-
-        Locale currentLocale = LocaleConfig.currentLocale();
-		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	//----------------------------------------------------------------
 	private JPanel createTitle()
