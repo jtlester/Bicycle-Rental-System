@@ -60,6 +60,8 @@ public class WorkerView extends JPanel implements ActionListener
 	public WorkerView(Peon otherPeon)
 	{
 		myPeon = otherPeon;
+		Locale currentLocale = LocaleConfig.currentLocale();
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -69,9 +71,6 @@ public class WorkerView extends JPanel implements ActionListener
 		add(createNavigationButtons());
 		
 		add(createStatusLog("         "));
-
-        Locale currentLocale = LocaleConfig.currentLocale();
-		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	
 	// Create the labels and fields
