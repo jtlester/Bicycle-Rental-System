@@ -154,11 +154,11 @@ public class WorkerView extends JPanel implements ActionListener
 		temp.setLayout(f1);
 
 		// create the buttons, listen for events, add them to the panel
-		submitButton = new JButton(localizedBundle.getString("submit");
+		submitButton = new JButton(localizedBundle.getString("submit"));
 		submitButton.addActionListener(this);
 		temp.add(submitButton);
 		
-		doneButton = new JButton(localizedBundle.getString("done");
+		doneButton = new JButton(localizedBundle.getString("done"));
 		doneButton.addActionListener(this);
 		temp.add(doneButton);
 
