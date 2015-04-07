@@ -51,15 +51,15 @@ public class BicycleView extends JPanel implements ActionListener
 	public BicycleView(Peon otherPeon)
 	{
 		myPeon = otherPeon;
+		Locale currentLocale = LocaleConfig.currentLocale();
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
+		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(createTitle());
 		add(createDataEntryFields());
 		add(createChoiceBox());
 		add(createNavigationButtons());
 		add(createStatusLog(" "));
-
-        Locale currentLocale = LocaleConfig.currentLocale();
-		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 	}
 	
 	// Create the labels and fields
