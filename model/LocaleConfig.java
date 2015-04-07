@@ -8,9 +8,7 @@ public class LocaleConfig
 	private static Locale currentLocale;
 
 	public static void setLocale (Locale locale) {
-		if(!currentLocale.equals(locale)) {
-			currentLocale = locale;
-		}
+		currentLocale = locale;
 	}
 
 	public static Locale currentLocale() {
