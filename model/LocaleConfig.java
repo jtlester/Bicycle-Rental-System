@@ -19,17 +19,4 @@ public class LocaleConfig
 		}
 		return currentLocale;
 	}
-
-//MAY NOT NEED THIS	
-/*	private static LocaleConfig instance = null;
-
-	private LocaleConfig() {}
-
-	public static LocaleConfig getInstance() {
-		if (instance == null) {
-			instance = new LocaleConfig();
-		}
-		return instance;
-	}
-*/
 }
