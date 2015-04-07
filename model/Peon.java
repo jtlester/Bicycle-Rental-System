@@ -92,16 +92,16 @@ public class Peon
 	//------------------------------------------------------------------
 	public void createAndShowMainMenuView()
 	{
-		if(mainMenuView == null)
-		{
+		//if(mainMenuView == null)
+		//{
 			mainMenuView = new MainMenuView(this);
 			myFrame.getContentPane().add(mainMenuView);
 			myFrame.pack();
-		}
-		else
-		{
+		//}
+		//else
+		//{
 			swapToView(mainMenuView);
-		}
+		//}
 	}
 	
 	//------------------------------------------------------------------

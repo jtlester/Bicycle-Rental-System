@@ -15,7 +15,6 @@ import database.*;
 import impresario.IView;
 
 import userinterface.View;
-import userinterface.ViewFactory;
 
 /**Class contains the Workers**/
 //----------------------------------------------------------

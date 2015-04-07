@@ -5,7 +5,7 @@ import impresario.IModel;
 //==============================================================================
 public class ViewFactory {
 
-	public static View createView(String viewName, IModel model)
+	/*public static View createView(String viewName, IModel model)
 	{
 		if(viewName.equals("TellerView") == true)
 		{
@@ -68,7 +68,7 @@ public class ViewFactory {
 	}
 
 
-	/*
+	
 	public static Vector createVectorView(String viewName, IModel model)
 	{
 		if(viewName.equals("SOME VIEW NAME") == true)
