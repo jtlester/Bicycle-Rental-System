@@ -27,6 +27,8 @@ public class Peon {
 	public MainMenuView mainMenuView;
 	public WorkerView workerView;
 	public LoginView loginView;
+	public UserView userView;
+	public BicycleView bicycleView;
 	
 	public Peon() {
 		myFrame = MainFrame.getInstance();
@@ -42,6 +44,16 @@ public class Peon {
 		createAndShowWorkerView();
 	}
 	
+	public void createNewUser()
+	{
+		createAndShowUserView();
+	}
+	
+	public void createNewBicycle()
+	{
+		createAndShowBicycleView();
+	}
+	
 	public void processWorkerData(Properties workerProperties) {
 		Worker newWorker = new Worker(workerProperties);
 		newWorker.update();
@@ -52,8 +64,34 @@ public class Peon {
 								);
 	}
 	
+	public void processUserData(Properties userProperties)
+	{
+		User newUser = new User(userProperties);
+		newUser.update();
+		
+		userView.displayMessage(userProperties.getProperty("firstName") + " saved successfully");
+	}
+	
+	public void processBicycleData(Properties bicycleProperties)
+	{
+		Bicycle newBicycle = new Bicycle(bicycleProperties);
+		newBicycle.update();
+		
+		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+	}
+	
 	public void workerDataDone() {
 		// Don't know what this does
+		createAndShowMainMenuView();
+	}
+	
+	public void userDataDone()
+	{
+		createAndShowMainMenuView();
+	}
+	
+	public void bicycleDataDone()
+	{
 		createAndShowMainMenuView();
 	}
 	
@@ -85,11 +123,44 @@ public class Peon {
 	}
 	
 	public void createAndShowWorkerView() {		
-		workerView = new WorkerView(this);
-		myFrame.getContentPane().add(workerView); 
-		myFrame.pack();
-
-		swapToView(workerView);	
+		//if(workerView == null)
+		//{
+			workerView = new WorkerView(this);
+			myFrame.getContentPane().add(workerView); 
+			myFrame.pack();
+		//}
+		//else
+		//{
+			swapToView(workerView);
+		//}
+	}
+	
+	public void createAndShowUserView()
+	{
+		//if(userView == null)
+		//{
+			userView = new UserView(this);
+			myFrame.getContentPane().add(userView);
+			myFrame.pack();
+		//}
+		//else
+		//{
+			swapToView(userView);
+		//}
+	}
+	
+	public void createAndShowBicycleView()
+	{
+		//if(bicycleView == null)
+		//{
+			bicycleView = new BicycleView(this);
+			myFrame.getContentPane().add(bicycleView);
+			myFrame.pack();
+		//}
+		//else
+		//{
+			swapToView(bicycleView);
+		//}
 	}
 	
 	public void swapToView(JPanel otherView) {
