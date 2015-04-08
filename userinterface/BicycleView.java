@@ -39,11 +39,20 @@ public class BicycleView extends JPanel implements ActionListener
 	private JLabel locationOnCampusLabel;
 	private JTextField locationOnCampusTextField;
 	private JLabel descriptionLabel;
-	private JTextField desccriptionTextField;
+	private JTextField descriptionTextField;
 	private JComboBox rentalComboBox;
 	private JButton submitButton;
 	private JButton doneButton;
 	private MessageView statusLog;
+	private JTextField emailTextField;
+	private JTextField phoneTextField;
+	private JTextField firstNameTextField;
+	private JTextField lastNameTextField;
+	private JTextField passwordTextField;
+	private JTextField bannerTextField;
+	
+	//private MessageView statusLog;
+	
 
     public ResourceBundle localizedBundle;
 	
@@ -83,7 +92,7 @@ public class BicycleView extends JPanel implements ActionListener
 		// set the layout for this panel
 		temp.setLayout(new GridLayout(6,2));
 		// data entry fields
-		JLabel makeLabel = new JLabel(localizedBundle.getString("make") + ": ";
+		JLabel makeLabel = new JLabel(localizedBundle.getString("make") + ": ");
 		temp.add(makeLabel);
 		bannerTextField = new JTextField(20);
 		bannerTextField.addActionListener(this);
@@ -118,7 +127,6 @@ public class BicycleView extends JPanel implements ActionListener
 		emailTextField = new JTextField(20);
 		emailTextField.addActionListener(this);
 		temp.add(locationOnCampusTextField);
-		return temp;
 		//
 		JLabel descriptionLabel = new JLabel("Description : ");
 		temp.add(descriptionLabel);
@@ -156,7 +164,7 @@ public class BicycleView extends JPanel implements ActionListener
 		temp.setLayout(f1);
 		JLabel rentalLabel = new JLabel(localizedBundle.getString("inOrOut") + ": ");
 		temp.add(rentalLabel);
-		String [] rentalPossibilites = { localizedBundle.getString('in') + ": ", localizedBundle.getString("Out") + ": " };
+		String [] rentalPossibilites = { localizedBundle.getString("in") + ": ", localizedBundle.getString("Out") + ": " };
 		rentalComboBox = new JComboBox(rentalPossibilites);
 		rentalComboBox.addActionListener(this);
 		temp.add(rentalComboBox);
@@ -192,7 +200,7 @@ public class BicycleView extends JPanel implements ActionListener
 		{
 			if((makeTextField.getText() == null || modelTextField.getText() == null || bikeConditionTextField.getText() == null) ||
 					(colorTextField.getText() == null || serialNumberTextField.getText().length() != 10 || locationOnCampusTextField.getText() == null)
-					|| descriptionTextField.getText());
+					|| descriptionTextField.getText() == null)
 			{
 				displayErrorMessage("Error: Bicycle fields incorrect");
 			}
@@ -222,3 +230,4 @@ public class BicycleView extends JPanel implements ActionListener
 			myPeon.bicycleDataDone();
 		}
 	}
+}
