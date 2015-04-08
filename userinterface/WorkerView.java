@@ -27,7 +27,7 @@ import model.*;
 
 public class WorkerView extends JPanel implements ActionListener
 {
-	private Peon myPeon;
+	private Peon peon;
 	
 	private JLabel firstNameLabel;
 	private JTextField firstNameTextField;
@@ -48,7 +48,7 @@ public class WorkerView extends JPanel implements ActionListener
 	private JTextField passwordTextField;
 	
 	private JButton submitButton;
-	private JButton doneButton;
+	private JButton backButton;
 	
 	private JComboBox adminComboBox;
 	
@@ -59,38 +59,30 @@ public class WorkerView extends JPanel implements ActionListener
 	//-----------------------------------------------------------------
 	public WorkerView(Peon otherPeon)
 	{
-		myPeon = otherPeon;
+		peon = otherPeon;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		add(createTitle());
-		add(createDataEntryFields());
-		add(createChoiceBox());
-		add(createNavigationButtons());
-		
-		add(createStatusLog("         "));
-	}
-	
-	// Create the labels and fields
-	//-------------------------------------------------------------
-	private JPanel createTitle()
-	{
-		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JPanel titlePanel = new JPanel();
+		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		JLabel lbl = new JLabel(localizedBundle.getString("addWorker"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
-		temp.add(lbl);
+		titlePanel.add(lbl);
 
-		return temp;
+		add(titlePanel);
+		add(dataEntryFields());
+		add(choiceBox());
+		add(navigationButtons());
+		
+		add(statusLog("         "));
 	}
 
 	// Create the main data entry fields
 	//-------------------------------------------------------------
-	private JPanel createDataEntryFields()
+	private JPanel dataEntryFields()
 	{
 		JPanel temp = new JPanel();
 		// set the layout for this panel
@@ -139,13 +131,12 @@ public class WorkerView extends JPanel implements ActionListener
 		emailTextField.addActionListener(this);
 		temp.add(emailTextField);
 
-
 		return temp;
 	}
 
 	// Create the navigation buttons
 	//-------------------------------------------------------------
-	private JPanel createNavigationButtons()
+	private JPanel navigationButtons()
 	{
 		JPanel temp = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
@@ -154,19 +145,21 @@ public class WorkerView extends JPanel implements ActionListener
 		temp.setLayout(f1);
 
 		// create the buttons, listen for events, add them to the panel
+		
+		
+		backButton = new JButton(localizedBundle.getString("back"));
+		backButton.addActionListener(this);
+		temp.add(backButton);
+
 		submitButton = new JButton(localizedBundle.getString("submit"));
 		submitButton.addActionListener(this);
 		temp.add(submitButton);
-		
-		doneButton = new JButton(localizedBundle.getString("done"));
-		doneButton.addActionListener(this);
-		temp.add(doneButton);
 
 		return temp;
 	}
 	
 	// Create the combo box
-	private JPanel createChoiceBox()
+	private JPanel choiceBox()
 	{
 		JPanel temp = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
@@ -187,7 +180,7 @@ public class WorkerView extends JPanel implements ActionListener
 	
 	// Create the status log field
 	//-------------------------------------------------------------
-	private JPanel createStatusLog(String initialMessage)
+	private JPanel statusLog(String initialMessage)
 	{
 
 		statusLog = new MessageView(initialMessage);
@@ -220,7 +213,7 @@ public class WorkerView extends JPanel implements ActionListener
 		{
 			
 			if((bannerTextField.getText() == null || passwordTextField.getText() == null || firstNameTextField.getText() == null) ||
-				(lastNameTextField.getText() == null || phoneTextField.getText().length() != 10 || emailTextField.getText() == null))
+				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 7 || emailTextField.getText() == null))
 			{
 				displayErrorMessage("Error: Book fields incorrect");
 			}
@@ -235,7 +228,7 @@ public class WorkerView extends JPanel implements ActionListener
 					workerProperties.setProperty("phoneNumber",phoneTextField.getText());
 					workerProperties.setProperty("email",emailTextField.getText());
 
-					myPeon.processWorkerData(workerProperties);
+					peon.processWorkerData(workerProperties);
 					
 					bannerTextField.setText("");
 					passwordTextField.setText("");
@@ -247,9 +240,9 @@ public class WorkerView extends JPanel implements ActionListener
 			}
 			
 		}
-		else if(event.getSource() == doneButton)
+		else if(event.getSource() == backButton)
 		{
-			myPeon.workerDataDone();
+			peon.workerDataDone();
 		}
 	}
 }

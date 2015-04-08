@@ -22,98 +22,82 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
 
-
-
 // project imports
 import impresario.IModel;
 import model.*;
 
-public class MainMenuView extends JPanel implements ActionListener
-{
+public class MainMenuView extends JPanel implements ActionListener {
 	private Peon man;
 	private JButton insertNewWorkerButton, doneButton;
 
 	private MessageView statusLog;
 
 	public ResourceBundle localizedBundle;
-	
-	//----------------------------------------------------------------
-	public MainMenuView(Peon guy)
-	{
+
+	public MainMenuView(Peon guy) {
 		man = guy;
-		
+
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
-		
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		add(createTitle());
 		add(createNavigationButtons());
-		
+
 		add(createStatusLog("     "));
 	}
-	//----------------------------------------------------------------
-	private JPanel createTitle()
-	{
+
+	private JPanel createTitle() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
+
 		JLabel label = new JLabel(localizedBundle.getString("greetings"));
 		Font myFont = new Font("Arial", Font.BOLD, 24);
 		label.setFont(myFont);
 		temp.add(label);
-		
+
 		return temp;
 	}
-	//----------------------------------------------------------------
-	private JPanel createNavigationButtons()
-	{
+
+	private JPanel createNavigationButtons() {
 		JPanel temp = new JPanel();
-		
+
 		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
-		
+
 		insertNewWorkerButton = new JButton(localizedBundle.getString("newWorker"));
 		insertNewWorkerButton.addActionListener(this);
 		temp.add(insertNewWorkerButton);
 		temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
-		
-		doneButton = new JButton(localizedBundle.getString("cancel"));
+
+		doneButton = new JButton(localizedBundle.getString("exit"));
 		doneButton.addActionListener(this);
 		temp.add(doneButton);
 		temp.setAlignmentX(doneButton.CENTER_ALIGNMENT);
-		
-		
+
 		return temp;
 	}
-	//--------------------------------------------------------------
-	private JPanel createStatusLog(String initialMessage)
-	{
+
+	private JPanel createStatusLog(String initialMessage) {
 		statusLog = new MessageView(initialMessage);
-		
 		return statusLog;
 	}
-	//--------------------------------------------------------------
-	public void actionPerformed(ActionEvent event)
-	{
+
+	public void actionPerformed(ActionEvent event) {
 		clearErrorMessage();
-		
-		if(event.getSource() == insertNewWorkerButton)
-		{
+
+		if(event.getSource() == insertNewWorkerButton) {
 			man.createNewWorker();
-		}
-		else if(event.getSource() == doneButton)
-		{
+		} else if(event.getSource() == doneButton) {
 			man.exitSystem();
 		}
 	}
-	//------------------------------------------------------------
-	public void displayErrorMessage(String message)
-	{
+
+	public void displayErrorMessage(String message) {
 		statusLog.displayErrorMessage(message);
 	}
-	//------------------------------------------------------------
-	public void clearErrorMessage()
-	{
+
+	public void clearErrorMessage() {
 		statusLog.clearErrorMessage();
 	}
 }

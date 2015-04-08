@@ -1,1 +1,1 @@
-javac -cp mysql-connector-java-5.1.7-bin.jar:classes:. BikeSystem.java
+javac -cp mysql-connector-java-5.1.7-bin.jar:classes:model:userinterface BikeSystem.java

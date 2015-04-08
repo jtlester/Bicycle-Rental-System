@@ -18,8 +18,7 @@ import userinterface.View;
 
 /**Class contains the Workers**/
 //----------------------------------------------------------
-public class Worker extends EntityBase implements IView
-{
+public class Worker extends EntityBase implements IView {
 	private static final String myTableName = "Worker";
 	protected Properties dependencies;
 	
@@ -27,8 +26,7 @@ public class Worker extends EntityBase implements IView
 	
 	//Constructor number one for this class
 	//------------------------------------------------------
-	public Worker(String bannerId) throws InvalidPrimaryKeyException
-	{
+	public Worker(String bannerId) throws InvalidPrimaryKeyException {
 		super(myTableName);
 		
 		setDependencies();
@@ -37,124 +35,95 @@ public class Worker extends EntityBase implements IView
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 		
 		//Need to bring back at least one worker, error checking here
-		if(allDataRetrieved != null)
-		{
+		if(allDataRetrieved != null) {
 			int size = allDataRetrieved.size();
 			
-			if(size == 1)
-			{
+			if(size == 1) {
 				throw new InvalidPrimaryKeyException("Multiple workers match the banner id of: " + bannerId);
 			}
-			else
-			{
+			else {
 				//copy the data we obtained and put it into a persistent state
 				Properties retrievedWorkerData = (Properties)allDataRetrieved.elementAt(0);
 				Properties persistentState = new Properties();
 				
 				Enumeration allKeys = retrievedWorkerData.propertyNames();
-				while(allKeys.hasMoreElements() == true)
-				{
+				while(allKeys.hasMoreElements() == true) {
 					String nextKey = (String)allKeys.nextElement();
 					String nextValue = retrievedWorkerData.getProperty(nextKey);
 					
-					if(nextValue != null)
-					{
+					if(nextValue != null) {
 						persistentState.setProperty(nextKey, nextValue);
 					}
 				}
 				
-			}
-			
-		}
-		//throw exception if no data found
-		else
-		{
+			}	
+		} else {
+			//throw exception if no data found
 			throw new InvalidPrimaryKeyException("No worker matching the banner id: " + bannerId);
 		}
 	}
 	
-	public Worker(Properties p)
-	{
+	public Worker(Properties p) {
 		super(myTableName);
 		
 		setDependencies();
 		persistentState = new Properties();
 		Enumeration allKeys = p.propertyNames();
-		while(allKeys.hasMoreElements() == true)
-		{
+		while(allKeys.hasMoreElements() == true) {
 			String nextKey = (String)allKeys.nextElement();
 			String nextValue = p.getProperty(nextKey);
 			
-			if(nextValue != null)
-			{
+			if(nextValue != null) {
 				persistentState.setProperty(nextKey, nextValue);
 			}
 		}
 	}
 	
-	public void update()
-	{
-		//super.update();
-		
-		try
-		{
-			if (persistentState.getProperty("workerId") != null)
-			{
+	public void update() {		
+		try {
+			if (persistentState.getProperty("workerId") != null) {
 				Properties whereClause = new Properties();
 				whereClause.setProperty("workerId",
 				persistentState.getProperty("workerId"));
 				updatePersistentState(mySchema, persistentState, whereClause);
 				updateStatusMessage = "Person data for person id : " + persistentState.getProperty("workerId") + " updated successfully in database!";
 				System.out.println(updateStatusMessage);
-			}
-			else
-			{
+			} else {
 				Integer workerId =
 					insertAutoIncrementalPersistentState(mySchema, persistentState);
 				persistentState.setProperty("workerId", "" + workerId.intValue());
-			
-				updateStatusMessage = "It worked!!";
-					
-					System.out.println(updateStatusMessage);
 			}
 		}
-		catch (SQLException ex)
-		{
+		catch (SQLException ex) {
 			updateStatusMessage = "Error in installing person data in database!";
-			System.out.println(updateStatusMessage);
 		}
-		//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
-		
+		System.out.println(updateStatusMessage);	
 	}
 	
-	//-----------------------------------------------------------------------------------
-	private void setDependencies()
-	{
+	private void setDependencies() {
 		dependencies = new Properties();
-	
 		myRegistry.setDependencies(dependencies);
 	}
 	
-	//-----------------------------------------------------------------------------------
-	protected void initializeSchema(String tableName)
-	{
-		if (mySchema == null)
-		{
+	protected void initializeSchema(String tableName) {
+		if (mySchema == null) {
 			mySchema = getSchemaInfo(tableName);
 		}
 	}
-	//--------------------------------------------------------------------------
-	/*public Vector getEntryListView()
-	{
+
+	public Vector getEntryListView() {
 		Vector v = new Vector();
 
-		v.addElement(persistentState.getProperty("AccountNumber"));
-		v.addElement(persistentState.getProperty("Type"));
-		v.addElement(persistentState.getProperty("Balance"));
-		v.addElement(persistentState.getProperty("ServiceCharge"));
+		v.addElement(persistentState.getProperty("bannerId"));
+		v.addElement(persistentState.getProperty("password"));
+		v.addElement(persistentState.getProperty("adminLevel"));
+		v.addElement(persistentState.getProperty("firstName"));
+		v.addElement(persistentState.getProperty("lastName"));
+		v.addElement(persistentState.getProperty("phoneNumber"));
+		v.addElement(persistentState.getProperty("email"));
 
 		return v;
-	}*/
+	}
 	
 	public void stateChangeRequest(String key, Object value)
 	{
