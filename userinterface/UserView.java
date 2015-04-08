@@ -49,6 +49,8 @@ public class UserView extends JPanel implements ActionListener
 	private JButton doneButton;
 
     public ResourceBundle localizedBundle;
+	
+	public MessageView statusLog;
 
 	public UserView(Peon otherPeon)
 	{
@@ -67,7 +69,7 @@ public class UserView extends JPanel implements ActionListener
 	{
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel lbl = new JLabel(localizedBundle.getString("addUser");
+		JLabel lbl = new JLabel(localizedBundle.getString("addUser"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
 		temp.add(lbl);
@@ -125,11 +127,11 @@ public class UserView extends JPanel implements ActionListener
 		temp.setLayout(f1);
 
 		// create the buttons, listen for events, add them to the panel
-		submitButton = new JButton(localizedBundle.getString("submit");
+		submitButton = new JButton(localizedBundle.getString("submit"));
 		submitButton.addActionListener(this);
 		temp.add(submitButton);
 		
-		doneButton = new JButton(localizedBundle.getString("done");
+		doneButton = new JButton(localizedBundle.getString("done"));
 		doneButton.addActionListener(this);
 		temp.add(doneButton);
 
@@ -143,6 +145,11 @@ public class UserView extends JPanel implements ActionListener
 		statusLog = new MessageView(initialMessage);
 
 		return statusLog;
+	}
+	//-----------------------------------------------------------------
+	public void displayMessage(String message)
+	{
+		statusLog.displayMessage(message);
 	}
 	
 	//----------------------------------------------------------
@@ -162,14 +169,14 @@ public class UserView extends JPanel implements ActionListener
 			}
 			else
 			{
-					Properties workerProperties = new Properties();
-					workerProperties.setProperty("bannerId",bannerTextField.getText());
-					workerProperties.setProperty("firstName",firstNameTextField.getText());
-					workerProperties.setProperty("lastName",lastNameTextField.getText());
-					workerProperties.setProperty("phoneNumber",phoneTextField.getText());
-					workerProperties.setProperty("email",emailTextField.getText());
+					Properties userProperties = new Properties();
+					userProperties.setProperty("bannerId",bannerTextField.getText());
+					userProperties.setProperty("firstName",firstNameTextField.getText());
+					userProperties.setProperty("lastName",lastNameTextField.getText());
+					userProperties.setProperty("phoneNumber",phoneTextField.getText());
+					userProperties.setProperty("email",emailTextField.getText());
 
-					myPeon.processWorkerData(workerProperties);
+					myPeon.processUserData(userProperties);
 					
 					bannerTextField.setText("");
 					firstNameTextField.setText("");
