@@ -15,7 +15,7 @@ import impresario.IView;
 public class User extends EntityBase implements IView
 {
         
-    private static final String myTableName = "user";
+    private static final String myTableName = "User";
     protected Properties dependencies;
     
     private String updateStatusMessage = "";
@@ -35,8 +35,8 @@ public class User extends EntityBase implements IView
 
         setDependencies();
         persistentState = new Properties();
-        String value = "";
-        Properties PersonPersistentState = new Properties();
+        //String value = "";
+        //Properties PersonPersistentState = new Properties();
 
 
 
