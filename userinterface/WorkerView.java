@@ -11,7 +11,6 @@ import java.awt.GridLayout;
 import java.util.Properties;
 import java.util.EventObject;
 import java.util.Date;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -21,6 +20,8 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
+import java.awt.*;
+import javax.swing.*;
 
 // project imports
 import impresario.IModel;
@@ -39,7 +40,7 @@ public class WorkerView extends JPanel implements ActionListener {
 	private JLabel phoneLabel;
 	private JTextField phoneTextField;
 	private JLabel passwordLabel;
-	private JTextField passwordTextField;
+	private JPasswordField passwordTextField;
 	private JButton submitButton;
 	private JButton backButton;
 	private JComboBox adminComboBox;
@@ -84,7 +85,7 @@ public class WorkerView extends JPanel implements ActionListener {
 		entryPanel.add(bannerTextField);
 		
 		JLabel passwordLabel = new JLabel(localizedBundle.getString("password") + ": ");
-		passwordTextField = new JTextField(20);
+		passwordTextField = new JPasswordField(20);
 		passwordTextField.addActionListener(this);
 		entryPanel.add(passwordLabel);
 		entryPanel.add(passwordTextField);
@@ -172,7 +173,7 @@ public class WorkerView extends JPanel implements ActionListener {
 		if(event.getSource() == submitButton) {
 			if((bannerTextField.getText() == null || passwordTextField.getText() == null || firstNameTextField.getText() == null) ||
 				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 7 || emailTextField.getText() == null)) {
-				displayErrorMessage("Error: Some fields are incorrect");
+				//displayErrorMessage("Error: Some fields are incorrect");
 			} else {
 					Properties workerProperties = new Properties();
 					workerProperties.setProperty("bannerId",bannerTextField.getText());
