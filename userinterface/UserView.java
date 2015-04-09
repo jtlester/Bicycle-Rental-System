@@ -163,7 +163,7 @@ public class UserView extends JPanel implements ActionListener
 		{
 			
 			if((bannerTextField.getText() == null || firstNameTextField.getText() == null) ||
-				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 7 || emailTextField.getText() == null))
+				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 10 || emailTextField.getText() == null))
 			{
 				displayErrorMessage("Error: User fields incorrect");
 			}

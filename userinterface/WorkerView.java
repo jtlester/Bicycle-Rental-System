@@ -163,7 +163,7 @@ public class WorkerView extends JPanel implements ActionListener
 	{
 		JPanel temp = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
-		f1.setVgap(1);
+		f1.setVgap(8);
 		f1.setHgap(25);
 		temp.setLayout(f1);
 		
