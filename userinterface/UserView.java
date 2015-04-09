@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-//import javax.swing.JComboBox; //currently not needed
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
@@ -23,12 +22,10 @@ import java.text.NumberFormat;
 import impresario.IModel;
 import model.*;
 
-
 //Add UserView
-public class UserView extends JPanel implements ActionListener
-{
+public class UserView extends JPanel implements ActionListener {
 
-	private Peon myPeon;
+	private Peon peon;
 
 	private JLabel firstNameLabel;
 	private JTextField firstNameTextField;
@@ -46,129 +43,115 @@ public class UserView extends JPanel implements ActionListener
 	private JTextField phoneTextField;
 
 	private JButton submitButton;
-	private JButton doneButton;
+	private JButton backButton;
 
     public ResourceBundle localizedBundle;
 	
 	public MessageView statusLog;
 
-	public UserView(Peon otherPeon)
-	{
-		myPeon = otherPeon;
+	public UserView(Peon p) {
+		peon = p;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		add(createTitle());
-		add(createDataEntryFields());
-		add(createNavigationButtons());
-		add(createStatusLog(" "));
 		
-	}
-	private JPanel createTitle()
-	{
-		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JPanel titlePanel = new JPanel();
+		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		JLabel lbl = new JLabel(localizedBundle.getString("addUser"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
-		temp.add(lbl);
-		return temp;
+		titlePanel.add(lbl);
+		add(titlePanel);
+
+		/*The methods below return instances of type JPanel. 
+		So the methods should be called what the JPanels are called, not "create...". 
+		This way, below this you can add(dataEntryPanel) which is more concise and reads better*/
+		add(dataEntryPanel());
+		add(navigationPanel());
+
+		JPanel statusLog = new MessageView(" ");
+		add(statusLog);
+		
 	}
-	private JPanel createDataEntryFields()
-	{
-		JPanel temp = new JPanel();
+
+	private JPanel dataEntryPanel() {
+		JPanel entryPanel = new JPanel();
 		// set the layout for this panel
-		temp.setLayout(new GridLayout(6,2));
+		entryPanel.setLayout(new GridLayout(7,2,20,20));
 
 		// data entry fields		
 		JLabel bannerLabel = new JLabel(localizedBundle.getString("bannerID") + ": ");
-		temp.add(bannerLabel);
+		entryPanel.add(bannerLabel);
 		bannerTextField = new JTextField(20);
 		bannerTextField.addActionListener(this);
-		temp.add(bannerTextField);
-		//
+		entryPanel.add(bannerTextField);
+		
 		JLabel firstNameLabel = new JLabel(localizedBundle.getString("firstName") + ": ");
-		temp.add(firstNameLabel);
+		entryPanel.add(firstNameLabel);
 		firstNameTextField = new JTextField(20);
 		firstNameTextField.addActionListener(this);
-		temp.add(firstNameTextField);
-		//
+		entryPanel.add(firstNameTextField);
+		
 		JLabel lastNameLabel = new JLabel(localizedBundle.getString("lastName") + ": ");
-		temp.add(lastNameLabel);
+		entryPanel.add(lastNameLabel);
 		lastNameTextField = new JTextField(20);
 		lastNameTextField.addActionListener(this);
-		temp.add(lastNameTextField);
-		//
+		entryPanel.add(lastNameTextField);
+		
 		JLabel phoneLabel = new JLabel(localizedBundle.getString("phoneNumber") + ": ");
-		temp.add(phoneLabel);
+		entryPanel.add(phoneLabel);
 		phoneTextField = new JTextField(20);
 		phoneTextField.addActionListener(this);
-		temp.add(phoneTextField);
-		//
+		entryPanel.add(phoneTextField);
+		
 		JLabel emailLabel = new JLabel(localizedBundle.getString("email") +  ": ");
-		temp.add(emailLabel);
+		entryPanel.add(emailLabel);
 		emailTextField = new JTextField(20);
 		emailTextField.addActionListener(this);
-		temp.add(emailTextField);
+		entryPanel.add(emailTextField);
 
-
-		return temp;
+		return entryPanel;
 	}
 
 	// Create the navigation buttons
 	//-------------------------------------------------------------
-	private JPanel createNavigationButtons()
-	{
-		JPanel temp = new JPanel();		// default FlowLayout is fine
+	private JPanel navigationPanel() {
+		JPanel navPanel = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(50);
 		f1.setHgap(25);
-		temp.setLayout(f1);
+		navPanel.setLayout(f1);
 
-		// create the buttons, listen for events, add them to the panel
+		/* Create the buttons, listen for events, add them to the panel.
+		NOTE: When deciding the order of buttons, the options should
+		always be forward moving; meaning the cancel button should always come before the confirm*/
+		backButton = new JButton(localizedBundle.getString("back"));
+		backButton.addActionListener(this);
+		navPanel.add(backButton);
+
 		submitButton = new JButton(localizedBundle.getString("submit"));
 		submitButton.addActionListener(this);
-		temp.add(submitButton);
-		
-		doneButton = new JButton(localizedBundle.getString("done"));
-		doneButton.addActionListener(this);
-		temp.add(doneButton);
+		navPanel.add(submitButton);
 
-		return temp;
+		return navPanel;
 	}
-	// Create the status log field
-	//-------------------------------------------------------------
-	private JPanel createStatusLog(String initialMessage)
-	{
 
-		statusLog = new MessageView(initialMessage);
-
-		return statusLog;
-	}
-	//-----------------------------------------------------------------
-	public void displayMessage(String message)
-	{
+	public void displayMessage(String message) {
 		statusLog.displayMessage(message);
 	}
 	
-	//----------------------------------------------------------
-	public void displayErrorMessage(String message)
-	{
+	public void displayErrorMessage(String message) {
 		statusLog.displayErrorMessage(message);
 	}
-	public void actionPerformed(ActionEvent event)
-	{
-		if(event.getSource() == submitButton)
-		{
+	public void actionPerformed(ActionEvent event) {
+		if(event.getSource() == submitButton) {
 			
 			if((bannerTextField.getText() == null || firstNameTextField.getText() == null) ||
-				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 10 || emailTextField.getText() == null))
-			{
+				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 10 || emailTextField.getText() == null)) {
 				displayErrorMessage("Error: User fields incorrect");
 			}
-			else
-			{
+			else {
 					Properties userProperties = new Properties();
 					userProperties.setProperty("bannerId",bannerTextField.getText());
 					userProperties.setProperty("firstName",firstNameTextField.getText());
@@ -176,7 +159,7 @@ public class UserView extends JPanel implements ActionListener
 					userProperties.setProperty("phoneNumber",phoneTextField.getText());
 					userProperties.setProperty("email",emailTextField.getText());
 
-					myPeon.processUserData(userProperties);
+					peon.processUserData(userProperties);
 					
 					bannerTextField.setText("");
 					firstNameTextField.setText("");
@@ -187,12 +170,8 @@ public class UserView extends JPanel implements ActionListener
 			}
 			
 		}
-		else if(event.getSource() == doneButton)
-		{
-			myPeon.workerDataDone();
+		else if(event.getSource() == backButton) {
+			peon.workerDataDone();
 		}
 	}
-
-
-
 }

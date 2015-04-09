@@ -23,9 +23,8 @@ import java.text.NumberFormat;
 import impresario.IModel;
 import model.*;
 
-public class BicycleView extends JPanel implements ActionListener
-{
-	private Peon myPeon;
+public class BicycleView extends JPanel implements ActionListener {
+	private Peon peon;
 	private JLabel makeLabel;
 	private JTextField makeTextField;
 	private JLabel modelLabel;
@@ -42,170 +41,147 @@ public class BicycleView extends JPanel implements ActionListener
 	private JTextField descriptionTextField;
 	private JComboBox rentalComboBox;
 	private JButton submitButton;
-	private JButton doneButton;
+	private JButton backButton;
 	private MessageView statusLog;
-	private JTextField emailTextField;
-	private JTextField phoneTextField;
-	private JTextField firstNameTextField;
-	private JTextField lastNameTextField;
-	private JTextField passwordTextField;
-	private JTextField bannerTextField;
-	
-	//private MessageView statusLog;
-	
 
     public ResourceBundle localizedBundle;
 	
-	//-----------------------------------------------------------------
-	public BicycleView(Peon otherPeon)
-	{
-		myPeon = otherPeon;
+	public BicycleView(Peon p) {
+		peon = p;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		add(createTitle());
-		add(createDataEntryFields());
-		add(createChoiceBox());
-		add(createNavigationButtons());
-		add(createStatusLog(" "));
-	}
-	
-	// Create the labels and fields
-	//-------------------------------------------------------------
-	private JPanel createTitle()
-	{
-		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JPanel titlePanel = new JPanel();
+		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		JLabel lbl = new JLabel(localizedBundle.getString("addBicycle"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
-		temp.add(lbl);
-		return temp;
+		titlePanel.add(lbl);
+		add(titlePanel);
+
+		add(dataEntryPanel());
+		add(choiceBox());
+		add(navigationPanel());
+
+		JPanel statusLog = new MessageView(" ");
+		add(statusLog);	
 	}
 	
 	// Create the main data entry fields
 	//-------------------------------------------------------------
-	private JPanel createDataEntryFields()
-	{
-		JPanel temp = new JPanel();
+	private JPanel dataEntryPanel() {
+		JPanel entryPanel = new JPanel();
 		// set the layout for this panel
-		temp.setLayout(new GridLayout(6,2));
-		// data entry fields
+		entryPanel.setLayout(new GridLayout(7,2,20,20));
+		
+		//Make
 		JLabel makeLabel = new JLabel(localizedBundle.getString("make") + ": ");
-		temp.add(makeLabel);
-		bannerTextField = new JTextField(20);
-		bannerTextField.addActionListener(this);
-		temp.add(makeTextField);
-		//
+		makeTextField = new JTextField(20);
+		makeTextField.addActionListener(this);
+		entryPanel.add(makeLabel);
+		entryPanel.add(makeTextField);
+		
+		//Model
 		JLabel modelLabel = new JLabel(localizedBundle.getString("model") + ": ");
-		temp.add(modelLabel);
-		passwordTextField = new JTextField(20);
-		passwordTextField.addActionListener(this);
-		temp.add(modelTextField);
-		//
+		modelTextField = new JTextField(20);
+		modelTextField.addActionListener(this);
+		entryPanel.add(modelLabel);
+		entryPanel.add(modelTextField);
+		
+		//Condition
 		JLabel bikeConditionLabel = new JLabel(localizedBundle.getString("condition") + ": ");
-		temp.add(bikeConditionLabel);
-		firstNameTextField = new JTextField(20);
-		firstNameTextField.addActionListener(this);
-		temp.add(bikeConditionTextField);
-		//
+		bikeConditionTextField = new JTextField(20);
+		bikeConditionTextField.addActionListener(this);
+		entryPanel.add(bikeConditionLabel);
+		entryPanel.add(bikeConditionTextField);
+		
+		//Color
 		JLabel colorLabel = new JLabel(localizedBundle.getString("color") + ": ");
-		temp.add(colorLabel);
-		lastNameTextField = new JTextField(20);
-		lastNameTextField.addActionListener(this);
-		temp.add(colorTextField);
-		//
+		colorTextField = new JTextField(20);
+		colorTextField.addActionListener(this);
+		entryPanel.add(colorLabel);
+		entryPanel.add(colorTextField);
+		
+		//Serial Number
 		JLabel serialNumberLabel = new JLabel(localizedBundle.getString("serialNumber") + ": ");
-		temp.add(serialNumberLabel);
-		phoneTextField = new JTextField(20);
-		phoneTextField.addActionListener(this);
-		temp.add(serialNumberTextField);
-		//
+		entryPanel.add(serialNumberLabel);
+		serialNumberTextField = new JTextField(20);
+		serialNumberTextField.addActionListener(this);
+		entryPanel.add(serialNumberTextField);
+		
+		//Location
 		JLabel locationOnCampusLabel = new JLabel(localizedBundle.getString("campusLocation") + ": ");
-		temp.add(locationOnCampusLabel);
-		emailTextField = new JTextField(20);
-		emailTextField.addActionListener(this);
-		temp.add(locationOnCampusTextField);
-		//
-		JLabel descriptionLabel = new JLabel("Description : ");
-		temp.add(descriptionLabel);
-		emailTextField = new JTextField(20);
-		emailTextField.addActionListener(this);
-		temp.add(descriptionTextField);
-		return temp;
+		entryPanel.add(locationOnCampusLabel);
+		locationOnCampusTextField = new JTextField(20);
+		locationOnCampusTextField.addActionListener(this);
+		entryPanel.add(locationOnCampusTextField);
+		
+		//Description
+		JLabel descriptionLabel = new JLabel(localizedBundle.getString("description") + ": ");
+		entryPanel.add(descriptionLabel);
+		descriptionTextField = new JTextField(20);
+		descriptionTextField.addActionListener(this);
+		entryPanel.add(descriptionTextField);
+		return entryPanel;
 	}
 	
 	// Create the navigation buttons
-	//-------------------------------------------------------------
-	private JPanel createNavigationButtons()
-	{
-		JPanel temp = new JPanel(); // default FlowLayout is fine
+	private JPanel navigationPanel() {
+		JPanel navPanel = new JPanel(); // default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(50);
 		f1.setHgap(25);
-		temp.setLayout(f1);
+		navPanel.setLayout(f1);
+		
 		// create the buttons, listen for events, add them to the panel
-		submitButton = new JButton(localizedBundle.getString("submit") + ": ");
+		backButton = new JButton(localizedBundle.getString("back"));
+		backButton.addActionListener(this);
+		navPanel.add(backButton);
+
+		submitButton = new JButton(localizedBundle.getString("submit"));
 		submitButton.addActionListener(this);
-		temp.add(submitButton);
-		doneButton = new JButton(localizedBundle.getString("Done") + ": ");
-		doneButton.addActionListener(this);
-		temp.add(doneButton);
-		return temp;
+		navPanel.add(submitButton);
+
+		return navPanel;
 	}
+
 	// Create the combo box
-	private JPanel createChoiceBox()
-	{
-		JPanel temp = new JPanel(); // default FlowLayout is fine
+	private JPanel choiceBox() {
+		JPanel cBox = new JPanel(); // default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
-		f1.setVgap(1);
+		f1.setVgap(8);
 		f1.setHgap(25);
-		temp.setLayout(f1);
-		JLabel rentalLabel = new JLabel(localizedBundle.getString("inOrOut") + ": ");
-		temp.add(rentalLabel);
-		String [] rentalPossibilites = { localizedBundle.getString("in") + ": ", localizedBundle.getString("Out") + ": " };
+		cBox.setLayout(f1);
+		JLabel rentalLabel = new JLabel(localizedBundle.getString("inOrOut"));
+		cBox.add(rentalLabel);
+		String [] rentalPossibilites = { localizedBundle.getString("in"), localizedBundle.getString("out")};
 		rentalComboBox = new JComboBox(rentalPossibilites);
 		rentalComboBox.addActionListener(this);
-		temp.add(rentalComboBox);
-		return temp;
+		cBox.add(rentalComboBox);
+		return cBox;
 	}
 	
-	// Create the status log field
-	//-------------------------------------------------------------
-	private JPanel createStatusLog(String initialMessage)
-	{
-		statusLog = new MessageView(initialMessage);
-		return statusLog;
-	}
-	//----------------------------------------------------------
-	public void displayErrorMessage(String message)
-	{
+	public void displayErrorMessage(String message) {
 		statusLog.displayErrorMessage(message);
 	}
-	//----------------------------------------------------------
-	public void clearErrorMessage()
-	{
+
+	public void clearErrorMessage() {
 		statusLog.clearErrorMessage();
 	}
-	//-----------------------------------------------------------------
-	public void displayMessage(String message)
-	{
+
+	public void displayMessage(String message) {
 		statusLog.displayMessage(message);
 	}
-	//------------------------------------------------------------------
-	public void actionPerformed(ActionEvent event)
-	{
-		if(event.getSource() == submitButton)
-		{
+	
+	public void actionPerformed(ActionEvent event) {
+		if(event.getSource() == submitButton) {
 			if((makeTextField.getText() == null || modelTextField.getText() == null || bikeConditionTextField.getText() == null) ||
 					(colorTextField.getText() == null || serialNumberTextField.getText().length() != 10 || locationOnCampusTextField.getText() == null)
-					|| descriptionTextField.getText() == null)
-			{
-				displayErrorMessage("Error: Bicycle fields incorrect");
+					|| descriptionTextField.getText() == null) {
+				displayErrorMessage("Error: Some fields are incorrect");
 			}
-			else
-			{
+			else {
 				Properties bicycleProperties = new Properties();
 				bicycleProperties.setProperty("make",makeTextField.getText());
 				bicycleProperties.setProperty("model",modelTextField.getText());
@@ -215,7 +191,7 @@ public class BicycleView extends JPanel implements ActionListener
 				bicycleProperties.setProperty("serialNumber",serialNumberTextField.getText());
 				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
-				myPeon.processBicycleData(bicycleProperties);
+				peon.processBicycleData(bicycleProperties);
 				makeTextField.setText("");
 				modelTextField.setText("");
 				bikeConditionTextField.setText("");
@@ -225,9 +201,8 @@ public class BicycleView extends JPanel implements ActionListener
 				descriptionTextField.setText("");
 			}
 		}
-		else if(event.getSource() == doneButton)
-		{
-			myPeon.bicycleDataDone();
+		else if(event.getSource() == backButton) {
+			peon.bicycleDataDone();
 		}
 	}
 }
