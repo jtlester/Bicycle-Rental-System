@@ -20,6 +20,8 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
+import java.awt.*;
+import javax.swing.*;
 
 // project imports
 import impresario.IModel;
@@ -73,6 +75,7 @@ public class WorkerView extends JPanel implements ActionListener {
 		JPanel entryPanel = new JPanel();
 		// set the layout for this panel
 		entryPanel.setLayout(new GridLayout(7,2,20,20));
+		entryPanel.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
 
 		// data entry fields		
 		JLabel bannerLabel = new JLabel(localizedBundle.getString("bannerID") + ": ");
