@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.util.Properties;
 import java.util.EventObject;
 import java.util.Date;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -20,8 +21,6 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
-import java.awt.*;
-import javax.swing.*;
 
 // project imports
 import impresario.IModel;
