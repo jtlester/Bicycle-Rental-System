@@ -10,7 +10,6 @@ import java.util.Properties;
 import java.util.EventObject;
 import java.util.Date;
 import java.util.ResourceBundle;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -20,7 +19,8 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
-
+import java.awt.*;
+import javax.swing.*;
 // project imports
 import impresario.IModel;
 import model.*;
@@ -182,18 +182,19 @@ public class BicycleView extends JPanel implements ActionListener {
 			if((makeTextField.getText() == null || modelTextField.getText() == null || bikeConditionTextField.getText() == null) ||
 					(colorTextField.getText() == null || serialNumberTextField.getText().length() != 10 || locationOnCampusTextField.getText() == null)
 					|| descriptionTextField.getText() == null) {
-				displayErrorMessage("Error: Some fields are incorrect");
+				//displayErrorMessage("Error: Some fields are incorrect");
+				System.out.println("Error: Fields incorrect");
 			}
 			else {
 				Properties bicycleProperties = new Properties();
 				bicycleProperties.setProperty("make",makeTextField.getText());
 				bicycleProperties.setProperty("model",modelTextField.getText());
-				bicycleProperties.setProperty("rentalLevel",(String)rentalComboBox.getSelectedItem());
 				bicycleProperties.setProperty("bikeCondition",bikeConditionTextField.getText());
 				bicycleProperties.setProperty("color",colorTextField.getText());
 				bicycleProperties.setProperty("serialNumber",serialNumberTextField.getText());
 				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
+				bicycleProperties.setProperty("rentalLevel",(String)rentalComboBox.getSelectedItem());
 				peon.processBicycleData(bicycleProperties);
 				makeTextField.setText("");
 				modelTextField.setText("");
