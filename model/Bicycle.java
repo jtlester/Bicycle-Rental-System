@@ -2,11 +2,9 @@
 package model;
 
 // system imports
-import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.Vector;
-import javax.swing.JFrame;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
 
 // project imports
 //import exception.InvalidPrimaryKeyException;

@@ -2,22 +2,16 @@
 package model;
 
 //Imports
-import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.Vector;
-import javax.swing.JFrame;
+import java.sql.*;
+import java.util.*;
+import javax.swing.*;
 
 // project imports
-import exception.InvalidPrimaryKeyException;
 import database.*;
-
 import impresario.IView;
-
 import userinterface.View;
+import exception.*;
 
-/**Class contains the Workers**/
-//----------------------------------------------------------
 public class Worker extends EntityBase implements IView {
 	private static final String myTableName = "Worker";
 	protected Properties dependencies;
@@ -25,14 +19,13 @@ public class Worker extends EntityBase implements IView {
 	private String updateStatusMessage = "";
 	
 	//Constructor number one for this class
-	//------------------------------------------------------
 	public Worker(String bannerId) throws InvalidPrimaryKeyException {
 		super(myTableName);
 		
 		setDependencies();
 		
 		String query = "SELECT * FROM " + myTableName + "WHERE (bannerId = " + bannerId + ")";
-		Vector allDataRetrieved =  getSelectQueryResult(query);
+		Vector<Properties> allDataRetrieved =  getSelectQueryResult(query);
 		
 		//Need to bring back at least one worker, error checking here
 		if(allDataRetrieved != null) {
@@ -40,8 +33,7 @@ public class Worker extends EntityBase implements IView {
 			
 			if(size == 1) {
 				throw new InvalidPrimaryKeyException("Multiple workers match the banner id of: " + bannerId);
-			}
-			else {
+			} else {
 				//copy the data we obtained and put it into a persistent state
 				Properties retrievedWorkerData = (Properties)allDataRetrieved.elementAt(0);
 				Properties persistentState = new Properties();
@@ -87,7 +79,6 @@ public class Worker extends EntityBase implements IView {
 				persistentState.getProperty("workerId"));
 				updatePersistentState(mySchema, persistentState, whereClause);
 				updateStatusMessage = "Person data for person id : " + persistentState.getProperty("workerId") + " updated successfully in database!";
-				System.out.println(updateStatusMessage);
 			} else {
 				Integer workerId =
 					insertAutoIncrementalPersistentState(mySchema, persistentState);
@@ -111,8 +102,8 @@ public class Worker extends EntityBase implements IView {
 		}
 	}
 
-	public Vector getEntryListView() {
-		Vector v = new Vector();
+	public Vector<String> getEntryListView() {
+		Vector<String> v = new Vector<String>();
 
 		v.addElement(persistentState.getProperty("bannerId"));
 		v.addElement(persistentState.getProperty("password"));
@@ -125,26 +116,20 @@ public class Worker extends EntityBase implements IView {
 		return v;
 	}
 	
-	public void stateChangeRequest(String key, Object value)
-	{
+	public void stateChangeRequest(String key, Object value) {
 
 		myRegistry.updateSubscribers(key, this);
 	}
 	
-	//----------------------------------------------------------
-	public Object getState(String key)
-	{
-		if (key.equals("UpdateStatusMessage") == true)
+	public Object getState(String key) {
+		if (key.equals("UpdateStatusMessage") == true) {
 			return updateStatusMessage;
-
+		}
 		return persistentState.getProperty(key);
 	}
 	
 	/** Called via the IView relationship */
-	//----------------------------------------------------------
-	public void updateState(String key, Object value)
-	{
+	public void updateState(String key, Object value) {
 		stateChangeRequest(key, value);
 	}
-	
 }

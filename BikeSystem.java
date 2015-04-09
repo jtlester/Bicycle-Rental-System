@@ -1,22 +1,17 @@
 // system imports
-import javax.swing.UIManager;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.io.FileOutputStream;
-import java.io.File;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
-import java.awt.Font;
+import java.awt.event.*;
+import userinterface.*;
+import javax.swing.*;
+import java.util.*;
+import java.awt.*;
+import java.io.*;
+import model.*;
 
 // project imports
 import event.Event;
 import event.EventLog;
 import common.PropertyFile;
-import model.*;
-import userinterface.*;
+
 
 public class BikeSystem {
 	private Peon peon;

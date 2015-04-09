@@ -2,19 +2,14 @@
 package model;
 
 // system imports
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Vector;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.util.*;
+import javax.swing.*;
 
 // project imports
 import impresario.IModel;
 import impresario.ISlideShow;
 import impresario.IView;
 import impresario.ModelRegistry;
-
 import exception.InvalidPrimaryKeyException;
 import exception.PasswordMismatchException;
 import event.Event;
