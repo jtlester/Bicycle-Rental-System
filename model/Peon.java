@@ -31,21 +31,21 @@ public class Peon {
 	}
 
 	public void authenticateLogin(Properties props) {
-		//TODO actually authenticate info
-		createAndShowMainMenuView();
+		Login login = new Login(props);
+		if(login.authenticationIsSuccessful()) {
+			createAndShowMainMenuView();
+		}
 	}
 
 	public void createNewWorker() {
 		createAndShowWorkerView();
 	}
 	
-	public void createNewUser()
-	{
+	public void createNewUser() {
 		createAndShowUserView();
 	}
 	
-	public void createNewBicycle()
-	{
+	public void createNewBicycle() {
 		createAndShowBicycleView();
 	}
 	
@@ -53,22 +53,17 @@ public class Peon {
 		Worker newWorker = new Worker(workerProperties);
 		newWorker.update();
 		
-		workerView.displayMessage(
-									"Worker with name: " + workerProperties.getProperty("firstName") +
-									" saved successfully."
-								);
+		workerView.displayMessage("Worker with name: " + workerProperties.getProperty("firstName") + " saved successfully.");
 	}
 	
-	public void processUserData(Properties userProperties)
-	{
+	public void processUserData(Properties userProperties) {
 		User newUser = new User(userProperties);
 		newUser.update();
 		
 		userView.displayMessage(userProperties.getProperty("firstName") + " saved successfully");
 	}
 	
-	public void processBicycleData(Properties bicycleProperties)
-	{
+	public void processBicycleData(Properties bicycleProperties) {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();
 		
@@ -76,17 +71,14 @@ public class Peon {
 	}
 	
 	public void workerDataDone() {
-		// Don't know what this does
 		createAndShowMainMenuView();
 	}
 	
-	public void userDataDone()
-	{
+	public void userDataDone() {
 		createAndShowMainMenuView();
 	}
 	
-	public void bicycleDataDone()
-	{
+	public void bicycleDataDone() {
 		createAndShowMainMenuView();
 	}
 	
@@ -105,57 +97,31 @@ public class Peon {
 	}
 
 	public void createAndShowMainMenuView() {
-		//if(mainMenuView == null)
-		//{
-			mainMenuView = new MainMenuView(this);
-			myFrame.getContentPane().add(mainMenuView);
-			myFrame.pack();
-		//}
-		//else
-		//{
-			swapToView(mainMenuView);
-		//}
+		mainMenuView = new MainMenuView(this);
+		myFrame.getContentPane().add(mainMenuView);
+		myFrame.pack();
+		swapToView(mainMenuView);
 	}
 	
 	public void createAndShowWorkerView() {		
-		//if(workerView == null)
-		//{
-			workerView = new WorkerView(this);
-			myFrame.getContentPane().add(workerView); 
-			myFrame.pack();
-		//}
-		//else
-		//{
-			swapToView(workerView);
-		//}
+		workerView = new WorkerView(this);
+		myFrame.getContentPane().add(workerView); 
+		myFrame.pack();
+		swapToView(workerView);
 	}
 	
-	public void createAndShowUserView()
-	{
-		//if(userView == null)
-		//{
-			userView = new UserView(this);
-			myFrame.getContentPane().add(userView);
-			myFrame.pack();
-		//}
-		//else
-		//{
-			swapToView(userView);
-		//}
+	public void createAndShowUserView() {	
+		userView = new UserView(this);
+		myFrame.getContentPane().add(userView);
+		myFrame.pack();
+		swapToView(userView);
 	}
 	
-	public void createAndShowBicycleView()
-	{
-		//if(bicycleView == null)
-		//{
-			bicycleView = new BicycleView(this);
-			myFrame.getContentPane().add(bicycleView);
-			myFrame.pack();
-		//}
-		//else
-		//{
-			swapToView(bicycleView);
-		//}
+	public void createAndShowBicycleView() {
+		bicycleView = new BicycleView(this);
+		myFrame.getContentPane().add(bicycleView);
+		myFrame.pack();
+		swapToView(bicycleView);
 	}
 	
 	public void swapToView(JPanel otherView) {

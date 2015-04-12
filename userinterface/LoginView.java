@@ -26,7 +26,7 @@ import model.*;
 public class LoginView extends JPanel implements ActionListener
 {
 	// GUI stuff
-	private Peon man;
+	private Peon peon;
 	private JTextField bannerID;
 	private JPasswordField password;
 	private JButton submitButton;
@@ -37,8 +37,8 @@ public class LoginView extends JPanel implements ActionListener
 	// For showing error message
 	private MessageView statusLog;
 
-	public LoginView(Peon guy) {
-		man = guy;
+	public LoginView(Peon p) {
+		peon = p;
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -77,54 +77,54 @@ public class LoginView extends JPanel implements ActionListener
 	}
 	
 	private JPanel dataEntryFields() {
-		JPanel temp = new JPanel();
+		JPanel dataEntryPanel = new JPanel();
 		// set the layout for this panel
-		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
+		dataEntryPanel.setLayout(new BoxLayout(dataEntryPanel, BoxLayout.Y_AXIS));
 
 		// data entry fields
-		JPanel temp1 = new JPanel();
-		temp1.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JPanel entryFieldPanel = new JPanel();
+		entryFieldPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		JLabel useridLabel = new JLabel("BannerID: ");
-		temp1.add(useridLabel);
+		entryFieldPanel.add(useridLabel);
 
 		bannerID = new JTextField(20);
 		bannerID.addActionListener(this);
-		temp1.add(bannerID);
+		entryFieldPanel.add(bannerID);
 
-		temp.add(temp1);
+		dataEntryPanel.add(entryFieldPanel);
 
-		JPanel temp2 = new JPanel();
-		temp2.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JPanel dataFieldPanel2 = new JPanel();
+		dataFieldPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		JLabel passwordLabel = new JLabel("Password: ");
-		temp2.add(passwordLabel);
+		dataFieldPanel2.add(passwordLabel);
 
 		password = new JPasswordField(20);
 		password.addActionListener(this);
-		temp2.add(password);
+		dataFieldPanel2.add(password);
 
-		temp.add(temp2);
+		dataEntryPanel.add(dataFieldPanel2);
 
-		JPanel temp3 = new JPanel();
+		JPanel dataFieldPanel3 = new JPanel();
 
-		temp3.setLayout(new FlowLayout(FlowLayout.LEFT));
+		dataFieldPanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
 		ButtonGroup LanguegeButtons = new ButtonGroup();
 
 		JLabel LanguegeSelect=new JLabel("Select a language: ");
-		temp3.add(LanguegeSelect);
+		dataFieldPanel3.add(LanguegeSelect);
 		English = new JRadioButton("English");
 		English.addActionListener(this);
 		LanguegeButtons.add(English);
-		temp3.add(English);
+		dataFieldPanel3.add(English);
 
 		French = new JRadioButton("Français");
 		French.addActionListener(this);
 		LanguegeButtons.add(French);
-		temp3.add(French);
-		temp.add(temp3);
+		dataFieldPanel3.add(French);
+		dataEntryPanel.add(dataFieldPanel3);
 		
-		return temp;
+		return dataEntryPanel;
 	}
 	
 	private JPanel navigationButtons() {
@@ -147,8 +147,6 @@ public class LoginView extends JPanel implements ActionListener
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
-		// DEBUG: System.out.println("TellerView.actionPerformed()");
-
 		clearErrorMessage();
 
 		String bannerIDEntered = bannerID.getText();
@@ -171,7 +169,7 @@ public class LoginView extends JPanel implements ActionListener
 				}
 			}
 		} else if (evt.getSource() == cancelButton) {
-			man.exitSystem();
+			peon.exitSystem();
 		}
 	}
 
@@ -195,10 +193,9 @@ public class LoginView extends JPanel implements ActionListener
 		} else {
 			LocaleConfig.setLocale(new Locale("fr", "FR"));
 		}
-		man.authenticateLogin(props);
+		peon.authenticateLogin(props);
 	}
 
-	//---------------------------------------------------------
 	public void updateState(String key, Object value) {
 		// STEP 6: Be sure to finish the end of the 'perturbation'
 		// by indicating how the view state gets updated.
@@ -208,20 +205,11 @@ public class LoginView extends JPanel implements ActionListener
 		}
 	}
 
-	/**
-	 * Display error message
-	 */
-	//----------------------------------------------------------
 	public void displayErrorMessage(String message) {
 		statusLog.displayErrorMessage(message);
 	}
 
-	/**
-	 * Clear error message
-	 */
-	//----------------------------------------------------------
 	public void clearErrorMessage() {
 		statusLog.clearErrorMessage();
 	}
-
 }
