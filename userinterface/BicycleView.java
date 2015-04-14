@@ -65,11 +65,12 @@ public class BicycleView extends JPanel implements ActionListener {
 		add(dataEntryPanel());
 		add(choiceBox());
 		add(navigationPanel());
-
-		JPanel statusLog = new MessageView(" ");
-		add(statusLog);	
+		add(createStatusLog("                          "));
 	}
-	
+	private JPanel createStatusLog(String initialMessage) {
+		statusLog = new MessageView(initialMessage);
+		return statusLog;
+	}
 	// Create the main data entry fields
 	//-------------------------------------------------------------
 	private JPanel dataEntryPanel() {
@@ -182,8 +183,8 @@ public class BicycleView extends JPanel implements ActionListener {
 			if((makeTextField.getText() == null || modelTextField.getText() == null || bikeConditionTextField.getText() == null) ||
 					(colorTextField.getText() == null || serialNumberTextField.getText().length() != 10 || locationOnCampusTextField.getText() == null)
 					|| descriptionTextField.getText() == null) {
-				//displayErrorMessage("Error: Some fields are incorrect");
-				System.out.println("Error: Fields incorrect");
+				displayErrorMessage("Error: Some fields are incorrect");
+				//System.out.println("Error: Fields incorrect");
 			}
 			else {
 				Properties bicycleProperties = new Properties();

@@ -72,10 +72,17 @@ public class UserView extends JPanel implements ActionListener {
 		add(dataEntryPanel());
 		add(navigationPanel());
 
-		JPanel statusLog = new MessageView(" ");
-		add(statusLog);
-		
+		add(createStatusLog("                          "));
+
+		//MessageView statusLog = new MessageView(" ");
+		//add(statusLog);	
 	}
+	private JPanel createStatusLog(String initialMessage) {
+		statusLog = new MessageView(initialMessage);
+		return statusLog;
+	}
+		
+	
 
 	private JPanel dataEntryPanel() {
 		JPanel entryPanel = new JPanel();

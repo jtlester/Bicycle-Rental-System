@@ -67,8 +67,11 @@ public class WorkerView extends JPanel implements ActionListener {
 		add(choiceBox());
 		add(navigationPanel());
 
-		JPanel statusLog = new MessageView(" ");
-		add(statusLog);
+		add(createStatusLog("                          "));
+	}
+	private JPanel createStatusLog(String initialMessage) {
+		statusLog = new MessageView(initialMessage);
+		return statusLog;
 	}
 
 	private JPanel dataEntryPanel() {
@@ -172,8 +175,8 @@ public class WorkerView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if((bannerTextField.getText() == null || passwordTextField.getText() == null || firstNameTextField.getText() == null) ||
-				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 7 || emailTextField.getText() == null)) {
-				//displayErrorMessage("Error: Some fields are incorrect");
+				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 11 || emailTextField.getText() == null)) {
+				displayErrorMessage("Error: Some fields are incorrect");
 			} else {
 					Properties workerProperties = new Properties();
 					workerProperties.setProperty("bannerId",bannerTextField.getText());
