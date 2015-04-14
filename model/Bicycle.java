@@ -89,7 +89,7 @@ public class Bicycle extends EntityBase implements IView {
         }
         catch (SQLException ex) {
             updateStatusMessage = "Error in installing bicycle data in database!";
-            System.out.println(updateStatusMessage);
+            System.out.println(ex.getMessage());
 
         }
     }
