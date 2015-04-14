@@ -37,8 +37,8 @@ public class MainMenuView extends JPanel implements ActionListener {
 
 	public ResourceBundle localizedBundle;
 
-	public MainMenuView(Peon guy) {
-		man = guy;
+	public MainMenuView(Peon p) {
+		man = p;
 
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);

@@ -1,5 +1,10 @@
 package userinterface;
 
+import java.awt.*;
+import java.util.*;
+import javax.swing.*;
+import java.util.ResourceBundle;
+
 // system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -33,22 +38,31 @@ public class LoginView extends JPanel implements ActionListener
 	private JButton cancelButton;
 	private JRadioButton English;
 	private JRadioButton French;
+	private JLabel titleLabel;
+	private JLabel passwordLabel;
+	private JLabel selectLanguageLabel;
 
 	// For showing error message
 	private MessageView statusLog;
 
+	public ResourceBundle localizedBundle;
+	public Locale currentLocale;
+
 	public LoginView(Peon p) {
 		peon = p;
+
+		currentLocale = LocaleConfig.currentLocale();
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// create our GUI components, add them to this panel
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel label = new JLabel("Login to Brockport's Bicycle Rental System");
+		titleLabel = new JLabel(localizedBundle.getString("greetings"));
 		Font myFont = new Font("Arial", Font.BOLD, 24);
-		label.setFont(myFont);
-		titlePanel.add(label);
+		titleLabel.setFont(myFont);
+		titlePanel.add(titleLabel);
 		add(titlePanel);
 		add(dataEntryFields());
 		add(navigationButtons());
@@ -97,7 +111,7 @@ public class LoginView extends JPanel implements ActionListener
 		JPanel dataFieldPanel2 = new JPanel();
 		dataFieldPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JLabel passwordLabel = new JLabel("Password: ");
+		passwordLabel = new JLabel(localizedBundle.getString("password") + ": ");
 		dataFieldPanel2.add(passwordLabel);
 
 		password = new JPasswordField(20);
@@ -109,18 +123,18 @@ public class LoginView extends JPanel implements ActionListener
 		JPanel dataFieldPanel3 = new JPanel();
 
 		dataFieldPanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
-		ButtonGroup LanguegeButtons = new ButtonGroup();
+		ButtonGroup LanguageButtons = new ButtonGroup();
 
-		JLabel LanguegeSelect=new JLabel("Select a language: ");
-		dataFieldPanel3.add(LanguegeSelect);
+		selectLanguageLabel = new JLabel(localizedBundle.getString("chooseLanguage"));
+		dataFieldPanel3.add(selectLanguageLabel);
 		English = new JRadioButton("English");
 		English.addActionListener(this);
-		LanguegeButtons.add(English);
+		LanguageButtons.add(English);
 		dataFieldPanel3.add(English);
 
 		French = new JRadioButton("Français");
 		French.addActionListener(this);
-		LanguegeButtons.add(French);
+		LanguageButtons.add(French);
 		dataFieldPanel3.add(French);
 		dataEntryPanel.add(dataFieldPanel3);
 		
@@ -135,11 +149,11 @@ public class LoginView extends JPanel implements ActionListener
 		temp.setLayout(f1);
 
 		// create the buttons, listen for events, add them to the panel
-		cancelButton = new JButton("Exit");
+		cancelButton = new JButton(localizedBundle.getString("exit"));
 		cancelButton.addActionListener(this);
 		temp.add(cancelButton);
 
-		submitButton = new JButton("Login");
+		submitButton = new JButton(localizedBundle.getString("login"));
 		submitButton.addActionListener(this);
 		temp.add(submitButton);
 
@@ -154,13 +168,12 @@ public class LoginView extends JPanel implements ActionListener
 		if(evt.getSource() == submitButton) {
 			if ((bannerIDEntered == null) || (bannerIDEntered.length() == 0)) {
 				displayErrorMessage("Please enter a Banner ID");
-				//bannerIDEntered.requestFocus();
 			} else {
 				char[] passwordValueEntered = password.getPassword();
 				String passwordEntered = new String(passwordValueEntered);
 				
 				if ((passwordEntered == null) || passwordEntered.length() == 0) {
-					displayErrorMessage("Please enter a Password");  
+					displayErrorMessage("Please enter a Password");
 				} else {
 					for (int cnt = 0; cnt < passwordValueEntered.length; cnt++) {
 						passwordValueEntered[cnt] = 0;
@@ -168,9 +181,39 @@ public class LoginView extends JPanel implements ActionListener
 					processUserIDAndPassword(bannerIDEntered, passwordEntered);
 				}
 			}
-		} else if (evt.getSource() == cancelButton) {
+		} 
+
+		if(evt.getSource() == cancelButton) {
 			peon.exitSystem();
 		}
+
+		if(evt.getSource() == French || evt.getSource() == English) {
+			if(evt.getSource() == French) {
+				LocaleConfig.setLocale(new Locale("fr", "FR"));
+				currentLocale = new Locale("fr", "FR");
+			} else {
+				LocaleConfig.setLocale(new Locale("en", "US"));
+				currentLocale = new Locale("en", "US");
+			}
+			localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
+			titleLabel.setText(localizedBundle.getString("greetings"));
+			passwordLabel.setText(localizedBundle.getString("password"));
+			cancelButton.setText(localizedBundle.getString("exit"));
+			submitButton.setText(localizedBundle.getString("login"));
+			selectLanguageLabel.setText(localizedBundle.getString("chooseLanguage"));
+			selectLanguageLabel.revalidate();
+			selectLanguageLabel.repaint();
+			cancelButton.revalidate();
+			cancelButton.repaint();
+			submitButton.revalidate();
+			submitButton.repaint();
+			passwordLabel.revalidate();
+			passwordLabel.repaint();
+			titleLabel.revalidate();
+			titleLabel.repaint();
+		}
+
+		return;
 	}
 
 	/**
