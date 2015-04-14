@@ -75,7 +75,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		temp2.setLayout(new GridLayout(1,2,10,10));
 		temp2.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
-		workerLabel = new JLabel("Worker:");
+		workerLabel = new JLabel(localizedBundle.getString("worker") + ":");
 		temp2.add(workerLabel);
 		
 		insertNewWorkerButton = new JButton(localizedBundle.getString("addWorker"));
@@ -89,7 +89,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		temp3.setLayout(new GridLayout(1,2,10,10));
 		temp3.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
-		userLabel = new JLabel("User:");
+		userLabel = new JLabel(localizedBundle.getString("user") + ":");
 		temp3.add(userLabel);
 		
 		insertNewUserButton = new JButton(localizedBundle.getString("addUser"));
@@ -102,7 +102,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		temp4.setLayout(new GridLayout(1,2,10,10));
 		temp4.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
-		bicycleLabel = new JLabel("Bicycle:");
+		bicycleLabel = new JLabel(localizedBundle.getString("bicycle"));
 		temp4.add(bicycleLabel);
 		
 		insertNewBicycleButton = new JButton(localizedBundle.getString("addBicycle"));
