@@ -101,8 +101,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		//-------------------------------------------------------------------------
 		temp4.setLayout(new GridLayout(1,2,10,10));
 		temp4.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		
-		bicycleLabel = new JLabel(localizedBundle.getString("bicycle"));
+		bicycleLabel = new JLabel(localizedBundle.getString("bicycle") + ":");
 		temp4.add(bicycleLabel);
 		
 		insertNewBicycleButton = new JButton(localizedBundle.getString("addBicycle"));
@@ -124,7 +123,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		temp.add(doneButton);
 		temp.setAlignmentY(doneButton.CENTER_ALIGNMENT);
 		
-		logoutButton = new JButton("Logout");
+		logoutButton = new JButton(localizedBundle.getString("logout"));
 		logoutButton.addActionListener(this);
 		temp.add(logoutButton);
 		temp.setAlignmentY(logoutButton.CENTER_ALIGNMENT);

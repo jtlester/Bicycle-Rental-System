@@ -13,8 +13,7 @@ import database.*;
 //GUI Imports
 import impresario.IView;
 
-public class Bicycle extends EntityBase implements IView
-{
+public class Bicycle extends EntityBase implements IView {
         
     private static final String myTableName = "Bicycle";
     protected Properties persistentState;
@@ -25,21 +24,18 @@ public class Bicycle extends EntityBase implements IView
     private String updateStatusMessage = "";
 
     //Initilize Bicycle
-    public Bicycle(Properties props)
-    {
+    public Bicycle(Properties props) {
 
         super(myTableName);
 
         setDependencies();
         persistentState = new Properties();
         Enumeration allKeys = props.propertyNames();
-        while (allKeys.hasMoreElements() == true)
-        {
+        while (allKeys.hasMoreElements() == true) {
             String nextKey = (String)allKeys.nextElement();
             String nextValue = props.getProperty(nextKey);
 
-            if (nextValue != null)
-            {
+            if (nextValue != null) {
                 persistentState.setProperty(nextKey, nextValue);
             }
         }
@@ -47,52 +43,41 @@ public class Bicycle extends EntityBase implements IView
     }
 
     //Takes an array of strings to insert bicycle into Database
-    public void addBicycle(String[] Values)
-    {
+    public void addBicycle(String[] Values) {
         String insertStatusMessage;
         try {
-            if (persistentState.getProperty("bikeId") != null)
-            {
+            if (persistentState.getProperty("bikeId") != null) {
                 insertPersistentState(mySchema, persistentState);
                 insertStatusMessage = "Account data for account number : " + persistentState.getProperty("bikeId") + " Inserted successfully!";
             
             }
         }   
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             updateStatusMessage = "Error in Adding Bicycle Data To Database!";
         }
             
      }
 
-     protected void initializeSchema(String tableName)
-     {
-         if (mySchema == null)
-         {
+     protected void initializeSchema(String tableName) {
+         if (mySchema == null) {
              mySchema = getSchemaInfo(tableName);
          }
      }
 
-    public void update()
-    {
+    public void update() {
         updateStateInDatabase();
     }
       
-    private void updateStateInDatabase() 
-    {
+    private void updateStateInDatabase() {
     
-        try
-        {
-            if (persistentState.getProperty("bikeId") != null)
-            {
+        try {
+            if (persistentState.getProperty("bikeId") != null) {
                 Properties whereClause = new Properties();
                 whereClause.setProperty("bikeId",
                 persistentState.getProperty("bikeId"));
                 updatePersistentState(mySchema, persistentState, whereClause);
                 updateStatusMessage = "Account data for account number : " + persistentState.getProperty("bikeId") + " updated successfully in database!";
-            }
-            else
-            {
+            } else {
                 Integer bikeId =
                     insertAutoIncrementalPersistentState(mySchema, persistentState);
                 persistentState.setProperty("bikeId", "" + bikeId.intValue());
@@ -102,8 +87,7 @@ public class Bicycle extends EntityBase implements IView
                     System.out.println(updateStatusMessage);
             }
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             updateStatusMessage = "Error in installing bicycle data in database!";
             System.out.println(updateStatusMessage);
 
@@ -112,41 +96,34 @@ public class Bicycle extends EntityBase implements IView
 
 //-----------------------------------------------------------------------
 
-    public void updateState(String key, Object value)
-    {
+    public void updateState(String key, Object value) {
         stateChangeRequest(key, value);
     }
 
-    public Object getState(String key)
-    {
-        if (key.equals("UpdateStatusMessage") == true)
+    public Object getState(String key) {
+        if (key.equals("UpdateStatusMessage") == true) {
             return updateStatusMessage;
+        }
 
         return persistentState.getProperty(key);
     }
 
-    public void save()
-    {
-        try
-        {
-            if(persistentState.getProperty("bikeId") != null)
-            {
+    public void save() {
+        try {
+            if(persistentState.getProperty("bikeId") != null) {
                 update();
             }
         }
-        catch(Exception ex)
-        {
+        catch(Exception ex) {
             System.out.println("Error in save: Unable to insert or update.");
         }
     }
 
-    public void stateChangeRequest(String key, Object value)
-    {
+    public void stateChangeRequest(String key, Object value) {
         myRegistry.updateSubscribers(key, this);
     }
 
-    private void setDependencies()
-    {   
+    private void setDependencies() {   
         myRegistry.setDependencies(persistentState);
     }
 

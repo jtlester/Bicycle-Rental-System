@@ -53,7 +53,7 @@ public class LoginView extends JPanel implements ActionListener
 
 		currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
-
+		this.setPreferredSize(new Dimension(800, 300));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// create our GUI components, add them to this panel
