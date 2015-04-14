@@ -87,8 +87,9 @@ public class Worker extends EntityBase implements IView {
 		}
 		catch (SQLException ex) {
 			updateStatusMessage = "Error in installing person data in database!";
+			System.out.println(ex.getMessage());
 		}
-		System.out.println(updateStatusMessage);	
+		//System.out.println(updateStatusMessage);	
 	}
 	
 	private void setDependencies() {
