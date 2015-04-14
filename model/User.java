@@ -66,6 +66,7 @@ public class User extends EntityBase implements IView {
             }
             catch (SQLException ex) {
                     updateStatusMessage = "Error in installing user data in database!";
+					//System.out.println(ex.getMessage());
             }
             System.out.println(updateStatusMessage);
 	}
