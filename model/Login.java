@@ -93,6 +93,7 @@ public class Login extends EntityBase implements IView {
 		}
 		else
 		{
+			//JOptionPane.showMessageDialog();
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
 			return false;
