@@ -224,8 +224,8 @@ public class LoginView extends JPanel implements ActionListener
 	private void processUserIDAndPassword(String useridString,
 			String passwordString) {
 		Properties props = new Properties();
-		props.setProperty("ID", useridString);
-		props.setProperty("Password", passwordString);
+		props.setProperty("bannerId", useridString);
+		props.setProperty("password", passwordString);
 
 		// clear fields for next time around
 		bannerID.setText("");

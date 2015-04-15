@@ -32,8 +32,12 @@ public class Peon {
 
 	public void authenticateLogin(Properties props) {
 		Login login = new Login(props);
-		if(login.authenticationIsSuccessful()) {
+		if(login.authentication(props) == true) {
 			createAndShowMainMenuView();
+		}
+		else
+		{
+			createAndShowLoginView();
 		}
 	}
 
