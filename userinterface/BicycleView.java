@@ -32,7 +32,8 @@ public class BicycleView extends JPanel implements ActionListener {
 	private JLabel modelLabel;
 	private JTextField modelTextField;
 	private JLabel bikeConditionLabel;
-	private JTextField bikeConditionTextField;
+	private JComboBox bikeConditionComboBox;
+	//private JTextField bikeConditionTextField;
 	private JLabel colorLabel;
 	//private JTextField colorTextField;
 	private JComboBox colorComboBox;
@@ -96,10 +97,15 @@ public class BicycleView extends JPanel implements ActionListener {
 		
 		//Condition
 		JLabel bikeConditionLabel = new JLabel(localizedBundle.getString("condition") + ": ");
-		bikeConditionTextField = new JTextField(20);
-		bikeConditionTextField.addActionListener(this);
+		//bikeConditionTextField = new JTextField(20);
+		//bikeConditionTextField.addActionListener(this);
+		bikeConditionComboBox = new JComboBox();
+		String [] conditionPossibilities = {"New", "Good", "Fair", "Poor"};
+		bikeConditionComboBox = new JComboBox(conditionPossibilities);
+		bikeConditionComboBox.addActionListener(this);
 		entryPanel.add(bikeConditionLabel);
-		entryPanel.add(bikeConditionTextField);
+		entryPanel.add(bikeConditionComboBox);
+		//entryPanel.add(bikeConditionTextField);
 		
 		//Color
 		JLabel colorLabel = new JLabel(localizedBundle.getString("color") + ": ");
@@ -186,17 +192,15 @@ public class BicycleView extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			if((makeTextField.getText() == null) || (modelTextField.getText() == null) || (bikeConditionTextField.getText() == null) ||
-					 (serialNumberTextField.getText().length() != 10) || (locationOnCampusTextField.getText() == null)
-					|| (descriptionTextField.getText() == null)) {
-				displayErrorMessage("Error: Some fields are incorrect");
+			if((makeTextField.getText() == null) || (modelTextField.getText() == null) || (serialNumberTextField.getText().length() != 10) || 
+			(locationOnCampusTextField.getText() == null) || (descriptionTextField.getText() == null)) {displayErrorMessage("Error: Some fields are incorrect");
 				//System.out.println("Error: Fields incorrect");
 			}
 			else {
 				Properties bicycleProperties = new Properties();
 				bicycleProperties.setProperty("make",makeTextField.getText());
 				bicycleProperties.setProperty("model",modelTextField.getText());
-				bicycleProperties.setProperty("bikeCondition",bikeConditionTextField.getText());
+				bicycleProperties.setProperty("condition", (String)bikeConditionComboBox.getSelectedItem());
 				bicycleProperties.setProperty("color",(String)colorComboBox.getSelectedItem());
 				bicycleProperties.setProperty("serialNumber",serialNumberTextField.getText());
 				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
@@ -205,7 +209,7 @@ public class BicycleView extends JPanel implements ActionListener {
 				peon.processBicycleData(bicycleProperties);
 				makeTextField.setText("");
 				modelTextField.setText("");
-				bikeConditionTextField.setText("");
+				//bikeConditionTextField.setText("");
 				//colorTextField.setText("");
 				serialNumberTextField.setText("");
 				locationOnCampusTextField.setText("");
