@@ -31,7 +31,7 @@ import model.*;
 public class MainMenuView extends JPanel implements ActionListener {
 	private Peon man;
 	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton;
-	private JLabel userLabel, workerLabel, bicycleLabel;
+	private JLabel userLabel, workerLabel, bicycleLabel, loggedInUser;
 
 	private MessageView statusLog;
 
@@ -138,6 +138,11 @@ public class MainMenuView extends JPanel implements ActionListener {
 		statusLog = new MessageView(initialMessage);
 		return statusLog;
 	}
+	
+	/*private JPanel createLoggedInWorker(Properties )
+	{
+		
+	}*/
 
 	public void actionPerformed(ActionEvent event) {
 		clearErrorMessage();

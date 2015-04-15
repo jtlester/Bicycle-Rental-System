@@ -174,10 +174,32 @@ public class WorkerView extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			if((bannerTextField.getText() == null || passwordTextField.getText() == null || firstNameTextField.getText() == null) ||
-				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 11 || emailTextField.getText() == null)) {
-				displayErrorMessage("Error: Some fields are incorrect");
-			} else {
+			if(bannerTextField.getText() == null)
+			{
+				peon.errorMessagePopup("bannerId");
+			} 
+			else if(passwordTextField.getText() == null)
+			{
+				peon.errorMessagePopup("password");
+			}
+			else if(firstNameTextField.getText() == null)
+			{
+				peon.errorMessagePopup("firstName");
+			}
+			else if(lastNameTextField.getText() == null)
+			{
+				peon.errorMessagePopup("lastName");
+			}
+			else if(phoneTextField.getText().length() !=11)
+			{
+				peon.errorMessagePopup("phoneNumber");
+			}
+			else if(emailTextField.getText() == null)
+			{
+				peon.errorMessagePopup("email");
+			}
+			else 
+			{
 					Properties workerProperties = new Properties();
 					workerProperties.setProperty("bannerId",bannerTextField.getText());
 					workerProperties.setProperty("password",passwordTextField.getText());
@@ -198,7 +220,8 @@ public class WorkerView extends JPanel implements ActionListener {
 				
 			}
 			
-		} else if(event.getSource() == backButton) {
+		} 
+		else if(event.getSource() == backButton) {
 			peon.workerDataDone();
 		}
 	}

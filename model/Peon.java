@@ -40,16 +40,52 @@ public class Peon {
 			JOptionPane.showMessageDialog(myFrame, "Invalid Username or Password", "Login Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	public void noPasswordOrBannerID(String invalidField)
+	public void errorMessagePopup(String error)
 	{
-		if(invalidField.equals("bannerId"))
+		if(error.equals("bannerId"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter a BannerID", "Login Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter a BannerID", "", JOptionPane.WARNING_MESSAGE);
 		}
-		else
+		else if(error.equals("password"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter a Password", "Login Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter a Password", "", JOptionPane.WARNING_MESSAGE);
 		}
+		//Bike Error Checking
+		else if(error.equals("make"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate make", "Adding Bike", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(error.equals("model"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate model", "Adding Bike", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(error.equals("serialNumber"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate serial number (10 digits)", "Adding Bike", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(error.equals("location"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate location", "Adding Bike", JOptionPane.WARNING_MESSAGE);
+		}
+		//User error checking
+		else if(error.equals("firstName"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate first name", "", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(error.equals("lastName"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate last name", "", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(error.equals("phoneNumber"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate phone number(11 digits, include country code)", "", JOptionPane.WARNING_MESSAGE);
+		}
+		else if(error.equals("email"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate email", "", JOptionPane.WARNING_MESSAGE);
+		}
+		
+		
 	}
 
 	public void createNewWorker() {
