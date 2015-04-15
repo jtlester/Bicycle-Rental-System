@@ -37,7 +37,18 @@ public class Peon {
 		}
 		else
 		{
-			createAndShowLoginView();
+			JOptionPane.showMessageDialog(myFrame, "Invalid Username or Password", "Login Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	public void noPasswordOrBannerID(String invalidField)
+	{
+		if(invalidField.equals("bannerId"))
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter a BannerID", "Login Error", JOptionPane.WARNING_MESSAGE);
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(myFrame, "Please enter a Password", "Login Error", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
