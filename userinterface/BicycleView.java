@@ -192,9 +192,21 @@ public class BicycleView extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			if((makeTextField.getText() == null) || (modelTextField.getText() == null) || (serialNumberTextField.getText().length() != 10) || 
-			(locationOnCampusTextField.getText() == null) || (descriptionTextField.getText() == null)) {displayErrorMessage("Error: Some fields are incorrect");
-				//System.out.println("Error: Fields incorrect");
+			if(makeTextField.getText().equals(""))
+			{
+				peon.errorMessagePopup("make");
+			}
+			else if(modelTextField.getText().equals(""))
+			{
+				peon.errorMessagePopup("model");
+			}
+			else if(serialNumberTextField.getText().length() != 10)
+			{
+				peon.errorMessagePopup("serialNumber");
+			}
+			else if(locationOnCampusTextField.getText().equals(""))
+			{
+				peon.errorMessagePopup("location");
 			}
 			else {
 				Properties bicycleProperties = new Properties();

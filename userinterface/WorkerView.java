@@ -174,31 +174,38 @@ public class WorkerView extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			if((bannerTextField.getText() == null || passwordTextField.getText() == null || firstNameTextField.getText() == null) ||
-				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 11 || emailTextField.getText() == null)) {
-				displayErrorMessage("Error: Some fields are incorrect");
+			if (bannerTextField.getText().equals("")) {
+				peon.errorMessagePopup("bannerId");
+			} else if (passwordTextField.getText().equals("")) {
+				peon.errorMessagePopup("password");
+			} else if(firstNameTextField.getText().equals("")) {
+				peon.errorMessagePopup("firstName");
+			} else if(lastNameTextField.getText().equals("")) {
+				peon.errorMessagePopup("lastName");
+			} else if(phoneTextField.getText().length() != 11) {
+				peon.errorMessagePopup("phoneNumber");
+			} else if(emailTextField.getText() == null) {
+				peon.errorMessagePopup("email");
 			} else {
-					Properties workerProperties = new Properties();
-					workerProperties.setProperty("bannerId",bannerTextField.getText());
-					workerProperties.setProperty("password",passwordTextField.getText());
-					workerProperties.setProperty("adminLevel",(String)adminComboBox.getSelectedItem());
-					workerProperties.setProperty("firstName",firstNameTextField.getText());
-					workerProperties.setProperty("lastName",lastNameTextField.getText());
-					workerProperties.setProperty("phoneNumber",phoneTextField.getText());
-					workerProperties.setProperty("email",emailTextField.getText());
+				Properties workerProperties = new Properties();
+				workerProperties.setProperty("bannerId",bannerTextField.getText());
+				workerProperties.setProperty("password",passwordTextField.getText());
+				workerProperties.setProperty("adminLevel",(String)adminComboBox.getSelectedItem());
+				workerProperties.setProperty("firstName",firstNameTextField.getText());
+				workerProperties.setProperty("lastName",lastNameTextField.getText());
+				workerProperties.setProperty("phoneNumber",phoneTextField.getText());
+				workerProperties.setProperty("email",emailTextField.getText());
 
-					peon.processWorkerData(workerProperties);
-					
-					bannerTextField.setText("");
-					passwordTextField.setText("");
-					firstNameTextField.setText("");
-					lastNameTextField.setText("");
-					phoneTextField.setText("");
-					emailTextField.setText("");
-				
+				peon.processWorkerData(workerProperties);
+
+				bannerTextField.setText("");
+				passwordTextField.setText("");
+				firstNameTextField.setText("");
+				lastNameTextField.setText("");
+				phoneTextField.setText("");
+				emailTextField.setText("");
 			}
-			
-		} else if(event.getSource() == backButton) {
+		} else if (event.getSource() == backButton) {
 			peon.workerDataDone();
 		}
 	}
