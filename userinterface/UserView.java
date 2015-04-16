@@ -157,15 +157,15 @@ public class UserView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			
-			if(bannerTextField.getText() == null)
+			if(bannerTextField.getText().equals(""))
 			{
 				peon.errorMessagePopup("bannerId");
 			}
-			else if(firstNameTextField.getText() == null)
+			else if(firstNameTextField.getText().equals(""))
 			{
 				peon.errorMessagePopup("firstName");
 			}
-			else if(lastNameTextField.getText() == null)
+			else if(lastNameTextField.getText().equals(""))
 			{
 				peon.errorMessagePopup("lastName");
 			}
@@ -173,7 +173,7 @@ public class UserView extends JPanel implements ActionListener {
 			{
 				peon.errorMessagePopup("phoneNumber");
 			}
-			else if(emailTextField.getText() == null)
+			else if(emailTextField.getText().equals(""))
 			{
 				peon.errorMessagePopup("email");
 			}

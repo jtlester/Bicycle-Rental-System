@@ -24,6 +24,7 @@ public class Peon {
 	public LoginView loginView;
 	public UserView userView;
 	public BicycleView bicycleView;
+	//public JLabel loggedInUser;
 	
 	public Peon() {
 		myFrame = MainFrame.getInstance();
@@ -34,6 +35,7 @@ public class Peon {
 		Login login = new Login(props);
 		if(login.authentication(props) == true) {
 			createAndShowMainMenuView();
+			
 		}
 		else
 		{
@@ -44,45 +46,45 @@ public class Peon {
 	{
 		if(error.equals("bannerId"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter a BannerID", "", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter a BannerID", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(error.equals("password"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter a Password", "", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter a Password", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		//Bike Error Checking
 		else if(error.equals("make"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate make", "Adding Bike", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate make", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(error.equals("model"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate model", "Adding Bike", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate model", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(error.equals("serialNumber"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate serial number (10 digits)", "Adding Bike", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate serial number (10 digits)", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(error.equals("location"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate location", "Adding Bike", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate location", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		//User error checking
 		else if(error.equals("firstName"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate first name", "", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate first name", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(error.equals("lastName"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate last name", "", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate last name", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(error.equals("phoneNumber"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate phone number(11 digits, include country code)", "", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate phone number(11 digits, include country code)", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		else if(error.equals("email"))
 		{
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate email", "", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate email", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		
 		

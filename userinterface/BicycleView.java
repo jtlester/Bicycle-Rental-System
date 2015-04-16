@@ -192,11 +192,11 @@ public class BicycleView extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			if(makeTextField.getText() == null)
+			if(makeTextField.getText().equals(""))
 			{
 				peon.errorMessagePopup("make");
 			}
-			else if(modelTextField.getText() == null)
+			else if(modelTextField.getText().equals(""))
 			{
 				peon.errorMessagePopup("model");
 			}
@@ -204,7 +204,7 @@ public class BicycleView extends JPanel implements ActionListener {
 			{
 				peon.errorMessagePopup("serialNumber");
 			}
-			else if(locationOnCampusTextField.getText() == null)
+			else if(locationOnCampusTextField.getText().equals(""))
 			{
 				peon.errorMessagePopup("location");
 			}

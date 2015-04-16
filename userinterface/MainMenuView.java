@@ -46,9 +46,20 @@ public class MainMenuView extends JPanel implements ActionListener {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		add(createTitle());
+		add(createLoggedInUser());
 		add(createNavigationButtons());
 
 		add(createStatusLog("     "));
+	}
+	
+	private JPanel createLoggedInUser()
+	{
+		JPanel temp = new JPanel();
+		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		
+		loggedInUser = new JLabel("You are logged in!");
+		temp.add(loggedInUser);
+		return temp;
 	}
 
 	private JPanel createTitle() {

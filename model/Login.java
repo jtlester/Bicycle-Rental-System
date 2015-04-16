@@ -90,12 +90,10 @@ public class Login extends EntityBase implements IView {
 		{
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
-			//JLabel loggedInuser = new JLabel("The user: " + props.getProperty("bannerId") + " is currently logged in");
 			return true;
 		}
 		else
 		{
-			//JOptionPane.showMessageDialog();
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
 			return false;
