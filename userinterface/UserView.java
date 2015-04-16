@@ -157,9 +157,25 @@ public class UserView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			
-			if((bannerTextField.getText() == null || firstNameTextField.getText() == null) ||
-				(lastNameTextField.getText() == null || phoneTextField.getText().length() < 10 || emailTextField.getText() == null)) {
-				displayErrorMessage("Error: User fields incorrect");
+			if(bannerTextField.getText().equals(""))
+			{
+				peon.errorMessagePopup("bannerId");
+			}
+			else if(firstNameTextField.getText().equals(""))
+			{
+				peon.errorMessagePopup("firstName");
+			}
+			else if(lastNameTextField.getText().equals(""))
+			{
+				peon.errorMessagePopup("lastName");
+			}
+			else if(phoneTextField.getText().length() != 11)
+			{
+				peon.errorMessagePopup("phoneNumber");
+			}
+			else if(emailTextField.getText().equals(""))
+			{
+				peon.errorMessagePopup("email");
 			}
 			else {
 					Properties userProperties = new Properties();

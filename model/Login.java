@@ -4,6 +4,7 @@ package model;
 // system imports
 import java.sql.*;
 import java.util.*;
+import javax.swing.*;
 
 //GUI Imports
 import impresario.IView;
@@ -93,7 +94,6 @@ public class Login extends EntityBase implements IView {
 		}
 		else
 		{
-			//JOptionPane.showMessageDialog();
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
 			return false;
