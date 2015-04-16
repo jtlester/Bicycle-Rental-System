@@ -164,16 +164,21 @@ public class LoginView extends JPanel implements ActionListener
 		clearErrorMessage();
 
 		String bannerIDEntered = bannerID.getText();
+		String b = "bannerId";
+		String p = "password";
 
 		if(evt.getSource() == submitButton) {
 			if ((bannerIDEntered == null) || (bannerIDEntered.length() == 0)) {
-				displayErrorMessage("Please enter a Banner ID");
+				//displayErrorMessage("Please enter a Banner ID");
+				peon.noPasswordOrBannerID(b);
+				
 			} else {
 				char[] passwordValueEntered = password.getPassword();
 				String passwordEntered = new String(passwordValueEntered);
 				
 				if ((passwordEntered == null) || passwordEntered.length() == 0) {
-					displayErrorMessage("Please enter a Password");
+					//displayErrorMessage("Please enter a Password");
+					peon.noPasswordOrBannerID(p);
 				} else {
 					for (int cnt = 0; cnt < passwordValueEntered.length; cnt++) {
 						passwordValueEntered[cnt] = 0;
@@ -224,8 +229,8 @@ public class LoginView extends JPanel implements ActionListener
 	private void processUserIDAndPassword(String useridString,
 			String passwordString) {
 		Properties props = new Properties();
-		props.setProperty("ID", useridString);
-		props.setProperty("Password", passwordString);
+		props.setProperty("bannerId", useridString);
+		props.setProperty("password", passwordString);
 
 		// clear fields for next time around
 		bannerID.setText("");

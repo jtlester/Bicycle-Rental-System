@@ -7,11 +7,13 @@ import java.util.*;
 
 //GUI Imports
 import impresario.IView;
+import database.*;
 
 public class Login extends EntityBase implements IView {
         
-    private static final String myTableName = "Login";
+    private static final String myTableName = "Worker";
     protected Properties dependencies;
+	public Properties auth;
     
     private String updateStatusMessage = "";
 
@@ -19,18 +21,18 @@ public class Login extends EntityBase implements IView {
     public Login(Properties props) {
         super(myTableName);
 
-        //setDependencies();
-        //persistentState = new Properties();
+        setDependencies();
+        persistentState = new Properties();
 
-        // Enumeration allKeys = props.propertyNames();
-        // while (allKeys.hasMoreElements() == true) {
-        //     String nextKey = (String)allKeys.nextElement();
-        //     String nextValue = props.getProperty(nextKey);
+         Enumeration allKeys = props.propertyNames();
+         while (allKeys.hasMoreElements() == true) {
+             String nextKey = (String)allKeys.nextElement();
+             String nextValue = props.getProperty(nextKey);
 
-        //     if (nextValue != null) {
-        //         persistentState.setProperty(nextKey, nextValue);
-        //     }
-        // }
+             if (nextValue != null) {
+                 persistentState.setProperty(nextKey, nextValue);
+             }
+         }
     }
 
     private void setDependencies() {
@@ -40,7 +42,7 @@ public class Login extends EntityBase implements IView {
     
     protected void initializeSchema(String tableName) {
          if (mySchema == null) {
-             //mySchema = getSchemaInfo(tableName);
+             mySchema = getSchemaInfo(tableName);
          }
     }
 
@@ -48,7 +50,7 @@ public class Login extends EntityBase implements IView {
         myRegistry.updateSubscribers(key, this);
     }
 
-    public void update() {
+    /*public void update() {
 
     try {
         if (persistentState.getProperty("userId") != null) {
@@ -68,7 +70,7 @@ public class Login extends EntityBase implements IView {
                     updateStatusMessage = "Error in installing user data in database!";
             }
             System.out.println(updateStatusMessage);
-	}
+	}*/
 	
 	public Object getState(String key) {
 		if (key.equals("UpdateStatusMessage") == true) {
@@ -77,11 +79,29 @@ public class Login extends EntityBase implements IView {
 		return persistentState.getProperty(key);
 	}
 
-    public boolean authenticationIsSuccessful() {
-        return true;
-    }
+    public boolean authentication(Properties props) 
+	{
+		String authQuery = "SELECT DISTINCT `firstName`, `adminLevel` FROM `" + myTableName + "` WHERE ((`bannerId` = '" + persistentState.getProperty("bannerId") + "') & (`password` = '" + persistentState.getProperty("password") + "'))";
+		//auth = new Properties();
+		Vector allDataRetrieved = getSelectQueryResult(authQuery);
+		int size = allDataRetrieved.size(); 
+		if(size == 1)
+		{
+			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
+			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
+			return true;
+		}
+		else
+		{
+			//JOptionPane.showMessageDialog();
+			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
+			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
+			return false;
+		}
+	}
 	
 	public void updateState(String key, Object value) {
 		stateChangeRequest(key, value);
 	}
+
 }
