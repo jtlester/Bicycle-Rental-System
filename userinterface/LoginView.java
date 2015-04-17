@@ -47,6 +47,7 @@ public class LoginView extends JPanel implements ActionListener
 
 	public ResourceBundle localizedBundle;
 	public Locale currentLocale;
+	public String userName;
 
 	public LoginView(Peon p) {
 		peon = p;
@@ -153,9 +154,17 @@ public class LoginView extends JPanel implements ActionListener
 		cancelButton.addActionListener(this);
 		temp.add(cancelButton);
 
+		//submitButton.setDefaultCapable(true);
 		submitButton = new JButton(localizedBundle.getString("login"));
+		//submitButton.setDefaultCapable(true);
 		submitButton.addActionListener(this);
+		//submitButton.addActionListener(this);
 		temp.add(submitButton);
+		//myFrame.getRootPane().setDefaultButton( submitButton );
+		
+
+		//JRootPane root = submitButton.getRootPane();
+		//root.setDefaultButton(submitButton);
 
 		return temp;
 	}
@@ -239,8 +248,14 @@ public class LoginView extends JPanel implements ActionListener
 		} else {
 			LocaleConfig.setLocale(new Locale("fr", "FR"));
 		}
+		//userName = props.getProperty("bannerId");
+		//returnUserName();
 		peon.authenticateLogin(props);
 	}
+	/*public String returnUserName()
+	{
+		return userName;
+	}*/
 
 	public void updateState(String key, Object value) {
 		// STEP 6: Be sure to finish the end of the 'perturbation'
