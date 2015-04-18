@@ -59,7 +59,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		loggedInUser = new JLabel("You are logged in!" + man.getUserName());
+		loggedInUser = new JLabel("You logged in with the banner ID: " + man.getUserName() + " and your administration level is : " + man.obtainAdminLevel());
 		temp.add(loggedInUser);
 		//temp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		return temp;

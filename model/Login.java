@@ -14,7 +14,8 @@ public class Login extends EntityBase implements IView {
         
     private static final String myTableName = "Worker";
     protected Properties dependencies;
-	public Properties auth;
+	public Properties workerInfo;
+	public String adminLevel;
     
     private String updateStatusMessage = "";
 
@@ -82,12 +83,29 @@ public class Login extends EntityBase implements IView {
 
     public boolean authentication(Properties props) 
 	{
-		String authQuery = "SELECT DISTINCT `firstName`, `adminLevel` FROM `" + myTableName + "` WHERE ((`bannerId` = '" + persistentState.getProperty("bannerId") + "') & (`password` = '" + persistentState.getProperty("password") + "'))";
-		//auth = new Properties();
+		String authQuery = "SELECT DISTINCT `firstName`, `adminLevel` FROM `" + myTableName + "` WHERE ((`bannerId` = '" + props.getProperty("bannerId") + "') & (`password` = '" + props.getProperty("password") + "'))";
 		Vector allDataRetrieved = getSelectQueryResult(authQuery);
 		int size = allDataRetrieved.size(); 
 		if(size == 1)
 		{
+			// copy all the retrieved data into persistent state
+			Properties retrievedWorkerData = (Properties)allDataRetrieved.elementAt(0);
+			workerInfo = new Properties();
+
+			Enumeration allKeys = retrievedWorkerData.propertyNames();
+			while (allKeys.hasMoreElements() == true)
+			{
+				String nextKey = (String)allKeys.nextElement();
+				String nextValue = retrievedWorkerData.getProperty(nextKey);
+
+				if (nextValue != null)
+				{
+					workerInfo.setProperty(nextKey, nextValue);
+				}
+			}
+			
+			adminLevel = workerInfo.getProperty("adminLevel");
+			
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
 			return true;
@@ -98,6 +116,11 @@ public class Login extends EntityBase implements IView {
 			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
 			return false;
 		}
+	}
+	
+	public String getAdminLevel()
+	{
+		return adminLevel;
 	}
 	
 	public void updateState(String key, Object value) {

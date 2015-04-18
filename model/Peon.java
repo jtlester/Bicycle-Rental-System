@@ -26,6 +26,7 @@ public class Peon {
 	public BicycleView bicycleView;
 	public Login login;
 	public String userName;
+	public String adminLevel;
 	//public JLabel loggedInUser;
 	
 	public Peon() {
@@ -37,8 +38,9 @@ public class Peon {
 		login = new Login(props);
 		if(login.authentication(props) == true) {
 			userName = props.getProperty("bannerId");
+			adminLevel = login.getAdminLevel();
 			createAndShowMainMenuView();
-			//return props;
+			
 		}
 		else
 		{
@@ -49,6 +51,11 @@ public class Peon {
 	public String getUserName()
 	{
 		return userName;
+	}
+	
+	public String obtainAdminLevel()
+	{
+		return adminLevel;
 	}
 
 	public void errorMessagePopup(String error)
