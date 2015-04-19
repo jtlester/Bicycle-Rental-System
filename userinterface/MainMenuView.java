@@ -27,6 +27,7 @@ import java.text.NumberFormat;
 // project imports
 import impresario.IModel;
 import model.*;
+import userinterface.LoginView;
 
 public class MainMenuView extends JPanel implements ActionListener {
 	private Peon man;
@@ -47,6 +48,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 
 		add(createTitle());
 		add(createLoggedInUser());
+		add(new JSeparator(SwingConstants.HORIZONTAL));
 		add(createNavigationButtons());
 
 		add(createStatusLog("     "));
@@ -57,8 +59,18 @@ public class MainMenuView extends JPanel implements ActionListener {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		loggedInUser = new JLabel("You are logged in!");
+		if(man.obtainAdminLevel().equals("Yes"))
+		{
+			loggedInUser = new JLabel("You logged in with the banner ID: " + man.getUserName() + " and you are an administrator");
+		}
+		else
+		{
+			loggedInUser = new JLabel("You logged in with the banner ID: " + man.getUserName() + " and you are not an administrator");
+
+		}
+		
 		temp.add(loggedInUser);
+		//temp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		return temp;
 	}
 
@@ -70,6 +82,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		Font myFont = new Font("Arial", Font.BOLD, 24);
 		label.setFont(myFont);
 		temp.add(label);
+		
 
 		return temp;
 	}
@@ -83,6 +96,8 @@ public class MainMenuView extends JPanel implements ActionListener {
 		JPanel temp3 = new JPanel();
 		JPanel temp4 = new JPanel();
 		
+		//ADD WORKER BUTTON AND LABELS
+		//------------------------------------------------------------------------
 		temp2.setLayout(new GridLayout(1,2,10,10));
 		temp2.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
@@ -93,9 +108,10 @@ public class MainMenuView extends JPanel implements ActionListener {
 		insertNewWorkerButton.addActionListener(this);
 		temp2.add(insertNewWorkerButton);
 		//temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
-		
 		mainTemp.add(temp2);
+		mainTemp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		
+		//ADD USER BUTTONS AND LABEL
 		//--------------------------------------------------------------------------
 		temp3.setLayout(new GridLayout(1,2,10,10));
 		temp3.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -106,9 +122,10 @@ public class MainMenuView extends JPanel implements ActionListener {
 		insertNewUserButton = new JButton(localizedBundle.getString("addUser"));
 		insertNewUserButton.addActionListener(this);
 		temp3.add(insertNewUserButton);
-		
 		mainTemp.add(temp3);
+		mainTemp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		
+		//ADD BIKE BUTTON AND LABEL
 		//-------------------------------------------------------------------------
 		temp4.setLayout(new GridLayout(1,2,10,10));
 		temp4.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -118,8 +135,9 @@ public class MainMenuView extends JPanel implements ActionListener {
 		insertNewBicycleButton = new JButton(localizedBundle.getString("addBicycle"));
 		insertNewBicycleButton.addActionListener(this);
 		temp4.add(insertNewBicycleButton);
-		
+
 		mainTemp.add(temp4);
+		mainTemp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		
 		//--------------------------------------------------------------------------
 		//temp.setLayout(new GridLayout(1,2,10,10));

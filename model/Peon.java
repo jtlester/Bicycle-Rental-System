@@ -24,6 +24,9 @@ public class Peon {
 	public LoginView loginView;
 	public UserView userView;
 	public BicycleView bicycleView;
+	public Login login;
+	public String userName;
+	public String adminLevel;
 	//public JLabel loggedInUser;
 	
 	public Peon() {
@@ -32,8 +35,10 @@ public class Peon {
 	}
 
 	public void authenticateLogin(Properties props) {
-		Login login = new Login(props);
+		login = new Login(props);
 		if(login.authentication(props) == true) {
+			userName = props.getProperty("bannerId");
+			adminLevel = login.getAdminLevel();
 			createAndShowMainMenuView();
 			
 		}
@@ -42,6 +47,17 @@ public class Peon {
 			JOptionPane.showMessageDialog(myFrame, "Invalid Username or Password", "Login Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	public String getUserName()
+	{
+		return userName;
+	}
+	
+	public String obtainAdminLevel()
+	{
+		return adminLevel;
+	}
+
 	public void errorMessagePopup(String error)
 	{
 		if(error.equals("bannerId"))
