@@ -12,7 +12,7 @@ import java.util.EventObject;
 import java.util.ResourceBundle;
 
 import javax.swing.BoxLayout;
-import javax.swing.border.Border;
+import javax.swing.border.*;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -84,9 +84,9 @@ public class MainMenuView extends JPanel implements ActionListener {
 
 	private JPanel createTitle() {
 		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		//temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		JLabel label = new JLabel(localizedBundle.getString("greetings"));
+		JLabel label = new JLabel(localizedBundle.getString("greetings"), SwingConstants.CENTER);
 		Font myFont = new Font("Arial", Font.BOLD, 24);
 		label.setFont(myFont);
 		temp.add(label);
@@ -150,22 +150,15 @@ public class MainMenuView extends JPanel implements ActionListener {
 	private JPanel createAdminAccess()
 	{
 		JPanel temp = new JPanel();
-		Border one = BorderFactory.createMatteBorder(1,5,1,1, Color.black);
-		Border two = BorderFactory.createEmptyBorder(30,20,30,20);
+		Border one = BorderFactory.createLineBorder(Color.black);
+		//Border two = BorderFactory.createTitledBorder(one, "Administrative Access", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
 		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
-		temp.setBorder(BorderFactory.createCompoundBorder(two,one));
+		temp.setBorder(BorderFactory.createTitledBorder(one, "Administrative Access", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 		
-		JPanel labelTemp = new JPanel();
-		JLabel adminTemp = new JLabel("Administrative Access");
 		JPanel tempWorker = new JPanel();
 		JLabel newWorkerLabel;
 		JPanel tempUser = new JPanel();
 		JPanel tempBike = new JPanel();
-		
-		//ADD LABEL TO BOX
-		labelTemp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		labelTemp.add(adminTemp);
-		temp.add(labelTemp);
 		
 		//WORKER ADMIN BUTTONS
 		tempWorker.setLayout(new GridLayout(1,2,10,10));
