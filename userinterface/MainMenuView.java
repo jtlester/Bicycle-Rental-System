@@ -12,6 +12,7 @@ import java.util.EventObject;
 import java.util.ResourceBundle;
 
 import javax.swing.BoxLayout;
+import javax.swing.border.Border;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,7 +32,7 @@ import userinterface.LoginView;
 
 public class MainMenuView extends JPanel implements ActionListener {
 	private Peon man;
-	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton;
+	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, renewBikeButton;
 	private JLabel userLabel, workerLabel, bicycleLabel, loggedInUser;
 
 	private MessageView statusLog;
@@ -50,6 +51,13 @@ public class MainMenuView extends JPanel implements ActionListener {
 		add(createLoggedInUser());
 		add(new JSeparator(SwingConstants.HORIZONTAL));
 		add(createNavigationButtons());
+		
+		if(man.obtainAdminLevel().equals("Yes"))
+		{
+			add(createAdminAccess());
+		}
+		
+		add(createCancelButtons());
 
 		add(createStatusLog("     "));
 	}
@@ -91,57 +99,36 @@ public class MainMenuView extends JPanel implements ActionListener {
 		JPanel mainTemp = new JPanel();
 		mainTemp.setLayout(new BoxLayout(mainTemp, BoxLayout.Y_AXIS));
 		
+		//NORMAL WORKER CREDENTIAL BUTTONS
+		//---------------------------------------------------------------------------
 		JPanel temp = new JPanel();
-		JPanel temp2 = new JPanel();
-		JPanel temp3 = new JPanel();
-		JPanel temp4 = new JPanel();
-		
-		//ADD WORKER BUTTON AND LABELS
-		//------------------------------------------------------------------------
-		temp2.setLayout(new GridLayout(1,2,10,10));
-		temp2.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		
-		workerLabel = new JLabel(localizedBundle.getString("worker") + ":");
-		temp2.add(workerLabel);
-		
-		insertNewWorkerButton = new JButton(localizedBundle.getString("addWorker"));
-		insertNewWorkerButton.addActionListener(this);
-		temp2.add(insertNewWorkerButton);
-		//temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
-		mainTemp.add(temp2);
-		mainTemp.add(new JSeparator(SwingConstants.HORIZONTAL));
-		
-		//ADD USER BUTTONS AND LABEL
-		//--------------------------------------------------------------------------
-		temp3.setLayout(new GridLayout(1,2,10,10));
-		temp3.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		
-		userLabel = new JLabel(localizedBundle.getString("user") + ":");
-		temp3.add(userLabel);
-		
-		insertNewUserButton = new JButton(localizedBundle.getString("addUser"));
-		insertNewUserButton.addActionListener(this);
-		temp3.add(insertNewUserButton);
-		mainTemp.add(temp3);
-		mainTemp.add(new JSeparator(SwingConstants.HORIZONTAL));
-		
-		//ADD BIKE BUTTON AND LABEL
-		//-------------------------------------------------------------------------
-		temp4.setLayout(new GridLayout(1,2,10,10));
-		temp4.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		bicycleLabel = new JLabel(localizedBundle.getString("bicycle") + ":");
-		temp4.add(bicycleLabel);
-		
-		insertNewBicycleButton = new JButton(localizedBundle.getString("addBicycle"));
-		insertNewBicycleButton.addActionListener(this);
-		temp4.add(insertNewBicycleButton);
 
-		mainTemp.add(temp4);
+		temp.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		temp.setBorder(BorderFactory.createEmptyBorder(10,20,5,20));
+	
+		rentBikeButton = new JButton("Rent Bicycle");
+		returnBikeButton = new JButton("Return Bicycle");
+		temp.add(rentBikeButton);
+		temp.add(returnBikeButton);
+		mainTemp.add(temp);
+		
+		JPanel temp2 = new JPanel();
+		temp2.setLayout(new FlowLayout(FlowLayout.CENTER));
+		temp2.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+		renewBikeButton = new JButton("Renew Bicycle");
+		temp2.add(renewBikeButton);
+		mainTemp.add(temp2);
+
 		mainTemp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		
-		//--------------------------------------------------------------------------
-		//temp.setLayout(new GridLayout(1,2,10,10));
-		//temp.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+		//---------------------------------------------------------------------------
+		return mainTemp;
+	}
+	
+	private JPanel createCancelButtons()
+	{
+		//CANCEL AND LOGOUT BUTTON
+		JPanel temp = new JPanel();
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(25);
 		f1.setHgap(25);
@@ -156,11 +143,72 @@ public class MainMenuView extends JPanel implements ActionListener {
 		logoutButton.addActionListener(this);
 		temp.add(logoutButton);
 		temp.setAlignmentY(logoutButton.CENTER_ALIGNMENT);
-		//logoutButton.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		mainTemp.add(temp);
-
-		return mainTemp;
+		return temp;
+	}
+	
+	private JPanel createAdminAccess()
+	{
+		JPanel temp = new JPanel();
+		Border one = BorderFactory.createMatteBorder(1,5,1,1, Color.black);
+		Border two = BorderFactory.createEmptyBorder(30,20,30,20);
+		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
+		temp.setBorder(BorderFactory.createCompoundBorder(two,one));
+		
+		JPanel labelTemp = new JPanel();
+		JLabel adminTemp = new JLabel("Administrative Access");
+		JPanel tempWorker = new JPanel();
+		JLabel newWorkerLabel;
+		JPanel tempUser = new JPanel();
+		JPanel tempBike = new JPanel();
+		
+		//ADD LABEL TO BOX
+		labelTemp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		labelTemp.add(adminTemp);
+		temp.add(labelTemp);
+		
+		//WORKER ADMIN BUTTONS
+		tempWorker.setLayout(new GridLayout(1,2,10,10));
+		tempWorker.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		
+		newWorkerLabel = new JLabel(localizedBundle.getString("worker") + ":");
+		tempWorker.add(newWorkerLabel);
+		
+		insertNewWorkerButton = new JButton(localizedBundle.getString("addWorker"));
+		insertNewWorkerButton.addActionListener(this);
+		tempWorker.add(insertNewWorkerButton);
+		//temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
+		temp.add(tempWorker);
+		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
+		
+		
+		//USER ADMIN BUTTONS		
+		//--------------------------------------------------------------------------
+		tempUser.setLayout(new GridLayout(1,2,10,10));
+		tempUser.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		
+		userLabel = new JLabel(localizedBundle.getString("user") + ":");
+		tempUser.add(userLabel);
+		
+		insertNewUserButton = new JButton(localizedBundle.getString("addUser"));
+		insertNewUserButton.addActionListener(this);
+		tempUser.add(insertNewUserButton);
+		temp.add(tempUser);
+		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
+		
+		//ADD BIKE BUTTON AND LABEL
+		//-------------------------------------------------------------------------
+		tempBike.setLayout(new GridLayout(1,2,10,10));
+		tempBike.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		bicycleLabel = new JLabel(localizedBundle.getString("bicycle") + ":");
+		tempBike.add(bicycleLabel);
+		
+		insertNewBicycleButton = new JButton(localizedBundle.getString("addBicycle"));
+		insertNewBicycleButton.addActionListener(this);
+		tempBike.add(insertNewBicycleButton);
+		temp.add(tempBike);
+		
+		return temp;
 	}
 
 	private JPanel createStatusLog(String initialMessage) {
