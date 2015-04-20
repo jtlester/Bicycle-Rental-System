@@ -21,3 +21,4 @@
 [4/16/15 1:44 PM]|BikeSystem|Peon.<init>|Error|NOTAG|null<Unable to create Peon object>
 [4/16/15 1:45 PM]|BikeSystem|Peon.<init>|Error|NOTAG|null<Unable to create Peon object>
 [4/16/15 1:48 PM]|BikeSystem|Peon.<init>|Error|NOTAG|null<Unable to create Peon object>
+[4/20/15 12:06 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[com.mysql.jdbc.Driver]>
