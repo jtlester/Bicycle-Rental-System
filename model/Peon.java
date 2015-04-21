@@ -47,69 +47,45 @@ public class Peon {
 			adminLevel = login.getAdminLevel();
 			createAndShowMainMenuView();
 			
-		}
-		else
-		{
+		} else {
 			JOptionPane.showMessageDialog(myFrame, "Invalid Username or Password", "Login Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
-	public String getUserName()
-	{
+	public String getUserName() {
 		return userName;
 	}
 	
-	public String obtainAdminLevel()
-	{
+	public String obtainAdminLevel() {
 		return adminLevel;
 	}
 
-	public void errorMessagePopup(String error)
-	{
-		if(error.equals("bannerId"))
-		{
+	public void errorMessagePopup(String error) {
+		if(error.equals("bannerId")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter a BannerID", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-		else if(error.equals("password"))
-		{
+		} else if(error.equals("password")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter a Password", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		//Bike Error Checking
-		else if(error.equals("make"))
-		{
+		else if(error.equals("make")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate make", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-		else if(error.equals("model"))
-		{
+		} else if(error.equals("model")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate model", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-		else if(error.equals("serialNumber"))
-		{
+		} else if(error.equals("serialNumber")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate serial number (10 digits)", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-		else if(error.equals("location"))
-		{
+		} else if(error.equals("location")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate location", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		//User error checking
-		else if(error.equals("firstName"))
-		{
+		else if(error.equals("firstName")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate first name", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-		else if(error.equals("lastName"))
-		{
+		} else if(error.equals("lastName")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate last name", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-		else if(error.equals("phoneNumber"))
-		{
+		} else if(error.equals("phoneNumber")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate phone number(11 digits, include country code)", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-		else if(error.equals("email"))
-		{
+		} else if(error.equals("email")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate email", "Error", JOptionPane.WARNING_MESSAGE);
 		}
-		
-		
 	}
 
 	public void createNewWorker() {
@@ -122,6 +98,18 @@ public class Peon {
 	
 	public void createNewBicycle() {
 		createAndShowBicycleView();
+	}
+
+	public void createRentBicycleView() {
+		createAndShowRentBicycleView();
+	}
+
+	public void createReturnBicycleView() {
+		createAndShowReturnBicycleView();
+	}
+
+	public void createRenewBicycleView() {
+		createAndShowRenewBicycleView();
 	}
 	
 	public void processWorkerData(Properties workerProperties) {
@@ -197,6 +185,27 @@ public class Peon {
 		myFrame.getContentPane().add(bicycleView);
 		myFrame.pack();
 		swapToView(bicycleView);
+	}
+
+	public void createAndShowRentBicycleView() {
+		rentView = new RentView(this);
+		myFrame.getContentPane().add(rentView);
+		myFrame.pack();
+		swapToView(rentView);
+	}
+
+	public void createAndShowReturnBicycleView() {
+		returnView = new ReturnView(this);
+		myFrame.getContentPane().add(returnView);
+		myFrame.pack();
+		swapToView(returnView);
+	}
+
+	public void createAndShowRenewBicycleView() {
+		renewView = new RenewView(this);
+		myFrame.getContentPane().add(renewView);
+		myFrame.pack();
+		swapToView(renewView);
 	}
 	
 	public void swapToView(JPanel otherView) {
