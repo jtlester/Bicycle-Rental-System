@@ -1,1 +1,1 @@
-javac ./*.java ./model/*.java
+javac ./*.java ./model/*.java ./userinterface/*.java
