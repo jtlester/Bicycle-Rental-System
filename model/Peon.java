@@ -23,6 +23,9 @@ public class Peon {
 	public WorkerView workerView;
 	public LoginView loginView;
 	public UserView userView;
+	public ReturnView returnView;
+	public RentView rentView;
+	public RenewView renewView;
 	public BicycleView bicycleView;
 	public Login login;
 	public String userName;
@@ -127,6 +130,27 @@ public class Peon {
 	}
 	
 	public void processBicycleData(Properties bicycleProperties) {
+		Bicycle newBicycle = new Bicycle(bicycleProperties);
+		newBicycle.update();
+		
+		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+	}
+
+	public void processRentData(Properties bicycleProperties) {
+		Bicycle newBicycle = new Bicycle(bicycleProperties);
+		newBicycle.update();
+		
+		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+	}
+
+	public void processReturnData(Properties bicycleProperties) {
+		Bicycle newBicycle = new Bicycle(bicycleProperties);
+		newBicycle.update();
+		
+		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+	}
+
+	public void processRenewData(Properties bicycleProperties) {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();
 		
