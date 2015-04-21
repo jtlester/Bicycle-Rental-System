@@ -158,7 +158,6 @@ public class BicycleView extends JPanel implements ActionListener {
 		submitButton = new JButton(localizedBundle.getString("submit"));
 		submitButton.addActionListener(this);
 		navPanel.add(submitButton);
-
 		return navPanel;
 	}
 
