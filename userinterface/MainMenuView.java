@@ -52,8 +52,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		add(new JSeparator(SwingConstants.HORIZONTAL));
 		add(createNavigationButtons());
 		
-		if(man.obtainAdminLevel().equals("Yes"))
-		{
+		if(man.obtainAdminLevel().equals("Yes")) {
 			add(createAdminAccess());
 		}
 		
@@ -62,18 +61,14 @@ public class MainMenuView extends JPanel implements ActionListener {
 		add(createStatusLog("     "));
 	}
 	
-	private JPanel createLoggedInUser()
-	{
+	private JPanel createLoggedInUser() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		if(man.obtainAdminLevel().equals("Yes"))
-		{
-			loggedInUser = new JLabel("You logged in with the banner ID: " + man.getUserName() + " and you are an administrator");
-		}
-		else
-		{
-			loggedInUser = new JLabel("You logged in with the banner ID: " + man.getUserName() + " and you are not an administrator");
+		if(man.obtainAdminLevel().equals("Yes")) {
+			loggedInUser = new JLabel(localizedBundle.getString("welcomeUser") + " " + man.getUserName() + ". " + localizedBundle.getString("welcomeAdmin"));
+		} else {
+			loggedInUser = new JLabel(localizedBundle.getString("welcomeUser") + " " + man.getUserName());
 
 		}
 		
@@ -106,8 +101,10 @@ public class MainMenuView extends JPanel implements ActionListener {
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		temp.setBorder(BorderFactory.createEmptyBorder(10,20,5,20));
 	
-		rentBikeButton = new JButton("Rent Bicycle");
-		returnBikeButton = new JButton("Return Bicycle");
+		rentBikeButton = new JButton(localizedBundle.getString("rentBicycle"));
+		rentBikeButton.addActionListener(this);
+		returnBikeButton = new JButton(localizedBundle.getString("returnBicylce"));
+		returnBikeButton.addActionListener(this);
 		temp.add(rentBikeButton);
 		temp.add(returnBikeButton);
 		mainTemp.add(temp);
@@ -115,7 +112,8 @@ public class MainMenuView extends JPanel implements ActionListener {
 		JPanel temp2 = new JPanel();
 		temp2.setLayout(new FlowLayout(FlowLayout.CENTER));
 		temp2.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-		renewBikeButton = new JButton("Renew Bicycle");
+		renewBikeButton = new JButton(localizedBundle.getString("renewBicycle"));
+		renewBikeButton.addActionListener(this);
 		temp2.add(renewBikeButton);
 		mainTemp.add(temp2);
 
@@ -125,9 +123,8 @@ public class MainMenuView extends JPanel implements ActionListener {
 		return mainTemp;
 	}
 	
-	private JPanel createCancelButtons()
-	{
-		//CANCEL AND LOGOUT BUTTON
+	private JPanel createCancelButtons() {
+		//EXIT AND LOGOUT BUTTON
 		JPanel temp = new JPanel();
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(25);
@@ -147,8 +144,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		return temp;
 	}
 	
-	private JPanel createAdminAccess()
-	{
+	private JPanel createAdminAccess() {
 		JPanel temp = new JPanel();
 		Border one = BorderFactory.createLineBorder(Color.black);
 		//Border two = BorderFactory.createTitledBorder(one, "Administrative Access", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
@@ -217,25 +213,22 @@ public class MainMenuView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		clearErrorMessage();
 
-		if(event.getSource() == insertNewWorkerButton)
-		{
+		if(event.getSource() == insertNewWorkerButton) {
 			man.createNewWorker();
-		}
-		else if(event.getSource() == insertNewUserButton)
-		{
+		} else if(event.getSource() == insertNewUserButton) {
 			man.createNewUser();
-		}
-		else if(event.getSource() == insertNewBicycleButton)
-		{
+		} else if(event.getSource() == insertNewBicycleButton) {
 			man.createNewBicycle();
-		}
-		else if(event.getSource() == logoutButton)
-		{
+		} else if(event.getSource() == logoutButton) {
 			man.createAndShowLoginView();
-		}
-		else if(event.getSource() == doneButton)
-		{
+		} else if(event.getSource() == doneButton) {
 			man.exitSystem();
+		} else if(event.getSource() == rentBikeButton) {
+			man.createRentBicycleView();
+		} else if(event.getSource() == returnBikeButton) {
+			man.createReturnBicycleView();
+		} else if(event.getSource() == renewBikeButton) {
+			man.createRenewBicycleView();
 		}
 	}
 
