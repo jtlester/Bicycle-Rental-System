@@ -138,7 +138,7 @@ public class BicycleView extends JPanel implements ActionListener {
 		entryPanel.add(descriptionLabel);
 		descriptionTextField = new JTextField(20);
 		descriptionTextField.addActionListener(this);
-		entryPanel.add(descriptionTextField);
+		entryPanel.add(descriptionTextField); 
 		return entryPanel;
 	}
 	
