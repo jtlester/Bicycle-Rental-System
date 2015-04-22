@@ -38,12 +38,7 @@ public class Peon {
 	}
 
 	public void authenticateLogin(Properties props) {
-		//You can delete this is I forget. I only put this here because I can't connect to his database on my Mac...
-		if(props.getProperty("bannerId").equals("800548775")) {
-			adminLevel = "Yes";
-			createAndShowMainMenuView();
-			return;
-		}
+		
 		login = new Login(props);
 		if(login.authentication(props) == true) {
 			userName = props.getProperty("bannerId");
