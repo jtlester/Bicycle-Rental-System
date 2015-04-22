@@ -83,7 +83,7 @@ import java.awt.BorderLayout;
  }
  private void setHeader()
  {
-    header = new String {localizedBundle.getString("sun"),localizedBundle.getString("mon"),localizedBundle.getString("tue"),localizedBundle.getString("wed"),localizedBundle.getString("thu"),localizedBundle.getString("fri"),localizedBundle.getString("sat")};
+    String [] header = {localizedBundle.getString("sun"),localizedBundle.getString("mon"),localizedBundle.getString("tue"),localizedBundle.getString("wed"),localizedBundle.getString("thu"),localizedBundle.getString("fri"),localizedBundle.getString("sat")};
  }
 
  public void displayDate() {

@@ -53,7 +53,7 @@ public class ReturnView extends JPanel implements ActionListener {
 	public ReturnView(Peon p) {
 		peon = p;
 		Locale currentLocale = LocaleConfig.currentLocale();
-		localizedBundle = ResourceBundle.getBundle("ReturnStringsBundle", currentLocale);
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel titlePanel = new JPanel();

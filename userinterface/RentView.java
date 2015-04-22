@@ -53,7 +53,7 @@ public class RentView extends JPanel implements ActionListener {
 	public RentView(Peon p) {
 		peon = p;
 		Locale currentLocale = LocaleConfig.currentLocale();
-		localizedBundle = ResourceBundle.getBundle("RentStringsBundle", currentLocale);
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel titlePanel = new JPanel();
