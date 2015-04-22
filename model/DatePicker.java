@@ -13,8 +13,13 @@ import java.awt.BorderLayout;
    import javax.swing.JLabel;
    import javax.swing.JPanel;
    import javax.swing.JTextField;
+   
+   import java.util.Locale;
+   import java.util.ResourceBundle;
 
  public class DatePicker {
+ public ResourceBundle localizedBundle;
+ private String[] header;
  int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
  int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
  JLabel l = new JLabel("", JLabel.CENTER);
@@ -25,7 +30,11 @@ import java.awt.BorderLayout;
  public DatePicker(JPanel parent) {
          d = new JDialog();
          d.setModal(true);
-         String[] header = { "Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat" };
+         
+         Locale currentLocale = LocaleConfig.currentLocale();
+    		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
+
+         setHeader();
          JPanel p1 = new JPanel(new GridLayout(7, 7));
          p1.setPreferredSize(new Dimension(430, 120));
 
@@ -71,6 +80,10 @@ import java.awt.BorderLayout;
          d.setLocationRelativeTo(parent);
          displayDate();
          d.setVisible(true);
+ }
+ private void setHeader()
+ {
+    header = new String {localizedBundle.getString("sun"),localizedBundle.getString("mon"),localizedBundle.getString("tue"),localizedBundle.getString("wed"),localizedBundle.getString("thu"),localizedBundle.getString("fri"),localizedBundle.getString("sat")};
  }
 
  public void displayDate() {
