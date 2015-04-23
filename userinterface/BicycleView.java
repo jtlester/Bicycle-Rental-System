@@ -100,7 +100,8 @@ public class BicycleView extends JPanel implements ActionListener {
 		//bikeConditionTextField = new JTextField(20);
 		//bikeConditionTextField.addActionListener(this);
 		bikeConditionComboBox = new JComboBox();
-		String [] conditionPossibilities = {"New", "Good", "Fair", "Poor"};
+		String [] conditionPossibilities = {"---", localizedBundle.getString("new"), localizedBundle.getString("good"),
+				localizedBundle.getString("fair"), localizedBundle.getString("poor")};
 		bikeConditionComboBox = new JComboBox(conditionPossibilities);
 		bikeConditionComboBox.addActionListener(this);
 		entryPanel.add(bikeConditionLabel);
@@ -112,7 +113,9 @@ public class BicycleView extends JPanel implements ActionListener {
 		//colorTextField = new JTextField(20);
 		//colorTextField.addActionListener(this);
 		colorComboBox = new JComboBox();
-		String [] colorPossibilities = {"Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Brown", "Black", "White"};
+		String [] colorPossibilities = {"---", localizedBundle.getString("red"), localizedBundle.getString("orange"), localizedBundle.getString("yellow"),
+			localizedBundle.getString("green"), localizedBundle.getString("blue"), localizedBundle.getString("purple"), localizedBundle.getString("brown"),
+				localizedBundle.getString("black"), localizedBundle.getString("white")};
 		colorComboBox = new JComboBox(colorPossibilities);
 		colorComboBox.addActionListener(this);
 		entryPanel.add(colorLabel);
