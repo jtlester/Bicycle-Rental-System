@@ -6,12 +6,6 @@ import java.util.*;
 import javax.swing.*;
 
 // project imports
-import impresario.IModel;
-import impresario.ISlideShow;
-import impresario.IView;
-import impresario.ModelRegistry;
-import exception.InvalidPrimaryKeyException;
-import exception.PasswordMismatchException;
 import event.Event;
 import userinterface.*;
 
@@ -31,8 +25,14 @@ public class Peon {
 	public String userName;
 	public String adminLevel;
 	//public JLabel loggedInUser;
+        
+        public ResourceBundle localizedBundle;
+	public Locale currentLocale;
 	
 	public Peon() {
+                currentLocale = LocaleConfig.currentLocale();
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
+                
 		myFrame = MainFrame.getInstance();
 		createAndShowLoginView();
 	}
@@ -64,38 +64,40 @@ public class Peon {
 	}
 
 	public void errorMessagePopup(String error) {
+            
+                currentLocale = LocaleConfig.currentLocale();
+		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
+        
 		if(error.equals("bannerId")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter a BannerID", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("password")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter a Password", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		//Bike Error Checking
 		else if(error.equals("make")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate make", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidMake"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("model")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate model", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidModel"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("serialNumber")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate serial number (10 digits)", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidSerial"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("location")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate location", "Error", JOptionPane.WARNING_MESSAGE);
-		}else if(error.equals("bikeId")){
-			JOptionPane.showMessageDialog(myFrame, "Please enter in a Bicycle ID", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidLocation"), "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		
 		//User error checking
 		else if(error.equals("firstName")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate first name", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("lastName")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate last name", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidLastName"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("phoneNumber")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate phone number(11 digits, include country code)", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidPhoneNumber"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("email")) {
-			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate email", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidEmail"), "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		
 		//Calendar error checking
 		else if(error.equals("noDate")) {
-			JOptionPane.showMessageDialog(myFrame, "Please select a date", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidDate"), "Error", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
