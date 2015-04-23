@@ -41,6 +41,7 @@ public class LoginView extends JPanel implements ActionListener
 	private JLabel titleLabel;
 	private JLabel passwordLabel;
 	private JLabel selectLanguageLabel;
+	private JLabel useridLabel;
 
 	// For showing error message
 	private MessageView statusLog;
@@ -100,7 +101,7 @@ public class LoginView extends JPanel implements ActionListener
 		JPanel entryFieldPanel = new JPanel();
 		entryFieldPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JLabel useridLabel = new JLabel("BannerID: ");
+		useridLabel = new JLabel("BannerID");
 		entryFieldPanel.add(useridLabel);
 
 		bannerID = new JTextField(20);
@@ -213,6 +214,7 @@ public class LoginView extends JPanel implements ActionListener
 			cancelButton.setText(localizedBundle.getString("exit"));
 			submitButton.setText(localizedBundle.getString("login"));
 			selectLanguageLabel.setText(localizedBundle.getString("chooseLanguage"));
+			useridLabel.setText(localizedBundle.getString("bannerID"));
 			selectLanguageLabel.revalidate();
 			selectLanguageLabel.repaint();
 			cancelButton.revalidate();
