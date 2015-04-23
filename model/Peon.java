@@ -23,6 +23,9 @@ public class Peon {
 	public WorkerView workerView;
 	public LoginView loginView;
 	public UserView userView;
+	public ReturnView returnView;
+	public RentView rentView;
+	public RenewView renewView;
 	public BicycleView bicycleView;
 	public Login login;
 	public String userName;
@@ -35,12 +38,7 @@ public class Peon {
 	}
 
 	public void authenticateLogin(Properties props) {
-		//You can delete this is I forget. I only put this here because I can't connect to his database on my Mac...
-		if(props.getProperty("bannerId").equals("800548775")) {
-			adminLevel = "Yes";
-			createAndShowMainMenuView();
-			return;
-		}
+		
 		login = new Login(props);
 		if(login.authentication(props) == true) {
 			userName = props.getProperty("bannerId");
@@ -127,6 +125,27 @@ public class Peon {
 	}
 	
 	public void processBicycleData(Properties bicycleProperties) {
+		Bicycle newBicycle = new Bicycle(bicycleProperties);
+		newBicycle.update();
+		
+		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+	}
+
+	public void processRentData(Properties bicycleProperties) {
+		Bicycle newBicycle = new Bicycle(bicycleProperties);
+		newBicycle.update();
+		
+		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+	}
+
+	public void processReturnData(Properties bicycleProperties) {
+		Bicycle newBicycle = new Bicycle(bicycleProperties);
+		newBicycle.update();
+		
+		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+	}
+
+	public void processRenewData(Properties bicycleProperties) {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();
 		

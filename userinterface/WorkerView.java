@@ -64,7 +64,9 @@ public class WorkerView extends JPanel implements ActionListener {
 		add(titlePanel);
 
 		add(dataEntryPanel());
+		add(createCalendar());
 		add(choiceBox());
+		
 		add(navigationPanel());
 
 		add(createStatusLog("                          "));
@@ -158,6 +160,30 @@ public class WorkerView extends JPanel implements ActionListener {
 		cBox.add(adminComboBox);
 		
 		return cBox;
+	}
+	
+	private JPanel createCalendar()
+	{
+		final JPanel p = new JPanel();
+		
+		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
+		
+		//DatePicker dp = new DatePicker(p);
+		
+		JLabel label = new JLabel("Date of Registration:");
+        final JTextField text = new JTextField(20);
+        JButton b = new JButton("...");
+        //JPanel p = new JPanel();
+        p.add(label);
+        p.add(text);
+        p.add(b);
+        b.addActionListener(new ActionListener() {
+                 public void actionPerformed(ActionEvent ae) {
+                         text.setText(new DatePicker(p).setPickedDate());
+                 }
+         });
+		
+		return p;
 	}
 	
 	public void displayErrorMessage(String message) {

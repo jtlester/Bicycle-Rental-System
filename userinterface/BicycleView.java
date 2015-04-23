@@ -65,7 +65,7 @@ public class BicycleView extends JPanel implements ActionListener {
 		add(titlePanel);
 
 		add(dataEntryPanel());
-		add(choiceBox());
+		//add(choiceBox());
 		add(navigationPanel());
 		add(createStatusLog("                          "));
 	}
@@ -138,7 +138,7 @@ public class BicycleView extends JPanel implements ActionListener {
 		entryPanel.add(descriptionLabel);
 		descriptionTextField = new JTextField(20);
 		descriptionTextField.addActionListener(this);
-		entryPanel.add(descriptionTextField);
+		entryPanel.add(descriptionTextField); 
 		return entryPanel;
 	}
 	
@@ -162,7 +162,7 @@ public class BicycleView extends JPanel implements ActionListener {
 	}
 
 	// Create the combo box
-	private JPanel choiceBox() {
+	/*private JPanel choiceBox() {
 		JPanel cBox = new JPanel(); // default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(8);
@@ -175,7 +175,7 @@ public class BicycleView extends JPanel implements ActionListener {
 		rentalComboBox.addActionListener(this);
 		cBox.add(rentalComboBox);
 		return cBox;
-	}
+	}*/
 	
 	public void displayErrorMessage(String message) {
 		statusLog.displayErrorMessage(message);
@@ -211,12 +211,12 @@ public class BicycleView extends JPanel implements ActionListener {
 				Properties bicycleProperties = new Properties();
 				bicycleProperties.setProperty("make",makeTextField.getText());
 				bicycleProperties.setProperty("model",modelTextField.getText());
-				bicycleProperties.setProperty("condition", (String)bikeConditionComboBox.getSelectedItem());
+				bicycleProperties.setProperty("bikeCondition", (String)bikeConditionComboBox.getSelectedItem());
 				bicycleProperties.setProperty("color",(String)colorComboBox.getSelectedItem());
 				bicycleProperties.setProperty("serialNumber",serialNumberTextField.getText());
 				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
-				bicycleProperties.setProperty("rentalLevel",(String)rentalComboBox.getSelectedItem());
+				bicycleProperties.setProperty("status", "in");
 				peon.processBicycleData(bicycleProperties);
 				makeTextField.setText("");
 				modelTextField.setText("");
