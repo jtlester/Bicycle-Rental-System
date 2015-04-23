@@ -26,31 +26,19 @@ import impresario.IModel;
 import model.*;
 
 public class ReturnView extends JPanel implements ActionListener {
+	
+	
 	private Peon peon;
-	private JLabel makeLabel;
-	private JTextField makeTextField;
-	private JLabel modelLabel;
-	private JTextField modelTextField;
-	private JLabel bikeConditionLabel;
-	private JComboBox bikeConditionComboBox;
-	//private JTextField bikeConditionTextField;
-	private JLabel colorLabel;
-	//private JTextField colorTextField;
-	private JComboBox colorComboBox;
-	private JLabel serialNumberLabel;
-	private JTextField serialNumberTextField;
-	private JLabel locationOnCampusLabel;
-	private JTextField locationOnCampusTextField;
-	private JLabel descriptionLabel;
-	private JTextField descriptionTextField;
-	private JComboBox rentalComboBox;
-	private JButton submitButton;
-	private JButton backButton;
 	private MessageView statusLog;
+	private JTextField bannerTextField, bikeTextField;
+	private JLabel bannerLabel, bikeLabel;
+	private final JTextField date = new JTextField(20);
+	private JButton backButton, submitButton;
 
     public ResourceBundle localizedBundle;
 	
-	public ReturnView(Peon p) {
+	public ReturnView(Peon p)
+	{
 		peon = p;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
@@ -58,98 +46,83 @@ public class ReturnView extends JPanel implements ActionListener {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel lbl = new JLabel(localizedBundle.getString("addReturn"));
-		Font myFont = new Font("Helvetica", Font.BOLD, 20);
-		lbl.setFont(myFont);
-		titlePanel.add(lbl);
+		
+		JLabel mainLabel = new JLabel(localizedBundle.getString("returnBicycle"));
+		Font lblFont = new Font("Helvetica", Font.BOLD, 20);
+		mainLabel.setFont(lblFont);
+		titlePanel.add(mainLabel);
 		add(titlePanel);
-
 		add(dataEntryPanel());
-		add(choiceBox());
+		add(createCalendar());
 		add(navigationPanel());
-		add(createStatusLog("                          "));
+		
+		
+		add(createStatusLog("                      "));
+		
 	}
+	
 	private JPanel createStatusLog(String initialMessage) {
 		statusLog = new MessageView(initialMessage);
 		return statusLog;
 	}
-	// Create the main data entry fields
-	//-------------------------------------------------------------
-	private JPanel dataEntryPanel() {
+	
+	private JPanel dataEntryPanel()
+	{
 		JPanel entryPanel = new JPanel();
-		// set the layout for this panel
-		entryPanel.setLayout(new GridLayout(7,2,20,20));
+		
+		//SET LAYOUT
+		entryPanel.setLayout(new GridLayout(3,2,10,10));
 		entryPanel.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
 		
-		//Make
-		JLabel makeLabel = new JLabel(localizedBundle.getString("make") + ": ");
-		makeTextField = new JTextField(20);
-		makeTextField.addActionListener(this);
-		entryPanel.add(makeLabel);
-		entryPanel.add(makeTextField);
+		//ENTRY FIELDS 
+		//BANNER ID
+		JLabel bannerLabel = new JLabel("Banner ID of the renter:");
+		bannerTextField = new JTextField(20);
+		bannerTextField.addActionListener(this);
+		entryPanel.add(bannerLabel);
+		entryPanel.add(bannerTextField);
 		
-		//Model
-		JLabel modelLabel = new JLabel(localizedBundle.getString("model") + ": ");
-		modelTextField = new JTextField(20);
-		modelTextField.addActionListener(this);
-		entryPanel.add(modelLabel);
-		entryPanel.add(modelTextField);
+		//BIKE ID ENTRY FELDS
+		JLabel bikeLabel = new JLabel("Bike ID:");
+		bikeTextField = new JTextField(20);
+		bikeTextField.addActionListener(this);
+		entryPanel.add(bikeLabel);
+		entryPanel.add(bikeTextField);
 		
-		//Condition
-		JLabel bikeConditionLabel = new JLabel(localizedBundle.getString("condition") + ": ");
-		//bikeConditionTextField = new JTextField(20);
-		//bikeConditionTextField.addActionListener(this);
-		bikeConditionComboBox = new JComboBox();
-		String [] conditionPossibilities = {"New", "Good", "Fair", "Poor"};
-		bikeConditionComboBox = new JComboBox(conditionPossibilities);
-		bikeConditionComboBox.addActionListener(this);
-		entryPanel.add(bikeConditionLabel);
-		entryPanel.add(bikeConditionComboBox);
-		//entryPanel.add(bikeConditionTextField);
-		
-		//Color
-		JLabel colorLabel = new JLabel(localizedBundle.getString("color") + ": ");
-		//colorTextField = new JTextField(20);
-		//colorTextField.addActionListener(this);
-		colorComboBox = new JComboBox();
-		String [] colorPossibilities = {"Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Brown", "Black", "White"};
-		colorComboBox = new JComboBox(colorPossibilities);
-		colorComboBox.addActionListener(this);
-		entryPanel.add(colorLabel);
-		entryPanel.add(colorComboBox);
-		//entryPanel.add(colorTextField);
-		
-		//Serial Number
-		JLabel serialNumberLabel = new JLabel(localizedBundle.getString("serialNumber") + ": ");
-		entryPanel.add(serialNumberLabel);
-		serialNumberTextField = new JTextField(20);
-		serialNumberTextField.addActionListener(this);
-		entryPanel.add(serialNumberTextField);
-		
-		//Location
-		JLabel locationOnCampusLabel = new JLabel(localizedBundle.getString("campusLocation") + ": ");
-		entryPanel.add(locationOnCampusLabel);
-		locationOnCampusTextField = new JTextField(20);
-		locationOnCampusTextField.addActionListener(this);
-		entryPanel.add(locationOnCampusTextField);
-		
-		//Description
-		JLabel descriptionLabel = new JLabel(localizedBundle.getString("description") + ": ");
-		entryPanel.add(descriptionLabel);
-		descriptionTextField = new JTextField(20);
-		descriptionTextField.addActionListener(this);
-		entryPanel.add(descriptionTextField);
 		return entryPanel;
 	}
 	
+	//CREATE CALENDAR
+	private JPanel createCalendar()
+	{
+		//MAKE CALENDAR
+		final JPanel temp = new JPanel();
+		//FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
+		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JLabel returnLabel = new JLabel("Return Date");
+		//date = new JTextField(20);
+		JButton showCal = new JButton("...");
+		temp.add(returnLabel);
+		temp.add(date);
+		temp.add(showCal);
+		showCal.addActionListener(new ActionListener(){
+									public void actionPerformed(ActionEvent ae) {
+											date.setText(new DatePicker(temp).setPickedDate());
+									}
+								});
+		return temp;
+	}
+	
 	// Create the navigation buttons
-	private JPanel navigationPanel() {
-		JPanel navPanel = new JPanel(); // default FlowLayout is fine
+	//-------------------------------------------------------------
+	private JPanel navigationPanel()
+	{
+		JPanel navPanel = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(50);
 		f1.setHgap(25);
 		navPanel.setLayout(f1);
-		
+
 		// create the buttons, listen for events, add them to the panel
 		backButton = new JButton(localizedBundle.getString("back"));
 		backButton.addActionListener(this);
@@ -161,22 +134,6 @@ public class ReturnView extends JPanel implements ActionListener {
 
 		return navPanel;
 	}
-
-	// Create the combo box
-	private JPanel choiceBox() {
-		JPanel cBox = new JPanel(); // default FlowLayout is fine
-		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
-		f1.setVgap(8);
-		f1.setHgap(25);
-		cBox.setLayout(f1);
-		JLabel rentalLabel = new JLabel(localizedBundle.getString("inOrOut"));
-		cBox.add(rentalLabel);
-		String [] rentalPossibilites = { localizedBundle.getString("in"), localizedBundle.getString("out")};
-		rentalComboBox = new JComboBox(rentalPossibilites);
-		rentalComboBox.addActionListener(this);
-		cBox.add(rentalComboBox);
-		return cBox;
-	}
 	
 	public void displayErrorMessage(String message) {
 		statusLog.displayErrorMessage(message);
@@ -185,51 +142,46 @@ public class ReturnView extends JPanel implements ActionListener {
 	public void clearErrorMessage() {
 		statusLog.clearErrorMessage();
 	}
-
+	
 	public void displayMessage(String message) {
 		statusLog.displayMessage(message);
 	}
 	
-	public void actionPerformed(ActionEvent event) {
-		if(event.getSource() == submitButton) {
-			if(makeTextField.getText().equals(""))
+	public void actionPerformed(ActionEvent event)
+	{
+		if(event.getSource() == submitButton)
+		{
+			if(bannerTextField.getText().equals(""))
 			{
-				peon.errorMessagePopup("make");
+				peon.errorMessagePopup("bannerId");
 			}
-			else if(modelTextField.getText().equals(""))
+			else if(bikeTextField.getText().equals(""))
 			{
-				peon.errorMessagePopup("model");
+				peon.errorMessagePopup("bikeId");
 			}
-			else if(serialNumberTextField.getText().length() != 10)
+			else if(date.getText().equals(""))
 			{
-				peon.errorMessagePopup("serialNumber");
+				peon.errorMessagePopup("noDate");
 			}
-			else if(locationOnCampusTextField.getText().equals(""))
+			else
 			{
-				peon.errorMessagePopup("location");
-			}
-			else {
-				Properties bicycleProperties = new Properties();
-				bicycleProperties.setProperty("make",makeTextField.getText());
-				bicycleProperties.setProperty("model",modelTextField.getText());
-				bicycleProperties.setProperty("condition", (String)bikeConditionComboBox.getSelectedItem());
-				bicycleProperties.setProperty("color",(String)colorComboBox.getSelectedItem());
-				bicycleProperties.setProperty("serialNumber",serialNumberTextField.getText());
-				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
-				bicycleProperties.setProperty("description",descriptionTextField.getText());
-				bicycleProperties.setProperty("rentalLevel",(String)rentalComboBox.getSelectedItem());
-				peon.processReturnData(bicycleProperties);
-				makeTextField.setText("");
-				modelTextField.setText("");
-				//bikeConditionTextField.setText("");
-				//colorTextField.setText("");
-				serialNumberTextField.setText("");
-				locationOnCampusTextField.setText("");
-				descriptionTextField.setText("");
+				Properties returnBikeProperties = new Properties();
+				returnBikeProperties.setProperty("bikeId", bikeTextField.getText());
+				returnBikeProperties.setProperty("bannerId", bannerTextField.getText());
+				returnBikeProperties.setProperty("returnDate", date.getText());
+				
+				peon.processReturnData(returnBikeProperties);
+				
+				bannerTextField.setText("");
+				bikeTextField.setText("");
+				date.setText("");
 			}
 		}
-		else if(event.getSource() == backButton) {
-			peon.bicycleDataDone();
+		else if(event.getSource() == backButton)
+		{
+			peon.returnDataDone();
 		}
+		
 	}
+	
 }

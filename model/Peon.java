@@ -73,7 +73,10 @@ public class Peon {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate serial number (10 digits)", "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("location")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate location", "Error", JOptionPane.WARNING_MESSAGE);
+		}else if(error.equals("bikeId")){
+			JOptionPane.showMessageDialog(myFrame, "Please enter in a Bicycle ID", "Error", JOptionPane.WARNING_MESSAGE);
 		}
+		
 		//User error checking
 		else if(error.equals("firstName")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate first name", "Error", JOptionPane.WARNING_MESSAGE);
@@ -83,6 +86,11 @@ public class Peon {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate phone number(11 digits, include country code)", "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("email")) {
 			JOptionPane.showMessageDialog(myFrame, "Please enter an appropriate email", "Error", JOptionPane.WARNING_MESSAGE);
+		}
+		
+		//Calendar error checking
+		else if(error.equals("noDate")) {
+			JOptionPane.showMessageDialog(myFrame, "Please select a date", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -139,8 +147,8 @@ public class Peon {
 	}
 
 	public void processReturnData(Properties bicycleProperties) {
-		Bicycle newBicycle = new Bicycle(bicycleProperties);
-		newBicycle.update();
+		//Bicycle newBicycle = new Bicycle(bicycleProperties);
+		//newBicycle.update();
 		
 		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
 	}
@@ -161,6 +169,10 @@ public class Peon {
 	}
 	
 	public void bicycleDataDone() {
+		createAndShowMainMenuView();
+	}
+	
+	public void returnDataDone(){
 		createAndShowMainMenuView();
 	}
 	
