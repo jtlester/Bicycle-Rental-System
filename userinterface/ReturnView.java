@@ -169,6 +169,7 @@ public class ReturnView extends JPanel implements ActionListener {
 				returnBikeProperties.setProperty("bikeId", bikeTextField.getText());
 				returnBikeProperties.setProperty("bannerId", bannerTextField.getText());
 				returnBikeProperties.setProperty("returnDate", date.getText());
+				returnBikeProperties.setProperty("status", "Inactive");
 				
 				peon.processReturnData(returnBikeProperties);
 				
