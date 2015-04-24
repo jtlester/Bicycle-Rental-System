@@ -82,6 +82,8 @@ public class Peon {
 			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidSerial"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("location")) {
 			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidLocation"), "Error", JOptionPane.WARNING_MESSAGE);
+		} else if(error.equals("noBike")){
+			JOptionPane.showMessageDialog(myFrame, "Bike not found, please try again", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 		
 		//User error checking
@@ -146,20 +148,20 @@ public class Peon {
 		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
 	}
 
-	public void processRentData(Properties bicycleProperties) {
-		Bicycle newBicycle = new Bicycle(bicycleProperties);
-		newBicycle.update();
+	public void processRentData(Properties rentProperties) {
+		RentBike newRentBike = new RentBike(rentProperties);
+		newRentBike.update();
 		
-		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+		rentView.displayMessage("Rental successfully registered");
 	}
 
 	public void processReturnData(Properties returnProperties) {
 		ReturnBike newReturnBike = new ReturnBike(returnProperties);
 	    newReturnBike.update();
 		
-		returnView.displayMessage("Bike number " + returnProperties.getProperty("bikeId") + " has been updated successfully");
+		returnView.displayMessage("Bike  " + returnProperties.getProperty("bikeId") + " has been updated successfully");
 	}
-
+	
 	public void processRenewData(Properties bicycleProperties) {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();

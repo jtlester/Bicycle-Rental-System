@@ -24,3 +24,6 @@
 [4/20/15 12:06 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[com.mysql.jdbc.Driver]>
 [4/21/15 4:25 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[com.mysql.jdbc.Driver]>
 [4/23/15 3:24 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[com.mysql.jdbc.Driver]>
+[4/24/15 3:40 PM]|RentBike|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'dueDate' doesn't have a default value>
+[4/24/15 3:51 PM]|RentBike|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'dueDate' doesn't have a default value>
+[4/24/15 3:54 PM]|RentBike|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'dueDate' doesn't have a default value>

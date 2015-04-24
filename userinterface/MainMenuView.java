@@ -103,7 +103,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 	
 		rentBikeButton = new JButton(localizedBundle.getString("rentBicycle"));
 		rentBikeButton.addActionListener(this);
-		returnBikeButton = new JButton(localizedBundle.getString("returnBicylce"));
+		returnBikeButton = new JButton(localizedBundle.getString("returnBicycle"));
 		returnBikeButton.addActionListener(this);
 		temp.add(rentBikeButton);
 		temp.add(returnBikeButton);
