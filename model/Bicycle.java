@@ -18,6 +18,8 @@ public class Bicycle extends EntityBase implements IView {
     private static final String myTableName = "Bicycle";
     protected Properties persistentState;
     protected Properties dependencies;
+	Properties bikeInfo;
+	public String make, model, color, serialNumber, locationOnCampus, description;
 
     
     // GUI Components
@@ -93,6 +95,70 @@ public class Bicycle extends EntityBase implements IView {
 
         }
     }
+	
+	//-------------------------------------------------------------------
+	public void getBikeInfo(Properties props)
+	{
+		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bikeId` = '" + props.getProperty("bikeId") + "');";
+		Vector allDataRetrieved = getSelectQueryResult(authQuery);
+		int size = allDataRetrieved.size();
+		if(size == 1)
+		{
+			//System.out.println("IN GET BIKE INFO-------------------");
+			Properties retrievedBikeData = (Properties)allDataRetrieved.elementAt(0);
+			bikeInfo = new Properties();
+			
+			Enumeration allKeys = retrievedBikeData.propertyNames();
+			while(allKeys.hasMoreElements() == true)
+			{
+				String nextKey = (String)allKeys.nextElement();
+				String nextValue = retrievedBikeData.getProperty(nextKey);
+				
+				if(nextValue != null)
+				{
+					bikeInfo.setProperty(nextKey, nextValue);
+				}
+			}
+			
+			make = bikeInfo.getProperty("make");
+			model = bikeInfo.getProperty("model");
+			color = bikeInfo.getProperty("color");
+			serialNumber = bikeInfo.getProperty("serialNumber");
+			locationOnCampus = bikeInfo.getProperty("locationOnCampus");
+			description = bikeInfo.getProperty("description");
+			
+		}
+		else
+		{
+			System.out.println("No Bike Found");
+		}
+		
+	}
+	//GETTERS FOR BIKE INFO
+	public String getMake()
+	{
+		return make;
+	}
+	public String getModel()
+	{
+		return model;
+	}
+	public String getColor()
+	{
+		return color;
+	}
+	public String getSerial()
+	{
+		return serialNumber;
+	}
+	public String getLocation()
+	{
+		return locationOnCampus;
+	}
+	public String getDescription()
+	{
+		return description;
+	}
 
 //-----------------------------------------------------------------------
 
