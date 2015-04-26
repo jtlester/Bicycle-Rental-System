@@ -4,6 +4,10 @@ import java.awt.*;
 import java.util.*;
 import javax.swing.*;
 import java.util.ResourceBundle;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
 
 // system imports
 import java.awt.FlowLayout;
@@ -59,13 +63,16 @@ public class LoginView extends JPanel implements ActionListener
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// create our GUI components, add them to this panel
-		JPanel titlePanel = new JPanel();
-		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		titleLabel = new JLabel(localizedBundle.getString("greetings"));
-		Font myFont = new Font("Arial", Font.BOLD, 24);
-		titleLabel.setFont(myFont);
-		titlePanel.add(titleLabel);
-		add(titlePanel);
+		//JPanel titlePanel = new JPanel();
+		//titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		
+		add(createGreeting());
+		
+		//titleLabel = new JLabel(localizedBundle.getString("greetings"));
+		//Font myFont = new Font("Arial", Font.BOLD, 24);
+		//titleLabel.setFont(myFont);
+		//titlePanel.add(titleLabel);
+		//add(titlePanel);
 		add(dataEntryFields());
 		add(navigationButtons());
 
@@ -78,6 +85,44 @@ public class LoginView extends JPanel implements ActionListener
 	public void paint(Graphics g) {
 		super.paint(g);
 		bannerID.requestFocus();
+	}
+	
+	private JPanel createGreeting()
+	{
+		JPanel temp = new JPanel();
+		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		
+		BufferedImage logo = null;
+		BufferedImage reverseLogo = null;
+		
+		try
+		{
+			logo = ImageIO.read(new File("images/logo.jpg"));
+			JLabel picLabel = new JLabel(new ImageIcon(logo));
+			temp.add(picLabel);
+		}
+		catch(IOException e)
+		{
+			System.out.println("Cannot load logo");
+		}
+		
+		JLabel titleLabel = new JLabel(localizedBundle.getString("greetings"));
+		Font myFont = new Font("Arial", Font.BOLD, 24);
+		titleLabel.setFont(myFont);
+		temp.add(titleLabel);
+		
+		try
+		{
+			reverseLogo = ImageIO.read(new File("images/logo_reversed.jpg"));
+			JLabel rightLabel = new JLabel(new ImageIcon(reverseLogo));
+			temp.add(rightLabel);
+		}
+		catch(IOException e)
+		{
+			System.out.println("Cannot load logo");
+		}
+		
+		return temp;
 	}
 	
 	private JPanel createStatusLog(String initialMessage) {
@@ -99,7 +144,7 @@ public class LoginView extends JPanel implements ActionListener
 
 		// data entry fields
 		JPanel entryFieldPanel = new JPanel();
-		entryFieldPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		entryFieldPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		useridLabel = new JLabel("BannerID");
 		entryFieldPanel.add(useridLabel);
@@ -111,7 +156,7 @@ public class LoginView extends JPanel implements ActionListener
 		dataEntryPanel.add(entryFieldPanel);
 
 		JPanel dataFieldPanel2 = new JPanel();
-		dataFieldPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
+		dataFieldPanel2.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		passwordLabel = new JLabel(localizedBundle.getString("password") + ": ");
 		dataFieldPanel2.add(passwordLabel);
@@ -124,7 +169,7 @@ public class LoginView extends JPanel implements ActionListener
 
 		JPanel dataFieldPanel3 = new JPanel();
 
-		dataFieldPanel3.setLayout(new FlowLayout(FlowLayout.LEFT));
+		dataFieldPanel3.setLayout(new FlowLayout(FlowLayout.CENTER));
 		ButtonGroup LanguageButtons = new ButtonGroup();
 
 		selectLanguageLabel = new JLabel(localizedBundle.getString("chooseLanguage"));
