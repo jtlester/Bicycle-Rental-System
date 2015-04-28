@@ -1,21 +1,13 @@
 // system imports
-import java.awt.event.*;
-import userinterface.*;
-import javax.swing.*;
-import java.util.*;
-import java.awt.*;
-import java.io.*;
-import model.*;
-
-// project imports
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.UIManager;
+import model.Peon;
+import userinterface.MainFrame;
+import userinterface.WindowPosition;
 import event.Event;
-import event.EventLog;
-import common.PropertyFile;
-
 
 public class BikeSystem {
-	private Peon peon;
-
 	/** Main frame of the application */
 	private MainFrame mainFrame;
 
@@ -46,9 +38,6 @@ public class BikeSystem {
 		// Create the top-level container (main frame) and add contents to it.
 		mainFrame = MainFrame.getInstance("Brockport Bike Rental System v2.00");
 
-		// put in icon for window border and toolbar
-		Toolkit myToolkit = Toolkit.getDefaultToolkit();
-
 		/*   File iconFile = new File("ATM.jpg");
 
 	    if (iconFile.exists() == true)
@@ -66,7 +55,7 @@ public class BikeSystem {
 		});
 
 		try {
-			peon = new Peon();
+			new Peon();
 		} catch(Exception ex) {
 			System.err.println("ERROR: Could not create peon!");
 			new Event(Event.getLeafLevelClassName(this), "Peon.<init>", "Unable to create Peon object", Event.ERROR);

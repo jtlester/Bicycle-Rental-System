@@ -3,54 +3,44 @@ package userinterface;
 // system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.awt.GridLayout;
-import java.util.Properties;
-import java.util.EventObject;
-import java.util.Date;
-
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.text.NumberFormat;
-import java.awt.*;
-
-import javax.swing.*;
-
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import model.DateLabelFormatter;
+import model.LocaleConfig;
+import model.Peon;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-
-// project imports
-import impresario.IModel;
-import model.*;
-
 //Add UserView
 public class UserView extends JPanel implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Peon peon;
 
-	private JLabel firstNameLabel;
 	private JTextField firstNameTextField;
 
-	private JLabel lastNameLabel;
 	private JTextField lastNameTextField;
 
-	private JLabel bannerLabel;
 	private JTextField bannerTextField;
 
-	private JLabel emailLabel;
 	private JTextField emailTextField;
 
-	private JLabel phoneLabel;
 	private JTextField phoneTextField;
 
 	private JButton submitButton;
@@ -165,8 +155,7 @@ public class UserView extends JPanel implements ActionListener {
 	}
 	
 	//Create Date
-	private JPanel createDate()
-	{
+	private JPanel createDate() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		

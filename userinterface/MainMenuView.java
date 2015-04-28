@@ -2,38 +2,38 @@
 package userinterface;
 
 // system imports
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Locale;
-import java.util.Properties;
-import java.util.EventObject;
 import java.util.ResourceBundle;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.border.*;
-import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.text.NumberFormat;
-
+import model.LocaleConfig;
+import model.Peon;
 // project imports
-import impresario.IModel;
-import model.*;
-import userinterface.LoginView;
 
 public class MainMenuView extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Peon man;
 	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, renewBikeButton;
-	private JLabel userLabel, workerLabel, bicycleLabel, loggedInUser;
+	private JLabel userLabel, bicycleLabel, loggedInUser;
 
 	private MessageView statusLog;
 
@@ -134,12 +134,12 @@ public class MainMenuView extends JPanel implements ActionListener {
 		doneButton = new JButton(localizedBundle.getString("exit"));
 		doneButton.addActionListener(this);
 		temp.add(doneButton);
-		temp.setAlignmentY(doneButton.CENTER_ALIGNMENT);
+		temp.setAlignmentY(Component.CENTER_ALIGNMENT);
 		
 		logoutButton = new JButton(localizedBundle.getString("logout"));
 		logoutButton.addActionListener(this);
 		temp.add(logoutButton);
-		temp.setAlignmentY(logoutButton.CENTER_ALIGNMENT);
+		temp.setAlignmentY(Component.CENTER_ALIGNMENT);
 		
 		return temp;
 	}

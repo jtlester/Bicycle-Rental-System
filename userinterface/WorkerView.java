@@ -4,50 +4,39 @@ package userinterface;
 // system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.awt.GridLayout;
-import java.util.Properties;
-import java.util.EventObject;
-import java.util.Date;
-
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.text.NumberFormat;
-import java.awt.*;
-
-import javax.swing.*;
-
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import model.DateLabelFormatter;
+import model.LocaleConfig;
+import model.Peon;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-
-
 // project imports
-import impresario.IModel;
-import model.*;
 
 public class WorkerView extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Peon peon;
-	private JLabel firstNameLabel;
 	private JTextField firstNameTextField;
-	private JLabel lastNameLabel;
 	private JTextField lastNameTextField;
-	private JLabel bannerLabel;
 	private JTextField bannerTextField;
-	private JLabel emailLabel;
 	private JTextField emailTextField;
-	private JLabel phoneLabel;
 	private JTextField phoneTextField;
-	private JLabel passwordLabel;
 	private JPasswordField passwordTextField;
 	private JButton submitButton;
 	private JButton backButton;
@@ -175,30 +164,6 @@ public class WorkerView extends JPanel implements ActionListener {
 		return temp;
 	}
 	
-	private JPanel createCalendar()
-	{
-		final JPanel p = new JPanel();
-		
-		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
-		
-		//DatePicker dp = new DatePicker(p);
-		
-		JLabel label = new JLabel(localizedBundle.getString("registrationDate") + ": ");
-        final JTextField text = new JTextField(20);
-        JButton b = new JButton("...");
-        //JPanel p = new JPanel();
-        p.add(label);
-        p.add(text);
-        p.add(b);
-        b.addActionListener(new ActionListener() {
-                 public void actionPerformed(ActionEvent ae) {
-                         text.setText(new DatePicker(p).setPickedDate());
-                 }
-         });
-		
-		return p;
-	}
-	
 	public void displayErrorMessage(String message) {
 		statusLog.displayErrorMessage(message);
 	}
@@ -215,7 +180,7 @@ public class WorkerView extends JPanel implements ActionListener {
 		if(event.getSource() == submitButton) {
 			if (bannerTextField.getText().equals("")) {
 				peon.errorMessagePopup("bannerId");
-			} else if (passwordTextField.getText().equals("")) {
+			} else if (passwordTextField.getPassword().equals("")) {
 				peon.errorMessagePopup("password");
 			} else if(firstNameTextField.getText().equals("")) {
 				peon.errorMessagePopup("firstName");
@@ -233,7 +198,7 @@ public class WorkerView extends JPanel implements ActionListener {
 					
 				Properties workerProperties = new Properties();
 				workerProperties.setProperty("bannerId",bannerTextField.getText());
-				workerProperties.setProperty("password",passwordTextField.getText());
+				workerProperties.setProperty("password",String.valueOf(passwordTextField.getPassword()));
 				workerProperties.setProperty("adminLevel",(String)adminComboBox.getSelectedItem());
 				workerProperties.setProperty("firstName",firstNameTextField.getText());
 				workerProperties.setProperty("lastName",lastNameTextField.getText());

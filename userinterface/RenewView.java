@@ -3,49 +3,44 @@ package userinterface;
 // system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.util.Locale;
 import java.awt.GridLayout;
-import java.util.Properties;
-import java.util.EventObject;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.text.NumberFormat;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import model.Bicycle;
+import model.LocaleConfig;
+import model.Peon;
 // project imports
-import impresario.IModel;
-import model.*;
 
 public class RenewView extends JPanel implements ActionListener {
-    private Peon peon;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Peon peon;
     private JTextField bikeTextField;
     private JButton findButton;
-    private JLabel makeLabel;
     private JTextField makeTextField;
-    private JLabel modelLabel;
     private JTextField modelTextField;
-    private JLabel bikeConditionLabel;
     private JComboBox bikeConditionComboBox;
-    //private JTextField bikeConditionTextField;
-    private JLabel colorLabel;
-    //private JTextField colorTextField;
     private JComboBox colorComboBox;
-    private JLabel serialNumberLabel;
     private JTextField serialNumberTextField;
-    private JLabel locationOnCampusLabel;
     private JTextField locationOnCampusTextField;
-    private JLabel descriptionLabel;
     private JTextField descriptionTextField;
     private JComboBox rentalComboBox;
     private JButton submitButton;
@@ -57,7 +52,6 @@ public class RenewView extends JPanel implements ActionListener {
     private String BIKEID;
     public Bicycle Bike;
     public ResourceBundle localizedBundle;
-    
     
     public RenewView(Peon p) {
         peon = p;
@@ -88,7 +82,8 @@ public class RenewView extends JPanel implements ActionListener {
         return statusLog;
     }
     //USED TO GET VALUE FOR ComboBoxes so French and English will be set to correct values
-    private void setupColorHash()
+    @SuppressWarnings("unchecked")
+	private void setupColorHash()
     {
          color = new HashMap();
          color.put("Red", 0);
@@ -101,7 +96,8 @@ public class RenewView extends JPanel implements ActionListener {
          color.put("Black", 7);
          color.put("White", 8); 
     }
-    private void setupConditionHash()
+    @SuppressWarnings("unchecked")
+	private void setupConditionHash()
     {
          condition = new HashMap();
          condition.put("New", 0);
@@ -109,7 +105,8 @@ public class RenewView extends JPanel implements ActionListener {
          condition.put("Fair", 2);
          condition.put("Poor", 3);
     }
-    private void statusHash()
+    @SuppressWarnings("unchecked")
+	private void statusHash()
     {
         status = new HashMap();
          status.put("In", 0);

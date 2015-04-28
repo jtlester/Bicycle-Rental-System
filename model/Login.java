@@ -2,13 +2,12 @@
 package model;
 
 // system imports
-import java.sql.*;
-import java.util.*;
-import javax.swing.*;
-
 //GUI Imports
 import impresario.IView;
-import database.*;
+
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.Vector;
 
 public class Login extends EntityBase implements IView {
         

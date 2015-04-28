@@ -13,25 +13,25 @@
 package model;
 
 // system imports
-import java.io.File;
+import impresario.IModel;
+import impresario.ISlideShow;
+import impresario.IView;
+import impresario.ModelRegistry;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Properties;
-import java.util.Vector;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-// project imports
-import database.Persistable;
-import impresario.ModelRegistry;
-import impresario.IModel;
-import impresario.IView;
-import impresario.ISlideShow;
-import event.Event;
 import userinterface.MainFrame;
 import userinterface.WindowPosition;
+// project imports
+import database.Persistable;
+import event.Event;
 
 
 /** The superclass for all Fast Trax Model Entities that are also

@@ -74,7 +74,6 @@ public class WindowPosition
 	{
 		if (c != null) 
 		{
-			Dimension d = c.getSize();
 			Point loc = new Point(0, 0);
 			c.setLocation(loc);
 		}

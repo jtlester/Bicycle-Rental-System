@@ -13,30 +13,27 @@
 package userinterface;
 
 // system imports
+import impresario.ControlRegistry;
+import impresario.IControl;
+import impresario.IModel;
+import impresario.IView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
-import java.util.Vector;
 import java.util.EventObject;
 import javax.swing.JPanel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 
-// project imports
-import common.StringList;
-import impresario.IView;
-import impresario.IModel;
-import impresario.IControl;
-import impresario.ControlRegistry;
-
-//==============================================================
 public abstract class View extends JPanel
 	implements IView, IControl, ActionListener, FocusListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// private data
 	protected IModel myModel;
 	protected ControlRegistry myRegistry;

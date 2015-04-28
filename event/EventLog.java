@@ -359,7 +359,6 @@ public class EventLog
 		StringList paramStringList = new StringList(paramList);
 		while (paramStringList.hasMoreElements())
 		{
-			String dum = (String)paramStringList.nextElement();
 			numOfParams++;
 		}
 		

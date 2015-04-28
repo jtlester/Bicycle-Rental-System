@@ -15,7 +15,7 @@ package userinterface;
 // system imports
 import javax.swing.JFrame;	
 import javax.swing.JPanel;
-import java.awt.Frame;
+
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 import java.awt.Dimension;
@@ -27,7 +27,13 @@ import java.awt.Dimension;
 public class MainFrame extends JFrame 
 	implements ComponentListener
 {
-    // data members
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// data members
+	@SuppressWarnings("unused")
 	private JPanel mainPanel;	// primary panel placed in the frame
 	
 	private boolean sizeSet;	// record whether the size has been set, prevent resize

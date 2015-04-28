@@ -3,48 +3,36 @@ package userinterface;
 // system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.util.Locale;
 import java.awt.GridLayout;
-import java.util.Properties;
-import java.util.EventObject;
-import java.util.Date;
-import java.util.ResourceBundle;
-
-import javax.swing.BoxLayout;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.text.NumberFormat;
-import java.awt.*;
-
-import javax.swing.*;
-
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import model.DateLabelFormatter;
+import model.LocaleConfig;
+import model.Peon;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-
-
-
-
-
 // project imports
-import impresario.IModel;
-import model.*;
 
 public class ReturnView extends JPanel implements ActionListener {
 	
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Peon peon;
 	private MessageView statusLog;
 	private JTextField bannerTextField, bikeTextField;
-	private JLabel bannerLabel, bikeLabel;
 	private JButton backButton, submitButton;
 	private JComboBox dayComboBox, monthComboBox, yearComboBox;
 	private JDatePickerImpl returnDatePicker;

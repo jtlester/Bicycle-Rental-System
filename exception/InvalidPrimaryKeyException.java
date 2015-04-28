@@ -39,6 +39,11 @@ public class InvalidPrimaryKeyException
 	extends Exception
 {	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Constructor with message
 	 *
 	 * @param mesg The message associated with the exception

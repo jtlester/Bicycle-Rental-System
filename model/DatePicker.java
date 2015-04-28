@@ -1,21 +1,18 @@
 package model;
 
 import java.awt.BorderLayout;
-   import java.awt.Color;
-   import java.awt.Dimension;
-   import java.awt.GridLayout;
-   import java.awt.event.ActionEvent;
-   import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-   import javax.swing.JButton;
-   import javax.swing.JDialog;
-   import javax.swing.JFrame;
-   import javax.swing.JLabel;
-   import javax.swing.JPanel;
-   import javax.swing.JTextField;
-   
-   import java.util.Locale;
-   import java.util.ResourceBundle;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
  public class DatePicker {
  public ResourceBundle localizedBundle;
@@ -83,7 +80,9 @@ import java.awt.BorderLayout;
  }
  private void setHeader()
  {
-    String [] header = {localizedBundle.getString("sun"),localizedBundle.getString("mon"),localizedBundle.getString("tue"),localizedBundle.getString("wed"),localizedBundle.getString("thu"),localizedBundle.getString("fri"),localizedBundle.getString("sat")};
+    @SuppressWarnings("unused")
+	String [] header;
+	header = new String[] {localizedBundle.getString("sun"),localizedBundle.getString("mon"),localizedBundle.getString("tue"),localizedBundle.getString("wed"),localizedBundle.getString("thu"),localizedBundle.getString("fri"),localizedBundle.getString("sat")};
  }
 
  public void displayDate() {

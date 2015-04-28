@@ -2,15 +2,12 @@
 package model;
 
 //Imports
-import java.sql.*;
-import java.util.*;
-import javax.swing.*;
-
-// project imports
-import database.*;
 import impresario.IView;
-import userinterface.View;
-import exception.*;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.Vector;
+import exception.InvalidPrimaryKeyException;
 
 public class Worker extends EntityBase implements IView {
 	private static final String myTableName = "Worker";
@@ -25,7 +22,7 @@ public class Worker extends EntityBase implements IView {
 		setDependencies();
 		
 		String query = "SELECT * FROM " + myTableName + "WHERE (bannerId = " + bannerId + ")";
-		Vector<Properties> allDataRetrieved =  getSelectQueryResult(query);
+		Vector allDataRetrieved =  getSelectQueryResult(query);
 		
 		//Need to bring back at least one worker, error checking here
 		if(allDataRetrieved != null) {

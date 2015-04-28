@@ -1,7 +1,6 @@
-// specify the package
 package model;
 
-// system imports
+//System imports
 import java.sql.*;
 import java.util.*;
 //GUI Imports
@@ -14,7 +13,6 @@ public class Bicycle extends EntityBase implements IView {
     protected Properties dependencies;
 	Properties bikeInfo;
 	public String make, model, color, condition,serialNumber, locationOnCampus, description, status;
-
     
     // GUI Components
     private String updateStatusMessage = "";

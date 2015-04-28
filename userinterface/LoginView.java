@@ -1,39 +1,39 @@
 package userinterface;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import java.util.ResourceBundle;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
-
-// system imports
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.Properties;
-import java.util.EventObject;
-import java.util.Locale;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.text.NumberFormat;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
+import model.LocaleConfig;
+import model.Peon;
+// system imports
 // project imports
-import impresario.IModel;
-import model.*;
 
 public class LoginView extends JPanel implements ActionListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// GUI stuff
 	private Peon peon;
 	private JTextField bannerID;
@@ -289,7 +289,6 @@ public class LoginView extends JPanel implements ActionListener
 		// clear fields for next time around
 		bannerID.setText("");
 		password.setText("");
-		String Languege = new String();
 		if (English.isSelected() == true) {
 			LocaleConfig.setLocale(new Locale("en", "US"));
 		} else {

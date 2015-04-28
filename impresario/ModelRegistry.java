@@ -24,10 +24,9 @@
 package impresario;
 
 // system imports
-import java.util.Hashtable;
-import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Vector;
 
 // project imports
 import common.PropertyFile;
@@ -108,12 +107,6 @@ public class ModelRegistry extends Registry
 
 		// now update all the subscribers to the changed key
 		StringList propertyList = new StringList(key  + "," + myDependencies.getProperty(key));
-		if (propertyList == null)
-		{
-			//System.out.println("ModelRegistry[" + myClassName + "].updateSubscribers - no dependencies found for key" + key);
-			return;  // do nothing
-		}
-
 		while(propertyList.hasMoreElements() == true)
 		{
 			// pick out each dependant property from the list

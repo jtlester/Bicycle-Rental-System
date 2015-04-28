@@ -25,14 +25,7 @@ package impresario;
 // system imports
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Properties;
-
 // project imports
-import common.PropertyFile;
-import common.StringList;
-
-import event.Event;
 
 /** 
  * This class is used to instantiate the object that is encapsulated
@@ -74,6 +67,7 @@ public abstract class Registry
 	 * @param	subscriber	Object that wishes to subscribe to the key
 	 */
 	//----------------------------------------------------------
+	@SuppressWarnings("unchecked")
 	public void subscribe(String key, Object subscriber)
 	{
 		// debug only, doesn't need translation
