@@ -46,6 +46,8 @@ public class UserView extends JPanel implements ActionListener {
 
 	private JButton submitButton;
 	private JButton backButton;
+	
+	private JComboBox monthComboBox, dayComboBox, yearComboBox;
 
     public ResourceBundle localizedBundle;
 	
@@ -70,6 +72,7 @@ public class UserView extends JPanel implements ActionListener {
 		So the methods should be called what the JPanels are called, not "create...". 
 		This way, below this you can add(dataEntryPanel) which is more concise and reads better*/
 		add(dataEntryPanel());
+		add(createDate());
 		add(navigationPanel());
 
 		add(createStatusLog("                          "));
@@ -146,6 +149,37 @@ public class UserView extends JPanel implements ActionListener {
 
 		return navPanel;
 	}
+	
+	//Create Date
+	private JPanel createDate()
+	{
+		JPanel temp = new JPanel();
+		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		//Date
+		//dayComboBox = new JComboBox();
+		
+		JLabel registrationDate = new JLabel("Date of Registration (dd-mm-yyyy): ");
+		String [] dayPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
+		"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+		dayComboBox = new JComboBox(dayPossibilities);
+		dayComboBox.addActionListener(this);
+		temp.add(registrationDate);
+		temp.add(dayComboBox);
+		
+		//monthComboBox = new JComboBox();
+		String [] monthPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+		monthComboBox = new JComboBox(monthPossibilities);
+		monthComboBox.addActionListener(this);
+		temp.add(monthComboBox);
+		
+		//yearComboBox = new JComboBox();
+		String [] yearPossibilities = {"---", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"};
+		yearComboBox = new JComboBox(yearPossibilities);
+		yearComboBox.addActionListener(this);
+		temp.add(yearComboBox);
+		
+		return temp;
+	}
 
 	public void displayMessage(String message) {
 		statusLog.displayMessage(message);
@@ -178,12 +212,17 @@ public class UserView extends JPanel implements ActionListener {
 				peon.errorMessagePopup("email");
 			}
 			else {
+					String month = (String)monthComboBox.getSelectedItem();
+					String year = (String)yearComboBox.getSelectedItem();
+					String day = (String)dayComboBox.getSelectedItem();
+					
 					Properties userProperties = new Properties();
 					userProperties.setProperty("bannerId",bannerTextField.getText());
 					userProperties.setProperty("firstName",firstNameTextField.getText());
 					userProperties.setProperty("lastName",lastNameTextField.getText());
 					userProperties.setProperty("phoneNumber",phoneTextField.getText());
 					userProperties.setProperty("email",emailTextField.getText());
+					userProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
 
 					peon.processUserData(userProperties);
 					
@@ -192,6 +231,9 @@ public class UserView extends JPanel implements ActionListener {
 					lastNameTextField.setText("");
 					phoneTextField.setText("");
 					emailTextField.setText("");
+					dayComboBox.setSelectedIndex(0);
+					monthComboBox.setSelectedIndex(0);
+					yearComboBox.setSelectedIndex(0);
 				
 			}
 			

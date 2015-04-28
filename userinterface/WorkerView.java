@@ -43,7 +43,7 @@ public class WorkerView extends JPanel implements ActionListener {
 	private JPasswordField passwordTextField;
 	private JButton submitButton;
 	private JButton backButton;
-	private JComboBox adminComboBox;
+	private JComboBox adminComboBox, dayComboBox, monthComboBox, yearComboBox;
 	private MessageView statusLog;
 
     public ResourceBundle localizedBundle;
@@ -64,8 +64,8 @@ public class WorkerView extends JPanel implements ActionListener {
 		add(titlePanel);
 
 		add(dataEntryPanel());
-		add(createCalendar());
-		add(choiceBox());
+		add(createDate());
+		//add(choiceBox());
 		
 		add(navigationPanel());
 
@@ -143,23 +143,35 @@ public class WorkerView extends JPanel implements ActionListener {
 		return navPanel;
 	}
 	
-	// Create the combo box
-	private JPanel choiceBox() {
-		JPanel cBox = new JPanel();		// default FlowLayout is fine
-		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
-		f1.setVgap(8);
-		f1.setHgap(25);
-		cBox.setLayout(f1);
+	//Create Date
+	private JPanel createDate()
+	{
+		JPanel temp = new JPanel();
+		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		//Date
+		//dayComboBox = new JComboBox();
 		
-		JLabel adminLabel = new JLabel(localizedBundle.getString("administrator") + "?");
-		cBox.add(adminLabel);
+		JLabel registrationDate = new JLabel("Date of Registration (dd-mm-yyyy): ");
+		String [] dayPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
+		"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+		dayComboBox = new JComboBox(dayPossibilities);
+		dayComboBox.addActionListener(this);
+		temp.add(registrationDate);
+		temp.add(dayComboBox);
 		
-		String [] adminPossibilites = { localizedBundle.getString("yes"), localizedBundle.getString("no") };
-		adminComboBox = new JComboBox(adminPossibilites);
-		adminComboBox.addActionListener(this);
-		cBox.add(adminComboBox);
+		//monthComboBox = new JComboBox();
+		String [] monthPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+		monthComboBox = new JComboBox(monthPossibilities);
+		monthComboBox.addActionListener(this);
+		temp.add(monthComboBox);
 		
-		return cBox;
+		//yearComboBox = new JComboBox();
+		String [] yearPossibilities = {"---", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"};
+		yearComboBox = new JComboBox(yearPossibilities);
+		yearComboBox.addActionListener(this);
+		temp.add(yearComboBox);
+		
+		return temp;
 	}
 	
 	private JPanel createCalendar()
@@ -213,6 +225,11 @@ public class WorkerView extends JPanel implements ActionListener {
 			} else if(emailTextField.getText() == null) {
 				peon.errorMessagePopup("email");
 			} else {
+				
+				String month = (String)monthComboBox.getSelectedItem();
+				String year = (String)yearComboBox.getSelectedItem();
+				String day = (String)dayComboBox.getSelectedItem();
+					
 				Properties workerProperties = new Properties();
 				workerProperties.setProperty("bannerId",bannerTextField.getText());
 				workerProperties.setProperty("password",passwordTextField.getText());
@@ -221,6 +238,7 @@ public class WorkerView extends JPanel implements ActionListener {
 				workerProperties.setProperty("lastName",lastNameTextField.getText());
 				workerProperties.setProperty("phoneNumber",phoneTextField.getText());
 				workerProperties.setProperty("email",emailTextField.getText());
+				workerProperties.setProperty("registrationDate", day + "-" + month + "-" + year);
 
 				peon.processWorkerData(workerProperties);
 
@@ -230,6 +248,9 @@ public class WorkerView extends JPanel implements ActionListener {
 				lastNameTextField.setText("");
 				phoneTextField.setText("");
 				emailTextField.setText("");
+				dayComboBox.setSelectedIndex(0);
+				monthComboBox.setSelectedIndex(0);
+				yearComboBox.setSelectedIndex(0);
 			}
 		} else if (event.getSource() == backButton) {
 			peon.workerDataDone();

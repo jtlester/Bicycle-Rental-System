@@ -32,8 +32,8 @@ public class ReturnView extends JPanel implements ActionListener {
 	private MessageView statusLog;
 	private JTextField bannerTextField, bikeTextField;
 	private JLabel bannerLabel, bikeLabel;
-	private final JTextField date = new JTextField(20);
 	private JButton backButton, submitButton;
+	private JComboBox dayComboBox, monthComboBox, yearComboBox;
 
     public ResourceBundle localizedBundle;
 	
@@ -53,7 +53,7 @@ public class ReturnView extends JPanel implements ActionListener {
 		titlePanel.add(mainLabel);
 		add(titlePanel);
 		add(dataEntryPanel());
-		add(createCalendar());
+		add(createDate());
 		add(navigationPanel());
 		
 		
@@ -92,24 +92,34 @@ public class ReturnView extends JPanel implements ActionListener {
 		return entryPanel;
 	}
 	
-	//CREATE CALENDAR
-	private JPanel createCalendar()
+	//Create Date
+	private JPanel createDate()
 	{
-		//MAKE CALENDAR
-		final JPanel temp = new JPanel();
-		//FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
+		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel returnLabel = new JLabel("Return Date");
-		//date = new JTextField(20);
-		JButton showCal = new JButton("...");
-		temp.add(returnLabel);
-		temp.add(date);
-		temp.add(showCal);
-		showCal.addActionListener(new ActionListener(){
-									public void actionPerformed(ActionEvent ae) {
-											date.setText(new DatePicker(temp).setPickedDate());
-									}
-								});
+		//Date
+		//dayComboBox = new JComboBox();
+		
+		JLabel returnDateLabel = new JLabel("Date of Return (dd-mm-yyyy): ");
+		String [] dayPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
+		"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+		dayComboBox = new JComboBox(dayPossibilities);
+		dayComboBox.addActionListener(this);
+		temp.add(returnDateLabel);
+		temp.add(dayComboBox);
+		
+		//monthComboBox = new JComboBox();
+		String [] monthPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+		monthComboBox = new JComboBox(monthPossibilities);
+		monthComboBox.addActionListener(this);
+		temp.add(monthComboBox);
+		
+		//yearComboBox = new JComboBox();
+		String [] yearPossibilities = {"---", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"};
+		yearComboBox = new JComboBox(yearPossibilities);
+		yearComboBox.addActionListener(this);
+		temp.add(yearComboBox);
+		
 		return temp;
 	}
 	
@@ -159,23 +169,31 @@ public class ReturnView extends JPanel implements ActionListener {
 			{
 				peon.errorMessagePopup("bikeId");
 			}
-			else if(date.getText().equals(""))
-			{
-				peon.errorMessagePopup("noDate");
-			}
 			else
 			{
+				String month = (String)monthComboBox.getSelectedItem();
+				String year = (String)yearComboBox.getSelectedItem();
+				String day = (String)dayComboBox.getSelectedItem();
+				
 				Properties returnBikeProperties = new Properties();
 				returnBikeProperties.setProperty("bikeId", bikeTextField.getText());
 				returnBikeProperties.setProperty("bannerId", bannerTextField.getText());
-				returnBikeProperties.setProperty("returnDate", date.getText());
+				returnBikeProperties.setProperty("returnDate", day + "-" + month + "-" + year);
 				returnBikeProperties.setProperty("status", "Inactive");
 				
 				peon.processReturnData(returnBikeProperties);
 				
+				Properties statusChange = new Properties();
+				statusChange.setProperty("bikeId", bikeTextField.getText());
+				statusChange.setProperty("status", "Available");
+				peon.changeStatus(statusChange);
+				
 				bannerTextField.setText("");
 				bikeTextField.setText("");
-				date.setText("");
+				dayComboBox.setSelectedIndex(0);
+				monthComboBox.setSelectedIndex(0);
+				yearComboBox.setSelectedIndex(0);
+				//date.setText("");
 			}
 		}
 		else if(event.getSource() == backButton)

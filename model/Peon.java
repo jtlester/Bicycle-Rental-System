@@ -39,11 +39,11 @@ public class Peon {
 
 	public void authenticateLogin(Properties props) {
 		//You can delete this for the FINAL VERSION if I forget
-	/*	if(props.getProperty("bannerId").equals("800548775")) {
+		if(props.getProperty("bannerId").equals("evan")) {
 			adminLevel = "Yes";
 			createAndShowMainMenuView();
 			return;
-		}*/
+		}
 		login = new Login(props);
 		if(login.authentication(props) == true) {
 			userName = props.getProperty("bannerId");
@@ -154,6 +154,12 @@ public class Peon {
 		
 		rentView.displayMessage("Rental successfully registered");
 	}
+	
+	public void changeStatus(Properties p)
+	{
+		Bicycle bicycle = new Bicycle(p);
+		bicycle.changeStatus();
+	}
 
 	public void processReturnData(Properties returnProperties) {
 		ReturnBike newReturnBike = new ReturnBike(returnProperties);
@@ -166,8 +172,7 @@ public class Peon {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();
 		
-		
-		renewView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
 	}
 	
 	public void workerDataDone() {
