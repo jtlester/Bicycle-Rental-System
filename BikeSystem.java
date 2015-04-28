@@ -22,7 +22,7 @@ public class BikeSystem {
 	// constructor for this class, the main application object
 	//----------------------------------------------------------
 	public BikeSystem(String[] args) {
-		System.out.println("\nBike Rental System Version 1.01");
+		System.out.println("\nBike Rental System Version 2.00");
 		System.out.println("Copyright 2015 Josh Lester, Danielle Drzewiecki, Evan Lewis, Zachary Beardsley, Jeremy LaPlant");
 
 		// figure out the desired look and feel
@@ -44,7 +44,7 @@ public class BikeSystem {
 		}
 
 		// Create the top-level container (main frame) and add contents to it.
-		mainFrame = MainFrame.getInstance("Brockport Bike Rental System v1.01");
+		mainFrame = MainFrame.getInstance("Brockport Bike Rental System v2.00");
 
 		// put in icon for window border and toolbar
 		Toolkit myToolkit = Toolkit.getDefaultToolkit();

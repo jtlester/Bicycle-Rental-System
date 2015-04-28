@@ -5,8 +5,11 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-//==============================================================================
 public class BicycleTableModel extends AbstractTableModel implements TableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Vector myState;
 
 	public BicycleTableModel(Vector bicycleData) {
@@ -26,7 +29,6 @@ public class BicycleTableModel extends AbstractTableModel implements TableModel 
 		return "    " + bicycle.elementAt(columnIndex);
 	}
 
-	//--------------------------------------------------------------------------
 	public String getColumnName(int columnIndex) {
 		if(columnIndex == 0) {
 			return "bicycleId";

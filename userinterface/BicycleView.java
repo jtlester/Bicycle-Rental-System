@@ -3,53 +3,52 @@ package userinterface;
 // system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.util.Locale;
 import java.awt.GridLayout;
-import java.util.Properties;
-import java.util.EventObject;
-import java.util.Date;
-import java.util.ResourceBundle;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.text.NumberFormat;
-import java.awt.*;
-import javax.swing.*;
-// project imports
-import impresario.IModel;
-import model.*;
+import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+import model.DateLabelFormatter;
+import model.LocaleConfig;
+import model.Peon;
 
 public class BicycleView extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Peon peon;
-	private JLabel makeLabel;
 	private JTextField makeTextField;
-	private JLabel modelLabel;
 	private JTextField modelTextField;
-	private JLabel bikeConditionLabel;
 	private JComboBox bikeConditionComboBox;
-	//private JTextField bikeConditionTextField;
-	private JLabel colorLabel;
 	//private JTextField colorTextField;
 	private JComboBox colorComboBox;
-	private JLabel serialNumberLabel;
 	private JTextField serialNumberTextField;
-	private JLabel locationOnCampusLabel;
 	private JTextField locationOnCampusTextField;
-	private JLabel descriptionLabel;
 	private JTextField descriptionTextField;
-	private JComboBox rentalComboBox;
 	private JButton submitButton;
 	private JButton backButton;
 	private MessageView statusLog;
 	private JComboBox dayComboBox, monthComboBox, yearComboBox;
 
     public ResourceBundle localizedBundle;
+    
+	private JDatePickerImpl rentDatePicker;
+
 	
 	public BicycleView(Peon p) {
 		peon = p;
@@ -149,30 +148,22 @@ public class BicycleView extends JPanel implements ActionListener {
 		//Create Date
 	private JPanel createDate()
 	{
+		//Why is there a rental date for add bicycle? It shouldn't be rented by default when we add one to the database
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		//Date
-		//dayComboBox = new JComboBox();
+		JLabel rentDateLabel = new JLabel(localizedBundle.getString("rentDate") + ": ");
+		temp.add(rentDateLabel);
+
+		UtilDateModel model = new UtilDateModel();
+		model.setSelected(true);
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		rentDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
+		temp.add(rentDatePicker);
 		
-		JLabel registrationDate = new JLabel("Date of Registration (dd-mm-yyyy): ");
-		String [] dayPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-		"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-		dayComboBox = new JComboBox(dayPossibilities);
-		dayComboBox.addActionListener(this);
-		temp.add(registrationDate);
-		temp.add(dayComboBox);
-		
-		//monthComboBox = new JComboBox();
-		String [] monthPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-		monthComboBox = new JComboBox(monthPossibilities);
-		monthComboBox.addActionListener(this);
-		temp.add(monthComboBox);
-		
-		//yearComboBox = new JComboBox();
-		String [] yearPossibilities = {"---", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"};
-		yearComboBox = new JComboBox(yearPossibilities);
-		yearComboBox.addActionListener(this);
-		temp.add(yearComboBox);
 		
 		return temp;
 	}
@@ -243,9 +234,9 @@ public class BicycleView extends JPanel implements ActionListener {
 				peon.errorMessagePopup("location");
 			}
 			else {
-				String month = (String)monthComboBox.getSelectedItem();
-				String year = (String)yearComboBox.getSelectedItem();
-				String day = (String)dayComboBox.getSelectedItem();
+				String day = String.valueOf(rentDatePicker.getModel().getDay());
+				String month = String.valueOf(rentDatePicker.getModel().getMonth() + 1);
+				String year = String.valueOf(rentDatePicker.getModel().getYear());
 				
 				Properties bicycleProperties = new Properties();
 				bicycleProperties.setProperty("make",makeTextField.getText());

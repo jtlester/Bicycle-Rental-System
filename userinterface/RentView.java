@@ -10,17 +10,29 @@ import java.util.Properties;
 import java.util.EventObject;
 import java.util.Date;
 import java.util.ResourceBundle;
+
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.awt.*;
+
 import javax.swing.*;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+
 // project imports
 import impresario.IModel;
 import model.*;
@@ -34,6 +46,8 @@ public class RentView extends JPanel implements ActionListener {
 	private JLabel bannerLabel, bikeLabel, makeLabel, modelLabel, colorLabel, serialNumberLabel, locationOnCampusLabel, descriptionLabel;
 	private JButton backButton, submitButton, findButton;
 	public Bicycle newBike;
+	private JDatePickerImpl rentDatePicker;
+	private JDatePickerImpl dueDatePicker;
 	private JComboBox dueDateDayComboBox, dueDateMonthComboBox, dueDateYearComboBox, rentDateDayComboBox, rentDateMonthComboBox, rentDateYearComboBox;
 
     public ResourceBundle localizedBundle;
@@ -62,7 +76,6 @@ public class RentView extends JPanel implements ActionListener {
 		add(createDueDate());
 		add(navigationPanel());
 		
-		
 		add(createStatusLog("                      "));
 		
 	}
@@ -82,7 +95,7 @@ public class RentView extends JPanel implements ActionListener {
 		
 		//ENTRY FIELDS 
 		//BANNER ID
-		JLabel bannerLabel = new JLabel("Banner ID of the renter:");
+		JLabel bannerLabel = new JLabel(localizedBundle.getString("renterBannerId") + ": ");
 		bannerTextField = new JTextField(20);
 		bannerTextField.addActionListener(this);
 		entryPanel.add(bannerLabel);
@@ -93,17 +106,17 @@ public class RentView extends JPanel implements ActionListener {
 	
 	private JPanel createBikeSearchFunction()
 	{
-				//BIKE ID ENTRY FELDS
+		//BIKE ID ENTRY FELDS
 		JPanel temp = new JPanel();
 		FlowLayout layoutOne = new FlowLayout(FlowLayout.CENTER);
 		//layoutOne.setHgap(2);
 		temp.setLayout(layoutOne);
 		//temp.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
 
-		JLabel bikeLabel = new JLabel("Bike ID:");
+		JLabel bikeLabel = new JLabel(localizedBundle.getString("bicycleSerialNumber") + ": ");
 		bikeTextField = new JTextField(20);
 		bikeTextField.addActionListener(this);
-		findButton = new JButton("Find");
+		findButton = new JButton(localizedBundle.getString("find"));
 		findButton.addActionListener(this);
 		temp.add(bikeLabel);
 		temp.add(bikeTextField);
@@ -168,7 +181,7 @@ public class RentView extends JPanel implements ActionListener {
 		entryPanel.add(descriptionTextField); 
 		
 		//Status
-		JLabel statusLabel = new JLabel("Status");
+		JLabel statusLabel = new JLabel(localizedBundle.getString("status"));
 		entryPanel.add(statusLabel);
 		statusTextField = new JTextField(20);
 		statusTextField.addActionListener(this);
@@ -184,29 +197,19 @@ public class RentView extends JPanel implements ActionListener {
 	{
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		//Date
-		//dayComboBox = new JComboBox();
 		
-		JLabel rentDateLabel = new JLabel("Rent Date (dd-mm-yyyy): ");
-		String [] rentDayPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-		"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-		rentDateDayComboBox = new JComboBox(rentDayPossibilities);
-		rentDateDayComboBox.addActionListener(this);
+		JLabel rentDateLabel = new JLabel(localizedBundle.getString("rentDate") + ": ");
 		temp.add(rentDateLabel);
-		temp.add(rentDateDayComboBox);
-		
-		//monthComboBox = new JComboBox();
-		String [] rentMonthPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-		rentDateMonthComboBox = new JComboBox(rentMonthPossibilities);
-		rentDateMonthComboBox.addActionListener(this);
-		temp.add(rentDateMonthComboBox);
-		
-		//yearComboBox = new JComboBox();
-		String [] rentYearPossibilities = {"---", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"};
-		rentDateYearComboBox = new JComboBox(rentYearPossibilities);
-		rentDateYearComboBox.addActionListener(this);
-		temp.add(rentDateYearComboBox);
-		
+
+		UtilDateModel model = new UtilDateModel();
+		model.setSelected(true);
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		rentDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
+		temp.add(rentDatePicker);
 		return temp;
 	}
 	
@@ -215,28 +218,19 @@ public class RentView extends JPanel implements ActionListener {
 	{
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		//Date
-		//dayComboBox = new JComboBox();
 		
-		JLabel dueDateLabel = new JLabel("Due Date (dd-mm-yyyy): ");
-		String [] dayPossibilities = {"---", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
-		"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-		dueDateDayComboBox = new JComboBox(dayPossibilities);
-		dueDateDayComboBox.addActionListener(this);
-		temp.add(dueDateLabel);
-		temp.add(dueDateDayComboBox);
-		
-		//monthComboBox = new JComboBox();
-		String [] monthPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-		dueDateMonthComboBox = new JComboBox(monthPossibilities);
-		dueDateMonthComboBox.addActionListener(this);
-		temp.add(dueDateMonthComboBox);
-		
-		//yearComboBox = new JComboBox();
-		String [] yearPossibilities = {"---", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"};
-		dueDateYearComboBox = new JComboBox(yearPossibilities);
-		dueDateYearComboBox.addActionListener(this);
-		temp.add(dueDateYearComboBox);
+		JLabel rentDateLabel = new JLabel(localizedBundle.getString("dueDate") + ": ");
+		temp.add(rentDateLabel);
+
+		UtilDateModel model = new UtilDateModel();
+		model.setSelected(true);
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		dueDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
+		temp.add(dueDatePicker);
 		
 		return temp;
 	}
@@ -277,6 +271,7 @@ public class RentView extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent event)
 	{
+
 		if(event.getSource() == submitButton)
 		{
 			if(bannerTextField.getText().equals(""))
@@ -289,20 +284,19 @@ public class RentView extends JPanel implements ActionListener {
 			}
 			else
 			{
-				String month = (String)rentDateMonthComboBox.getSelectedItem();
-				String year = (String)rentDateYearComboBox.getSelectedItem();
-				String day = (String)rentDateDayComboBox.getSelectedItem();
+				String day = String.valueOf(rentDatePicker.getModel().getDay());
+				String month = String.valueOf(rentDatePicker.getModel().getMonth() + 1);
+				String year = String.valueOf(rentDatePicker.getModel().getYear());
 				
-				String dayDue = (String)dueDateDayComboBox.getSelectedItem();
-				String yearDue = (String)dueDateYearComboBox.getSelectedItem();
-				String monthDue = (String)dueDateMonthComboBox.getSelectedItem();
+				String dayDue = String.valueOf(dueDatePicker.getModel().getDay());
+				String monthDue = String.valueOf(dueDatePicker.getModel().getMonth() + 1);
+				String yearDue = String.valueOf(dueDatePicker.getModel().getYear());
 				
 				Properties rentBikeProperties = new Properties();
 				rentBikeProperties.setProperty("bikeId", bikeTextField.getText());
 				rentBikeProperties.setProperty("bannerId", bannerTextField.getText());
 				rentBikeProperties.setProperty("rentalDate", day + "-" + month + "-" + year);
-				rentBikeProperties.setProperty("dueDate", dayDue + "-" + monthDue + "-" + yearDue);
-				//returnBikeProperties.setProperty("status", "Inactive");
+				rentBikeProperties.setProperty("dueDate", dayDue + "-" + monthDue + "-" + yearDue);	
 				
 				peon.processRentData(rentBikeProperties);
 				
@@ -313,8 +307,6 @@ public class RentView extends JPanel implements ActionListener {
 				
 				bannerTextField.setText("");
 				bikeTextField.setText("");
-				//date.setText("");
-				//dueDate.setText("");
 				makeTextField.setText("");
 				modelTextField.setText("");
 				colorTextField.setText("");
@@ -328,10 +320,7 @@ public class RentView extends JPanel implements ActionListener {
 				dueDateMonthComboBox.setSelectedIndex(0);
 				dueDateYearComboBox.setSelectedIndex(0);
 			}
-		}
-		else if(event.getSource() == findButton)
-		{
-			//System.out.println("Clicked find button");
+		} else if(event.getSource() == findButton) {
 			Properties bicycleId = new Properties();
 			bicycleId.setProperty("bikeId", bikeTextField.getText());
 			newBike = new Bicycle(bicycleId);

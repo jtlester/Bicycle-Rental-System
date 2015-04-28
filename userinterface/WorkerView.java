@@ -11,17 +11,25 @@ import java.awt.GridLayout;
 import java.util.Properties;
 import java.util.EventObject;
 import java.util.Date;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
 import java.awt.*;
+
 import javax.swing.*;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 
 // project imports
 import impresario.IModel;
@@ -45,6 +53,9 @@ public class WorkerView extends JPanel implements ActionListener {
 	private JButton backButton;
 	private JComboBox adminComboBox, dayComboBox, monthComboBox, yearComboBox;
 	private MessageView statusLog;
+	
+	private JDatePickerImpl registrationDatePicker;
+
 
     public ResourceBundle localizedBundle;
 	
@@ -148,28 +159,18 @@ public class WorkerView extends JPanel implements ActionListener {
 	{
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		//Date
-		//dayComboBox = new JComboBox();
-		
-		JLabel registrationDate = new JLabel("Date of Registration (dd-mm-yyyy): ");
-		String [] dayPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-		"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-		dayComboBox = new JComboBox(dayPossibilities);
-		dayComboBox.addActionListener(this);
-		temp.add(registrationDate);
-		temp.add(dayComboBox);
-		
-		//monthComboBox = new JComboBox();
-		String [] monthPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-		monthComboBox = new JComboBox(monthPossibilities);
-		monthComboBox.addActionListener(this);
-		temp.add(monthComboBox);
-		
-		//yearComboBox = new JComboBox();
-		String [] yearPossibilities = {"---", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"};
-		yearComboBox = new JComboBox(yearPossibilities);
-		yearComboBox.addActionListener(this);
-		temp.add(yearComboBox);
+		JLabel rentDateLabel = new JLabel("Date: ");
+		temp.add(rentDateLabel);
+
+		UtilDateModel model = new UtilDateModel();
+		model.setSelected(true);
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		registrationDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
+		temp.add(registrationDatePicker);
 		
 		return temp;
 	}
@@ -182,7 +183,7 @@ public class WorkerView extends JPanel implements ActionListener {
 		
 		//DatePicker dp = new DatePicker(p);
 		
-		JLabel label = new JLabel("Date of Registration:");
+		JLabel label = new JLabel(localizedBundle.getString("registrationDate") + ": ");
         final JTextField text = new JTextField(20);
         JButton b = new JButton("...");
         //JPanel p = new JPanel();
@@ -226,9 +227,9 @@ public class WorkerView extends JPanel implements ActionListener {
 				peon.errorMessagePopup("email");
 			} else {
 				
-				String month = (String)monthComboBox.getSelectedItem();
-				String year = (String)yearComboBox.getSelectedItem();
-				String day = (String)dayComboBox.getSelectedItem();
+				String day = String.valueOf(registrationDatePicker.getModel().getDay());
+				String month = String.valueOf(registrationDatePicker.getModel().getMonth() + 1);
+				String year = String.valueOf(registrationDatePicker.getModel().getYear());
 					
 				Properties workerProperties = new Properties();
 				workerProperties.setProperty("bannerId",bannerTextField.getText());

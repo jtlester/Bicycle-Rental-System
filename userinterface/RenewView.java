@@ -198,10 +198,10 @@ public class RenewView extends JPanel implements ActionListener {
         temp.setLayout(layoutOne);
         //temp.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
 
-        JLabel bikeLabel = new JLabel("Bike ID:");
+        JLabel bikeLabel = new JLabel(localizedBundle.getString("bicycleSerialNumber") + ": ");
         bikeTextField = new JTextField(20);
         bikeTextField.addActionListener(this);
-        findButton = new JButton("Find");
+        findButton = new JButton(localizedBundle.getString("find"));
         findButton.addActionListener(this);
         temp.add(bikeLabel);
         temp.add(bikeTextField);
@@ -320,9 +320,9 @@ public class RenewView extends JPanel implements ActionListener {
             {
                  bikeConditionComboBox.setSelectedIndex((Integer) condition.get(Bike.getCondition()));
             }
-            if(status.containsKey(Bike.getstatus()))
+            if(status.containsKey(Bike.getStatus()))
             {
-                 rentalComboBox.setSelectedIndex((Integer) status.get(Bike.getstatus()));
+                 rentalComboBox.setSelectedIndex((Integer) status.get(Bike.getStatus()));
             }
 
             serialNumberTextField.setText(Bike.getSerial());

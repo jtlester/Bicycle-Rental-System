@@ -10,17 +10,30 @@ import java.util.Properties;
 import java.util.EventObject;
 import java.util.Date;
 import java.util.ResourceBundle;
+
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
 import java.awt.*;
+
 import javax.swing.*;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+
+
+
+
 // project imports
 import impresario.IModel;
 import model.*;
@@ -34,6 +47,7 @@ public class ReturnView extends JPanel implements ActionListener {
 	private JLabel bannerLabel, bikeLabel;
 	private JButton backButton, submitButton;
 	private JComboBox dayComboBox, monthComboBox, yearComboBox;
+	private JDatePickerImpl returnDatePicker;
 
     public ResourceBundle localizedBundle;
 	
@@ -76,14 +90,14 @@ public class ReturnView extends JPanel implements ActionListener {
 		
 		//ENTRY FIELDS 
 		//BANNER ID
-		JLabel bannerLabel = new JLabel("Banner ID of the renter:");
+		JLabel bannerLabel = new JLabel(localizedBundle.getString("renterBannerId") + ": ");
 		bannerTextField = new JTextField(20);
 		bannerTextField.addActionListener(this);
 		entryPanel.add(bannerLabel);
 		entryPanel.add(bannerTextField);
 		
 		//BIKE ID ENTRY FELDS
-		JLabel bikeLabel = new JLabel("Bike ID:");
+		JLabel bikeLabel = new JLabel(localizedBundle.getString("bicycleSerialNumber") + ": ");
 		bikeTextField = new JTextField(20);
 		bikeTextField.addActionListener(this);
 		entryPanel.add(bikeLabel);
@@ -100,25 +114,18 @@ public class ReturnView extends JPanel implements ActionListener {
 		//Date
 		//dayComboBox = new JComboBox();
 		
-		JLabel returnDateLabel = new JLabel("Date of Return (dd-mm-yyyy): ");
-		String [] dayPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
-		"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-		dayComboBox = new JComboBox(dayPossibilities);
-		dayComboBox.addActionListener(this);
+		JLabel returnDateLabel = new JLabel(localizedBundle.getString("returnDate") + ": ");
 		temp.add(returnDateLabel);
-		temp.add(dayComboBox);
-		
-		//monthComboBox = new JComboBox();
-		String [] monthPossibilities = {"---", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-		monthComboBox = new JComboBox(monthPossibilities);
-		monthComboBox.addActionListener(this);
-		temp.add(monthComboBox);
-		
-		//yearComboBox = new JComboBox();
-		String [] yearPossibilities = {"---", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"};
-		yearComboBox = new JComboBox(yearPossibilities);
-		yearComboBox.addActionListener(this);
-		temp.add(yearComboBox);
+
+		UtilDateModel model = new UtilDateModel();
+		model.setSelected(true);
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		returnDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
+		temp.add(returnDatePicker);
 		
 		return temp;
 	}
@@ -171,9 +178,9 @@ public class ReturnView extends JPanel implements ActionListener {
 			}
 			else
 			{
-				String month = (String)monthComboBox.getSelectedItem();
-				String year = (String)yearComboBox.getSelectedItem();
-				String day = (String)dayComboBox.getSelectedItem();
+				String day = String.valueOf(returnDatePicker.getModel().getDay());
+				String month = String.valueOf(returnDatePicker.getModel().getMonth() + 1);
+				String year = String.valueOf(returnDatePicker.getModel().getYear());
 				
 				Properties returnBikeProperties = new Properties();
 				returnBikeProperties.setProperty("bikeId", bikeTextField.getText());

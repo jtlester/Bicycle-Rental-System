@@ -147,9 +147,8 @@ public class MainMenuView extends JPanel implements ActionListener {
 	private JPanel createAdminAccess() {
 		JPanel temp = new JPanel();
 		Border one = BorderFactory.createLineBorder(Color.black);
-		//Border two = BorderFactory.createTitledBorder(one, "Administrative Access", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
 		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
-		temp.setBorder(BorderFactory.createTitledBorder(one, "Administrative Access", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+		temp.setBorder(BorderFactory.createTitledBorder(one, localizedBundle.getString("administrativePanel"), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 		
 		JPanel tempWorker = new JPanel();
 		JLabel newWorkerLabel;

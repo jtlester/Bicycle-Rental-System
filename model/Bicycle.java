@@ -4,12 +4,6 @@ package model;
 // system imports
 import java.sql.*;
 import java.util.*;
-import javax.swing.*;
-
-// project imports
-//import exception.InvalidPrimaryKeyException;
-import database.*;
-
 //GUI Imports
 import impresario.IView;
 
@@ -19,7 +13,7 @@ public class Bicycle extends EntityBase implements IView {
     protected Properties persistentState;
     protected Properties dependencies;
 	Properties bikeInfo;
-	public String make, model, color, serialNumber, locationOnCampus, description, status;
+	public String make, model, color, condition,serialNumber, locationOnCampus, description, status;
 
     
     // GUI Components
@@ -51,7 +45,7 @@ public class Bicycle extends EntityBase implements IView {
             if (persistentState.getProperty("bikeId") != null) {
                 insertPersistentState(mySchema, persistentState);
                 insertStatusMessage = "Account data for account number : " + persistentState.getProperty("bikeId") + " Inserted successfully!";
-            
+                System.out.println(insertStatusMessage);
             }
         }   
         catch (SQLException e) {
@@ -139,6 +133,7 @@ public class Bicycle extends EntityBase implements IView {
 			
 			make = bikeInfo.getProperty("make");
 			model = bikeInfo.getProperty("model");
+			condition = bikeInfo.getProperty("bikeCondition");
 			color = bikeInfo.getProperty("color");
 			serialNumber = bikeInfo.getProperty("serialNumber");
 			locationOnCampus = bikeInfo.getProperty("locationOnCampus");
@@ -160,6 +155,9 @@ public class Bicycle extends EntityBase implements IView {
 	public String getModel()
 	{
 		return model;
+	}
+	public String getCondition() {
+		return condition;
 	}
 	public String getColor()
 	{

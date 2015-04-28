@@ -106,7 +106,7 @@ public class LoginView extends JPanel implements ActionListener
 			System.out.println("Cannot load logo");
 		}
 		
-		JLabel titleLabel = new JLabel(localizedBundle.getString("greetings"));
+		titleLabel = new JLabel(localizedBundle.getString("greetings"));
 		Font myFont = new Font("Arial", Font.BOLD, 24);
 		titleLabel.setFont(myFont);
 		temp.add(titleLabel);
