@@ -1,8 +1,1 @@
-*.class
-/model/*.class
-/userinterface/*.class
-*.DS_Store
 
-*.class
-
-userinterface/BookCatalogView.java
