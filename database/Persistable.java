@@ -90,7 +90,7 @@ abstract public class Persistable
 		{
 		// Create a connection to the database
 		Connection theDBConnection = myBroker.getConnection();
-			
+
 		/* System.out.println("Persistable.getSchemaInfo(..) connection = " + theDBConnection); */
 
 		// extract the metadata from the database

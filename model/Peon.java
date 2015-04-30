@@ -145,7 +145,7 @@ public class Peon {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();
 		
-		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+		//bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
 	}
 
 	public void processRentData(Properties rentProperties) {
@@ -172,7 +172,7 @@ public class Peon {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();
 		
-		bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+		//bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
 	}
 	
 	public void workerDataDone() {
@@ -279,5 +279,16 @@ public class Peon {
 		myFrame.pack();
 		//Place in center
 		WindowPosition.placeCenter(myFrame);
+	}
+	
+	//Check if string is number
+	public static boolean isNumber(String string) {
+		try {
+		    Integer.parseInt(string);
+		} catch (NumberFormatException e) {
+		    System.out.println("Not a number");
+		    return false;
+		}
+		return true;
 	}
 }
