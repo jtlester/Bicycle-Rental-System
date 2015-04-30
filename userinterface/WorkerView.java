@@ -1,7 +1,6 @@
 // specify the package
 package userinterface;
 
-// system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -15,6 +14,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -24,12 +24,8 @@ import model.Peon;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-// project imports
 
 public class WorkerView extends JPanel implements ActionListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Peon peon;
 	private JTextField firstNameTextField;
@@ -40,19 +36,17 @@ public class WorkerView extends JPanel implements ActionListener {
 	private JPasswordField passwordTextField;
 	private JButton submitButton;
 	private JButton backButton;
-	private JComboBox adminComboBox, dayComboBox, monthComboBox, yearComboBox;
-	private MessageView statusLog;
-	
+	private JComboBox adminComboBox;
+
 	private JDatePickerImpl registrationDatePicker;
 
+	public ResourceBundle localizedBundle;
 
-    public ResourceBundle localizedBundle;
-	
 	public WorkerView(Peon p) {
 		peon = p;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
-		
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -62,18 +56,10 @@ public class WorkerView extends JPanel implements ActionListener {
 		lbl.setFont(myFont);
 		titlePanel.add(lbl);
 		add(titlePanel);
-
 		add(dataEntryPanel());
-		add(createDate());
-		//add(choiceBox());
-		
+		add(dateCalendar());
+		add(choiceBox());
 		add(navigationPanel());
-
-		add(createStatusLog("                          "));
-	}
-	private JPanel createStatusLog(String initialMessage) {
-		statusLog = new MessageView(initialMessage);
-		return statusLog;
 	}
 
 	private JPanel dataEntryPanel() {
@@ -88,31 +74,31 @@ public class WorkerView extends JPanel implements ActionListener {
 		bannerTextField.addActionListener(this);
 		entryPanel.add(bannerLabel);
 		entryPanel.add(bannerTextField);
-		
+
 		JLabel passwordLabel = new JLabel(localizedBundle.getString("password") + ": ");
 		passwordTextField = new JPasswordField(20);
 		passwordTextField.addActionListener(this);
 		entryPanel.add(passwordLabel);
 		entryPanel.add(passwordTextField);
-		
+
 		JLabel firstNameLabel = new JLabel(localizedBundle.getString("firstName") + ": ");
 		firstNameTextField = new JTextField(20);
 		firstNameTextField.addActionListener(this);
 		entryPanel.add(firstNameLabel);
 		entryPanel.add(firstNameTextField);
-		
+
 		JLabel lastNameLabel = new JLabel(localizedBundle.getString("lastName") + ": ");
 		lastNameTextField = new JTextField(20);
 		lastNameTextField.addActionListener(this);
 		entryPanel.add(lastNameLabel);
 		entryPanel.add(lastNameTextField);
-		
+
 		JLabel phoneLabel = new JLabel(localizedBundle.getString("phoneNumber") + ": ");
 		phoneTextField = new JTextField(20);
 		phoneTextField.addActionListener(this);
 		entryPanel.add(phoneLabel);
 		entryPanel.add(phoneTextField);
-		
+
 		JLabel emailLabel = new JLabel(localizedBundle.getString("email") + ": ");
 		emailTextField = new JTextField(20);
 		emailTextField.addActionListener(this);
@@ -122,16 +108,13 @@ public class WorkerView extends JPanel implements ActionListener {
 	}
 
 	// Create the navigation buttons
-	//-------------------------------------------------------------
-	private JPanel navigationPanel()
-	{
+	private JPanel navigationPanel() {
 		JPanel navPanel = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(50);
 		f1.setHgap(25);
 		navPanel.setLayout(f1);
 
-		// create the buttons, listen for events, add them to the panel
 		backButton = new JButton(localizedBundle.getString("back"));
 		backButton.addActionListener(this);
 		navPanel.add(backButton);
@@ -142,10 +125,28 @@ public class WorkerView extends JPanel implements ActionListener {
 
 		return navPanel;
 	}
-	
+
+	// Create the combo box
+	private JPanel choiceBox() {
+		JPanel cBox = new JPanel();		// default FlowLayout is fine
+		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
+		f1.setVgap(8);
+		f1.setHgap(25);
+		cBox.setLayout(f1);
+
+		JLabel adminLabel = new JLabel(localizedBundle.getString("administrator") + "?");
+		cBox.add(adminLabel);
+
+		String [] adminPossibilites = { localizedBundle.getString("yes"), localizedBundle.getString("no") };
+		adminComboBox = new JComboBox(adminPossibilites);
+		adminComboBox.addActionListener(this);
+		cBox.add(adminComboBox);
+
+		return cBox;
+	}
+
 	//Create Date
-	private JPanel createDate()
-	{
+	private JPanel dateCalendar() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		JLabel rentDateLabel = new JLabel("Date: ");
@@ -160,42 +161,30 @@ public class WorkerView extends JPanel implements ActionListener {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		registrationDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
 		temp.add(registrationDatePicker);
-		
+
 		return temp;
 	}
-	
-	public void displayErrorMessage(String message) {
-		statusLog.displayErrorMessage(message);
-	}
 
-	public void clearErrorMessage() {
-		statusLog.clearErrorMessage();
-	}
-	
-	public void displayMessage(String message) {
-		statusLog.displayMessage(message);
-	}
-	
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			if (bannerTextField.getText().equals("")) {
-				peon.errorMessagePopup("bannerId");
+			if (bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText())) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if (passwordTextField.getPassword().equals("")) {
-				peon.errorMessagePopup("password");
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(firstNameTextField.getText().equals("")) {
-				peon.errorMessagePopup("firstName");
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(lastNameTextField.getText().equals("")) {
-				peon.errorMessagePopup("lastName");
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(phoneTextField.getText().length() != 11) {
-				peon.errorMessagePopup("phoneNumber");
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(emailTextField.getText() == null) {
-				peon.errorMessagePopup("email");
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else {
-				
+
 				String day = String.valueOf(registrationDatePicker.getModel().getDay());
 				String month = String.valueOf(registrationDatePicker.getModel().getMonth() + 1);
 				String year = String.valueOf(registrationDatePicker.getModel().getYear());
-					
+
 				Properties workerProperties = new Properties();
 				workerProperties.setProperty("bannerId",bannerTextField.getText());
 				workerProperties.setProperty("password",String.valueOf(passwordTextField.getPassword()));
@@ -206,20 +195,24 @@ public class WorkerView extends JPanel implements ActionListener {
 				workerProperties.setProperty("email",emailTextField.getText());
 				workerProperties.setProperty("registrationDate", day + "-" + month + "-" + year);
 
-				peon.processWorkerData(workerProperties);
+				if(peon.processWorkerData(workerProperties)) {
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successWorker"), "Success", JOptionPane.PLAIN_MESSAGE);
+				}
 
-				bannerTextField.setText("");
-				passwordTextField.setText("");
-				firstNameTextField.setText("");
-				lastNameTextField.setText("");
-				phoneTextField.setText("");
-				emailTextField.setText("");
-				dayComboBox.setSelectedIndex(0);
-				monthComboBox.setSelectedIndex(0);
-				yearComboBox.setSelectedIndex(0);
+				clearEntries();
 			}
 		} else if (event.getSource() == backButton) {
+			clearEntries();
 			peon.workerDataDone();
 		}
+	}
+
+	private void clearEntries() {
+		bannerTextField.setText("");
+		passwordTextField.setText("");
+		firstNameTextField.setText("");
+		lastNameTextField.setText("");
+		phoneTextField.setText("");
+		emailTextField.setText("");
 	}
 }

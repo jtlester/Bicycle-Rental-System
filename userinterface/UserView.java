@@ -9,61 +9,48 @@ import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import model.DateLabelFormatter;
 import model.LocaleConfig;
 import model.Peon;
+
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 //Add UserView
 public class UserView extends JPanel implements ActionListener {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Peon peon;
-
 	private JTextField firstNameTextField;
-
 	private JTextField lastNameTextField;
-
 	private JTextField bannerTextField;
-
 	private JTextField emailTextField;
-
 	private JTextField phoneTextField;
-
 	private JButton submitButton;
 	private JButton backButton;
-	
 	private JDatePickerImpl registrationDatePicker;
-
-	
-	private JComboBox monthComboBox, dayComboBox, yearComboBox;
-
-    public ResourceBundle localizedBundle;
-	
+	public ResourceBundle localizedBundle;
 	public MessageView statusLog;
-	
-	
+
+
 
 	public UserView(Peon p) {
 		peon = p;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
-		
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		JLabel lbl = new JLabel(localizedBundle.getString("addUser"));
@@ -71,25 +58,16 @@ public class UserView extends JPanel implements ActionListener {
 		lbl.setFont(myFont);
 		titlePanel.add(lbl);
 		add(titlePanel);
-
-		/*The methods below return instances of type JPanel. 
-		So the methods should be called what the JPanels are called, not "create...". 
-		This way, below this you can add(dataEntryPanel) which is more concise and reads better*/
 		add(dataEntryPanel());
 		add(createDate());
 		add(navigationPanel());
-
 		add(createStatusLog("                          "));
 
-		//MessageView statusLog = new MessageView(" ");
-		//add(statusLog);	
 	}
 	private JPanel createStatusLog(String initialMessage) {
 		statusLog = new MessageView(initialMessage);
 		return statusLog;
 	}
-		
-	
 
 	private JPanel dataEntryPanel() {
 		JPanel entryPanel = new JPanel();
@@ -103,25 +81,25 @@ public class UserView extends JPanel implements ActionListener {
 		bannerTextField = new JTextField(20);
 		bannerTextField.addActionListener(this);
 		entryPanel.add(bannerTextField);
-		
+
 		JLabel firstNameLabel = new JLabel(localizedBundle.getString("firstName") + ": ");
 		entryPanel.add(firstNameLabel);
 		firstNameTextField = new JTextField(20);
 		firstNameTextField.addActionListener(this);
 		entryPanel.add(firstNameTextField);
-		
+
 		JLabel lastNameLabel = new JLabel(localizedBundle.getString("lastName") + ": ");
 		entryPanel.add(lastNameLabel);
 		lastNameTextField = new JTextField(20);
 		lastNameTextField.addActionListener(this);
 		entryPanel.add(lastNameTextField);
-		
+
 		JLabel phoneLabel = new JLabel(localizedBundle.getString("phoneNumber") + ": ");
 		entryPanel.add(phoneLabel);
 		phoneTextField = new JTextField(20);
 		phoneTextField.addActionListener(this);
 		entryPanel.add(phoneTextField);
-		
+
 		JLabel emailLabel = new JLabel(localizedBundle.getString("email") +  ": ");
 		entryPanel.add(emailLabel);
 		emailTextField = new JTextField(20);
@@ -140,9 +118,6 @@ public class UserView extends JPanel implements ActionListener {
 		f1.setHgap(25);
 		navPanel.setLayout(f1);
 
-		/* Create the buttons, listen for events, add them to the panel.
-		NOTE: When deciding the order of buttons, the options should
-		always be forward moving; meaning the cancel button should always come before the confirm*/
 		backButton = new JButton(localizedBundle.getString("back"));
 		backButton.addActionListener(this);
 		navPanel.add(backButton);
@@ -153,12 +128,12 @@ public class UserView extends JPanel implements ActionListener {
 
 		return navPanel;
 	}
-	
+
 	//Create Date
 	private JPanel createDate() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
+
 		JLabel rentDateLabel = new JLabel("Date: ");
 		temp.add(rentDateLabel);
 
@@ -171,68 +146,58 @@ public class UserView extends JPanel implements ActionListener {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		registrationDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
 		temp.add(registrationDatePicker);
-		
+
 		return temp;
 	}
 
 	public void displayMessage(String message) {
 		statusLog.displayMessage(message);
 	}
-	
+
 	public void displayErrorMessage(String message) {
 		statusLog.displayErrorMessage(message);
 	}
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			
-			if(bannerTextField.getText().equals(""))
-			{
-				peon.errorMessagePopup("bannerId");
-			}
-			else if(firstNameTextField.getText().equals(""))
-			{
-				peon.errorMessagePopup("firstName");
-			}
-			else if(lastNameTextField.getText().equals(""))
-			{
-				peon.errorMessagePopup("lastName");
-			}
-			else if(phoneTextField.getText().length() != 11)
-			{
-				peon.errorMessagePopup("phoneNumber");
-			}
-			else if(emailTextField.getText().equals(""))
-			{
-				peon.errorMessagePopup("email");
-			}
-			else {
+			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText())) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(firstNameTextField.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(lastNameTextField.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(phoneTextField.getText().length() != 11) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(emailTextField.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), "Error", JOptionPane.WARNING_MESSAGE);
+			}else {
 				String day = String.valueOf(registrationDatePicker.getModel().getDay());
 				String month = String.valueOf(registrationDatePicker.getModel().getMonth() + 1);
 				String year = String.valueOf(registrationDatePicker.getModel().getYear());
-					
-					Properties userProperties = new Properties();
-					userProperties.setProperty("bannerId",bannerTextField.getText());
-					userProperties.setProperty("firstName",firstNameTextField.getText());
-					userProperties.setProperty("lastName",lastNameTextField.getText());
-					userProperties.setProperty("phoneNumber",phoneTextField.getText());
-					userProperties.setProperty("email",emailTextField.getText());
-					userProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
 
-					peon.processUserData(userProperties);
-					
-					bannerTextField.setText("");
-					firstNameTextField.setText("");
-					lastNameTextField.setText("");
-					phoneTextField.setText("");
-					emailTextField.setText("");
-					dayComboBox.setSelectedIndex(0);
-					monthComboBox.setSelectedIndex(0);
-					yearComboBox.setSelectedIndex(0);	
+				Properties userProperties = new Properties();
+				userProperties.setProperty("bannerId",bannerTextField.getText());
+				userProperties.setProperty("firstName",firstNameTextField.getText());
+				userProperties.setProperty("lastName",lastNameTextField.getText());
+				userProperties.setProperty("phoneNumber",phoneTextField.getText());
+				userProperties.setProperty("email",emailTextField.getText());
+				userProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
+				
+				if(peon.processUserData(userProperties)){
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUser"), "Success", JOptionPane.PLAIN_MESSAGE);
+				}
+				clearEntries();
 			}
-			
-		}
-		else if(event.getSource() == backButton) {
+		} else if(event.getSource() == backButton) {
+			clearEntries();
 			peon.userDataDone();
 		}
+	}
+
+	private void clearEntries() {
+		bannerTextField.setText("");
+		firstNameTextField.setText("");
+		lastNameTextField.setText("");
+		phoneTextField.setText("");
+		emailTextField.setText("");
 	}
 }
