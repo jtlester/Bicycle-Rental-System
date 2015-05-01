@@ -1,10 +1,12 @@
 package model;
 
 //System imports
-import java.sql.*;
-import java.util.*;
 //GUI Imports
 import impresario.IView;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.Vector;
 
 public class Bicycle extends EntityBase implements IView {
         
@@ -58,73 +60,54 @@ public class Bicycle extends EntityBase implements IView {
          }
      }
 
-    public void update() {
-        updateStateInDatabase();
-    }
-      
-    private void updateStateInDatabase() {
-    
-        try {
+    public boolean update() {
+    	try {
             if (persistentState.getProperty("bikeId") != null) {
                 Properties whereClause = new Properties();
                 whereClause.setProperty("bikeId",
                 persistentState.getProperty("bikeId"));
                 updatePersistentState(mySchema, persistentState, whereClause);
-                updateStatusMessage = "Account data for account number : " + persistentState.getProperty("bikeId") + " updated successfully in database!";
             } else {
                 Integer bikeId =
                     insertAutoIncrementalPersistentState(mySchema, persistentState);
                 persistentState.setProperty("bikeId", "" + bikeId.intValue());
-                updateStatusMessage = "Bicycle data for new bicycle: " +  persistentState.getProperty("bikeId")
-                    + "installed successfully in database!";
-                    
-                    System.out.println(updateStatusMessage);
             }
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             updateStatusMessage = "Error in installing bicycle data in database!";
-            System.out.println(ex.getMessage());
-
+            return false;
         }
+    	return true;
     }
 	
-	public void changeStatus()
-	{
-		try
-		{
+	public void changeStatus() {
+		try {
 			Properties whereClause = new Properties();
 			
 			whereClause.setProperty("bikeId", persistentState.getProperty("bikeId"));
 			updatePersistentState(mySchema, persistentState, whereClause);
 			updateStatusMessage = " Updated Bike!";
 		}
-		catch(SQLException ex)
-		{
+		catch(SQLException ex) {
 			updateStatusMessage = "Failed to update!";
 		}
 		System.out.println(updateStatusMessage);
 	}
 	
 	//-------------------------------------------------------------------
-	public void getBikeInfo(Properties props)
-	{
+	public void getBikeInfo(Properties props) {
 		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bikeId` = '" + props.getProperty("bikeId") + "');";
 		Vector allDataRetrieved = getSelectQueryResult(authQuery);
 		int size = allDataRetrieved.size();
-		if(size == 1)
-		{
-			//System.out.println("IN GET BIKE INFO-------------------");
+		if(size == 1) {
 			Properties retrievedBikeData = (Properties)allDataRetrieved.elementAt(0);
 			bikeInfo = new Properties();
 			
 			Enumeration allKeys = retrievedBikeData.propertyNames();
-			while(allKeys.hasMoreElements() == true)
-			{
+			while(allKeys.hasMoreElements() == true) {
 				String nextKey = (String)allKeys.nextElement();
 				String nextValue = retrievedBikeData.getProperty(nextKey);
 				
-				if(nextValue != null)
-				{
+				if(nextValue != null) {
 					bikeInfo.setProperty(nextKey, nextValue);
 				}
 			}
@@ -138,48 +121,38 @@ public class Bicycle extends EntityBase implements IView {
 			description = bikeInfo.getProperty("description");
 			status = bikeInfo.getProperty("status");
 			
-		}
-		else
-		{
+		} else {
 			System.out.println("No Bike Found");
 		}
 		
 	}
 	//GETTERS FOR BIKE INFO
-	public String getMake()
-	{
+	public String getMake() {
 		return make;
 	}
-	public String getModel()
-	{
+	public String getModel() {
 		return model;
 	}
 	public String getCondition() {
 		return condition;
 	}
-	public String getColor()
-	{
+	public String getColor() {
 		return color;
 	}
-	public String getSerial()
-	{
+	public String getSerial() {
 		return serialNumber;
 	}
-	public String getLocation()
-	{
+	public String getLocation() {
 		return locationOnCampus;
 	}
-	public String getDescription()
-	{
+	public String getDescription() {
 		return description;
 	}
-	public String getStatus()
-	{
+	public String getStatus() {
 		return status;
 	}
 
 //-----------------------------------------------------------------------
-
     public void updateState(String key, Object value) {
         stateChangeRequest(key, value);
     }

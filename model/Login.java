@@ -4,7 +4,6 @@ package model;
 // system imports
 //GUI Imports
 import impresario.IView;
-
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
@@ -50,28 +49,6 @@ public class Login extends EntityBase implements IView {
     public void stateChangeRequest(String key, Object value) {
         myRegistry.updateSubscribers(key, this);
     }
-
-    /*public void update() {
-
-    try {
-        if (persistentState.getProperty("userId") != null) {
-                            Properties whereClause = new Properties();
-                            whereClause.setProperty("userId",
-                            persistentState.getProperty("userId"));
-                            updatePersistentState(mySchema, persistentState, whereClause);
-                            updateStatusMessage = "Login data for userId : " + persistentState.getProperty("userId") + " updated successfully in database!";
-                    } else {
-                        Integer userId =  insertAutoIncrementalPersistentState(mySchema, persistentState);
-                        persistentState.setProperty("userId", "" + userId.intValue());
-
-                        updateStatusMessage = "Inserted user "+persistentState.getProperty("userId");
-                    }
-            }
-            catch (SQLException ex) {
-                    updateStatusMessage = "Error in installing user data in database!";
-            }
-            System.out.println(updateStatusMessage);
-	}*/
 	
 	public Object getState(String key) {
 		if (key.equals("UpdateStatusMessage") == true) {
@@ -80,45 +57,31 @@ public class Login extends EntityBase implements IView {
 		return persistentState.getProperty(key);
 	}
 
-    public boolean authentication(Properties props) 
-	{
+    public boolean authentication(Properties props) {
 		String authQuery = "SELECT DISTINCT `firstName`, `adminLevel` FROM `" + myTableName + "` WHERE ((`bannerId` = '" + props.getProperty("bannerId") + "') & (`password` = '" + props.getProperty("password") + "'))";
 		Vector allDataRetrieved = getSelectQueryResult(authQuery);
 		int size = allDataRetrieved.size(); 
-		if(size == 1)
-		{
-			// copy all the retrieved data into persistent state
+		
+		if(size == 1) {
+			// Copy all the retrieved data into persistent state
 			Properties retrievedWorkerData = (Properties)allDataRetrieved.elementAt(0);
 			workerInfo = new Properties();
-
 			Enumeration allKeys = retrievedWorkerData.propertyNames();
-			while (allKeys.hasMoreElements() == true)
-			{
+			while (allKeys.hasMoreElements() == true) {
 				String nextKey = (String)allKeys.nextElement();
 				String nextValue = retrievedWorkerData.getProperty(nextKey);
 
-				if (nextValue != null)
-				{
+				if (nextValue != null) {
 					workerInfo.setProperty(nextKey, nextValue);
 				}
 			}
-			
 			adminLevel = workerInfo.getProperty("adminLevel");
-			
-			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
-			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
 			return true;
 		}
-		else
-		{
-			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("bannerId"));
-			//DEBUG System.out.println("USERNAME:" + persistentState.getProperty("password"));
-			return false;
-		}
+		return false;
 	}
 	
-	public String getAdminLevel()
-	{
+	public String adminLevel() {
 		return adminLevel;
 	}
 	

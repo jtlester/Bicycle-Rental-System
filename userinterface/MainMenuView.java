@@ -27,13 +27,10 @@ import model.Peon;
 // project imports
 
 public class MainMenuView extends JPanel implements ActionListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Peon man;
 	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, renewBikeButton;
-	private JLabel userLabel, bicycleLabel, loggedInUser;
+	private JLabel userLabel, bicycleLabel, loggedInUserLabel;
 
 	private MessageView statusLog;
 
@@ -41,43 +38,38 @@ public class MainMenuView extends JPanel implements ActionListener {
 
 	public MainMenuView(Peon p) {
 		man = p;
-
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-		add(createTitle());
-		add(createLoggedInUser());
+		add(title());
+		add(loggedInUserLabel());
 		add(new JSeparator(SwingConstants.HORIZONTAL));
-		add(createNavigationButtons());
-		
+		add(navigationButtons());
 		if(man.obtainAdminLevel().equals("Yes")) {
-			add(createAdminAccess());
+			add(adminAccessPanel());
 		}
-		
-		add(createCancelButtons());
-
-		add(createStatusLog("     "));
+		add(cancelButtons());
+		add(statusLog("     "));
 	}
 	
-	private JPanel createLoggedInUser() {
+	private JPanel loggedInUserLabel() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		if(man.obtainAdminLevel().equals("Yes")) {
-			loggedInUser = new JLabel(localizedBundle.getString("welcomeUser") + " " + man.getUserName() + ". " + localizedBundle.getString("welcomeAdmin"));
+			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + man.userName() + ". " + localizedBundle.getString("welcomeAdmin"));
 		} else {
-			loggedInUser = new JLabel(localizedBundle.getString("welcomeUser") + " " + man.getUserName());
+			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + man.userName());
 
 		}
 		
-		temp.add(loggedInUser);
+		temp.add(loggedInUserLabel);
 		//temp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		return temp;
 	}
 
-	private JPanel createTitle() {
+	private JPanel title() {
 		JPanel temp = new JPanel();
 		//temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 
@@ -90,7 +82,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		return temp;
 	}
 
-	private JPanel createNavigationButtons() {
+	private JPanel navigationButtons() {
 		JPanel mainTemp = new JPanel();
 		mainTemp.setLayout(new BoxLayout(mainTemp, BoxLayout.Y_AXIS));
 		
@@ -123,7 +115,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		return mainTemp;
 	}
 	
-	private JPanel createCancelButtons() {
+	private JPanel cancelButtons() {
 		//EXIT AND LOGOUT BUTTON
 		JPanel temp = new JPanel();
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
@@ -144,7 +136,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		return temp;
 	}
 	
-	private JPanel createAdminAccess() {
+	private JPanel adminAccessPanel() {
 		JPanel temp = new JPanel();
 		Border one = BorderFactory.createLineBorder(Color.black);
 		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
@@ -168,10 +160,8 @@ public class MainMenuView extends JPanel implements ActionListener {
 		//temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
 		temp.add(tempWorker);
 		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
-		
-		
+			
 		//USER ADMIN BUTTONS		
-		//--------------------------------------------------------------------------
 		tempUser.setLayout(new GridLayout(1,2,10,10));
 		tempUser.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
@@ -185,7 +175,6 @@ public class MainMenuView extends JPanel implements ActionListener {
 		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		
 		//ADD BIKE BUTTON AND LABEL
-		//-------------------------------------------------------------------------
 		tempBike.setLayout(new GridLayout(1,2,10,10));
 		tempBike.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		bicycleLabel = new JLabel(localizedBundle.getString("bicycle") + ":");
@@ -199,35 +188,30 @@ public class MainMenuView extends JPanel implements ActionListener {
 		return temp;
 	}
 
-	private JPanel createStatusLog(String initialMessage) {
+	private JPanel statusLog(String initialMessage) {
 		statusLog = new MessageView(initialMessage);
 		return statusLog;
 	}
-	
-	/*private JPanel createLoggedInWorker(Properties )
-	{
-		
-	}*/
 
 	public void actionPerformed(ActionEvent event) {
 		clearErrorMessage();
 
 		if(event.getSource() == insertNewWorkerButton) {
-			man.createNewWorker();
+			man.createAndShowWorkerView();
 		} else if(event.getSource() == insertNewUserButton) {
-			man.createNewUser();
+			man.createAndShowUserView();
 		} else if(event.getSource() == insertNewBicycleButton) {
-			man.createNewBicycle();
+			man.createAndShowBicycleView();
 		} else if(event.getSource() == logoutButton) {
 			man.createAndShowLoginView();
 		} else if(event.getSource() == doneButton) {
 			man.exitSystem();
 		} else if(event.getSource() == rentBikeButton) {
-			man.createRentBicycleView();
+			man.createAndShowRentBicycleView();
 		} else if(event.getSource() == returnBikeButton) {
-			man.createReturnBicycleView();
+			man.createAndShowReturnBicycleView();
 		} else if(event.getSource() == renewBikeButton) {
-			man.createRenewBicycleView();
+			man.createAndShowRenewBicycleView();
 		}
 	}
 
