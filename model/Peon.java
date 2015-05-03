@@ -162,8 +162,14 @@ public class Peon {
 	public void processRenewData(Properties bicycleProperties) {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();		
-		//bicycleView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+		//renewView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
 	}
+       public void processUpdateUserData(Properties userProperties) {
+	   User newUser = new User(userProperties);
+	   newUser.update();
+	   modifyuserView.displayMessage("User with the Banner ID " + userProperties.getProperty("bannerId") + " has been updated successfully");
+	}
+	
 
 	public void workerDataDone() {
 		createAndShowMainMenuView();
