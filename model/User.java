@@ -12,7 +12,7 @@ public class User extends EntityBase implements IView {
 
 	private static final String myTableName = "User";
 	protected Properties dependencies;
-
+    Properties userInfo;
 	private String updateStatusMessage = "";
 
 	//Initilize User
@@ -51,15 +51,15 @@ public class User extends EntityBase implements IView {
 	public boolean update() {
 
 		try {
-			if (persistentState.getProperty("userId") != null) {
+			if (persistentState.getProperty("bannerId") != null) {
 				Properties whereClause = new Properties();
-				whereClause.setProperty("userId",
-						persistentState.getProperty("userId"));
+				whereClause.setProperty("bannerId",
+						persistentState.getProperty("bannerId"));
 				updatePersistentState(mySchema, persistentState, whereClause);
-				updateStatusMessage = "User data for userId : " + persistentState.getProperty("userId") + " updated successfully in database!";
+				updateStatusMessage = "User data for bannerId : " + persistentState.getProperty("bannerId") + " updated successfully in database!";
 			} else {
 				Integer userId =  insertAutoIncrementalPersistentState(mySchema, persistentState);
-				persistentState.setProperty("userId", "" + userId.intValue());
+				persistentState.setProperty("banerId", "" + userId.intValue());
 
 				updateStatusMessage = "Inserted user "+persistentState.getProperty("userId");
 			}
@@ -70,7 +70,33 @@ public class User extends EntityBase implements IView {
 		}
 		return true;
 	}
+    	public void getUserInfo(Properties props) {
+		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bannerId` = '" + props.getProperty("bannerId") + "');";
+		Vector allDataRetrieved = getSelectQueryResult(authQuery);
+		int size = allDataRetrieved.size();
+		if(size == 1) {
+			Properties retrievedUserData = (Properties)allDataRetrieved.elementAt(0);
+			userInfo = new Properties();
+			
+			Enumeration allKeys = retrievedUserData.propertyNames();
+			while(allKeys.hasMoreElements() == true) {
+				String nextKey = (String)allKeys.nextElement();
+				String nextValue = retrievedUserData.getProperty(nextKey);
+				
+				if(nextValue != null) {
+					userInfo.setProperty(nextKey, nextValue);
+				}
+			}
+			
+		
 
+			
+		} else {
+			System.out.println("No User Found");
+		}
+		
+	}
+	
 	public void delete() {
 		try {
 			if (persistentState.getProperty("userId") != null) {
@@ -93,6 +119,12 @@ public class User extends EntityBase implements IView {
 		}
 		return persistentState.getProperty(key);
 	}
+    public Properties GetUser()
+    {
+        return userInfo;
+        
+    }
+	
 
 	public void updateState(String key, Object value) {
 		stateChangeRequest(key, value);
