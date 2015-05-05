@@ -247,3 +247,4 @@ public class ModifyUserView extends JPanel implements ActionListener {
         phoneTextField.setText("");
         emailTextField.setText("");
     }
+}

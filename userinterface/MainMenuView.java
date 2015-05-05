@@ -29,7 +29,7 @@ import model.Peon;
 public class MainMenuView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Peon man;
-	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, renewBikeButton;
+	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, modifyBikeButton;
 	private JLabel userLabel, bicycleLabel, loggedInUserLabel;
 
 	private MessageView statusLog;
@@ -104,9 +104,9 @@ public class MainMenuView extends JPanel implements ActionListener {
 		JPanel temp2 = new JPanel();
 		temp2.setLayout(new FlowLayout(FlowLayout.CENTER));
 		temp2.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-		renewBikeButton = new JButton(localizedBundle.getString("renewBicycle"));
-		renewBikeButton.addActionListener(this);
-		temp2.add(renewBikeButton);
+		modifyBikeButton = new JButton(localizedBundle.getString("modifyBicycle"));
+		modifyBikeButton.addActionListener(this);
+		temp2.add(modifyBikeButton);
 		mainTemp.add(temp2);
 
 		mainTemp.add(new JSeparator(SwingConstants.HORIZONTAL));
@@ -210,7 +210,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 			man.createAndShowRentBicycleView();
 		} else if(event.getSource() == returnBikeButton) {
 			man.createAndShowReturnBicycleView();
-		} else if(event.getSource() == renewBikeButton) {
+		} else if(event.getSource() == modifyBikeButton) {
 			man.createAndShowRenewBicycleView();
 		}
 	}

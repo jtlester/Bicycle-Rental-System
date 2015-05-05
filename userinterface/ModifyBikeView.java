@@ -27,7 +27,7 @@ import model.LocaleConfig;
 import model.Peon;
 // project imports
 
-public class RenewView extends JPanel implements ActionListener {
+public class ModifyBikeView extends JPanel implements ActionListener {
     /**
 	 * 
 	 */
@@ -53,7 +53,7 @@ public class RenewView extends JPanel implements ActionListener {
     public Bicycle Bike;
     public ResourceBundle localizedBundle;
     
-    public RenewView(Peon p) {
+    public ModifyBikeView(Peon p) {
         peon = p;
         Locale currentLocale = LocaleConfig.currentLocale();
         localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
@@ -64,7 +64,7 @@ public class RenewView extends JPanel implements ActionListener {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel lbl = new JLabel(localizedBundle.getString("renewBicycle"));
+        JLabel lbl = new JLabel(localizedBundle.getString("modifyBicycle"));
         Font myFont = new Font("Helvetica", Font.BOLD, 20);
         lbl.setFont(myFont);
         titlePanel.add(lbl);

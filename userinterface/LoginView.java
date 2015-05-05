@@ -28,11 +28,8 @@ import model.Peon;
 // system imports
 // project imports
 
-public class LoginView extends JPanel implements ActionListener
-{
-	/**
-	 * 
-	 */
+public class LoginView extends JPanel implements ActionListener {
+
 	private static final long serialVersionUID = 1L;
 	// GUI stuff
 	private Peon peon;
@@ -40,15 +37,12 @@ public class LoginView extends JPanel implements ActionListener
 	private JPasswordField password;
 	private JButton submitButton;
 	private JButton cancelButton;
-	private JRadioButton English;
-	private JRadioButton French;
+	private JRadioButton englshButton;
+	private JRadioButton frenchButton;
 	private JLabel titleLabel;
 	private JLabel passwordLabel;
 	private JLabel selectLanguageLabel;
 	private JLabel useridLabel;
-
-	// For showing error message
-	private MessageView statusLog;
 
 	public ResourceBundle localizedBundle;
 	public Locale currentLocale;
@@ -61,24 +55,9 @@ public class LoginView extends JPanel implements ActionListener
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 		this.setPreferredSize(new Dimension(800, 300));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-		// create our GUI components, add them to this panel
-		//JPanel titlePanel = new JPanel();
-		//titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
-		add(createGreeting());
-		
-		//titleLabel = new JLabel(localizedBundle.getString("greetings"));
-		//Font myFont = new Font("Arial", Font.BOLD, 24);
-		//titleLabel.setFont(myFont);
-		//titlePanel.add(titleLabel);
-		//add(titlePanel);
+		add(greetingPanel());
 		add(dataEntryFields());
 		add(navigationButtons());
-
-		// Error message area
-		add(createStatusLog("                          "));
-
 		populateFields();
 	}
 	
@@ -87,54 +66,37 @@ public class LoginView extends JPanel implements ActionListener
 		bannerID.requestFocus();
 	}
 	
-	private JPanel createGreeting()
-	{
+	private JPanel greetingPanel() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		BufferedImage logo = null;
 		BufferedImage reverseLogo = null;
 		
-		try
-		{
+		try {
 			logo = ImageIO.read(new File("images/logo.jpg"));
 			JLabel picLabel = new JLabel(new ImageIcon(logo));
 			temp.add(picLabel);
-		}
-		catch(IOException e)
-		{
-			System.out.println("Cannot load logo");
+			
+			reverseLogo = ImageIO.read(new File("images/logo_reversed.jpg"));
+			JLabel rightLabel = new JLabel(new ImageIcon(reverseLogo));
+			temp.add(rightLabel);
+		} catch(IOException e) {
+			System.out.println("ERROR: Could not load logos");
 		}
 		
 		titleLabel = new JLabel(localizedBundle.getString("greetings"));
 		Font myFont = new Font("Arial", Font.BOLD, 24);
 		titleLabel.setFont(myFont);
 		temp.add(titleLabel);
-		
-		try
-		{
-			reverseLogo = ImageIO.read(new File("images/logo_reversed.jpg"));
-			JLabel rightLabel = new JLabel(new ImageIcon(reverseLogo));
-			temp.add(rightLabel);
-		}
-		catch(IOException e)
-		{
-			System.out.println("Cannot load logo");
-		}
-		
 		return temp;
 	}
-	
-	private JPanel createStatusLog(String initialMessage) {
-		statusLog = new MessageView(initialMessage);
-		return statusLog;
-	}
-	
+
 	public void populateFields() {
 		bannerID.setText("");
 		password.setText("");
-		English.setSelected(true);
-		French.setSelected(false);
+		englshButton.setSelected(true);
+		frenchButton.setSelected(false);
 	}
 	
 	private JPanel dataEntryFields() {
@@ -174,15 +136,15 @@ public class LoginView extends JPanel implements ActionListener
 
 		selectLanguageLabel = new JLabel(localizedBundle.getString("chooseLanguage"));
 		dataFieldPanel3.add(selectLanguageLabel);
-		English = new JRadioButton("English");
-		English.addActionListener(this);
-		LanguageButtons.add(English);
-		dataFieldPanel3.add(English);
+		englshButton = new JRadioButton(localizedBundle.getString("english"));
+		englshButton.addActionListener(this);
+		LanguageButtons.add(englshButton);
+		dataFieldPanel3.add(englshButton);
 
-		French = new JRadioButton("Français");
-		French.addActionListener(this);
-		LanguageButtons.add(French);
-		dataFieldPanel3.add(French);
+		frenchButton = new JRadioButton(localizedBundle.getString("french"));
+		frenchButton.addActionListener(this);
+		LanguageButtons.add(frenchButton);
+		dataFieldPanel3.add(frenchButton);
 		dataEntryPanel.add(dataFieldPanel3);
 		
 		return dataEntryPanel;
@@ -216,8 +178,6 @@ public class LoginView extends JPanel implements ActionListener
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
-		clearErrorMessage();
-
 		String bannerIDEntered = bannerID.getText();
 
 		if(evt.getSource() == submitButton) {
@@ -245,8 +205,8 @@ public class LoginView extends JPanel implements ActionListener
 			peon.exitSystem();
 		}
 
-		if(evt.getSource() == French || evt.getSource() == English) {
-			if(evt.getSource() == French) {
+		if(evt.getSource() == frenchButton || evt.getSource() == englshButton) {
+			if(evt.getSource() == frenchButton) {
 				LocaleConfig.setLocale(new Locale("fr", "FR"));
 				currentLocale = new Locale("fr", "FR");
 			} else {
@@ -260,18 +220,23 @@ public class LoginView extends JPanel implements ActionListener
 			submitButton.setText(localizedBundle.getString("login"));
 			selectLanguageLabel.setText(localizedBundle.getString("chooseLanguage"));
 			useridLabel.setText(localizedBundle.getString("bannerID"));
+			englshButton.setText(localizedBundle.getString("english"));
+			frenchButton.setText(localizedBundle.getString("french"));
 			selectLanguageLabel.revalidate();
 			selectLanguageLabel.repaint();
 			cancelButton.revalidate();
 			cancelButton.repaint();
 			submitButton.revalidate();
 			submitButton.repaint();
+			englshButton.revalidate();
+			englshButton.repaint();
+			frenchButton.revalidate();
+			frenchButton.repaint();
 			passwordLabel.revalidate();
 			passwordLabel.repaint();
 			titleLabel.revalidate();
 			titleLabel.repaint();
 		}
-
 		return;
 	}
 
@@ -289,7 +254,7 @@ public class LoginView extends JPanel implements ActionListener
 		// clear fields for next time around
 		bannerID.setText("");
 		password.setText("");
-		if (English.isSelected() == true) {
+		if (englshButton.isSelected()) {
 			LocaleConfig.setLocale(new Locale("en", "US"));
 		} else {
 			LocaleConfig.setLocale(new Locale("fr", "FR"));
@@ -306,17 +271,9 @@ public class LoginView extends JPanel implements ActionListener
 	public void updateState(String key, Object value) {
 		// STEP 6: Be sure to finish the end of the 'perturbation'
 		// by indicating how the view state gets updated.
-		if (key.equals("LoginError") == true) {
+		if (key.equals("LoginError")) {
 			// display the passed text
-			displayErrorMessage((String)value);
+			System.out.println((String)value);
 		}
-	}
-
-	public void displayErrorMessage(String message) {
-		statusLog.displayErrorMessage(message);
-	}
-
-	public void clearErrorMessage() {
-		statusLog.clearErrorMessage();
 	}
 }

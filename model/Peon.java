@@ -13,12 +13,13 @@ import userinterface.BicycleView;
 import userinterface.LoginView;
 import userinterface.MainFrame;
 import userinterface.MainMenuView;
-import userinterface.RenewView;
+import userinterface.ModifyBikeView;
 import userinterface.RentView;
 import userinterface.ReturnView;
 import userinterface.UserView;
 import userinterface.WindowPosition;
 import userinterface.WorkerView;
+import userinterface.ModifyUserView;
 // project imports
 import event.Event;
 
@@ -32,7 +33,7 @@ public class Peon {
 	public UserView userView;
 	public ReturnView returnView;
 	public RentView rentView;
-	public RenewView renewView;
+	public ModifyBikeView modifyBikeView;
 	public BicycleView bicycleView;
 	public Login login;
 	public String userName;
@@ -162,12 +163,12 @@ public class Peon {
 	public void processRenewData(Properties bicycleProperties) {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
 		newBicycle.update();		
-		//renewView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+		//modifyBikeView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
 	}
        public void processUpdateUserData(Properties userProperties) {
 	   User newUser = new User(userProperties);
 	   newUser.update();
-	   modifyuserView.displayMessage("User with the Banner ID " + userProperties.getProperty("bannerId") + " has been updated successfully");
+	   //modifyuserView.displayMessage("User with the Banner ID " + userProperties.getProperty("bannerId") + " has been updated successfully");
 	}
 	
 
@@ -244,10 +245,10 @@ public class Peon {
 	}
 
 	public void createAndShowRenewBicycleView() {
-		renewView = new RenewView(this);
-		myFrame.getContentPane().add(renewView);
+		modifyBikeView = new ModifyBikeView(this);
+		myFrame.getContentPane().add(modifyBikeView);
 		myFrame.pack();
-		swapToView(renewView);
+		swapToView(modifyBikeView);
 	}
 
 	public void swapToView(JPanel otherView) {
