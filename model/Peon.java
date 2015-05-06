@@ -20,6 +20,7 @@ import userinterface.UserView;
 import userinterface.WindowPosition;
 import userinterface.WorkerView;
 import userinterface.ModifyUserView;
+import userinterface.ModifyWorkerView;
 // project imports
 import event.Event;
 
@@ -35,6 +36,7 @@ public class Peon {
 	public RentView rentView;
 	public ModifyBikeView modifyBikeView;
 	public BicycleView bicycleView;
+	public ModifyWorkerView modifyWorkerView;
 	public Login login;
 	public String userName;
 	public String adminLevel;
@@ -170,6 +172,11 @@ public class Peon {
 	   newUser.update();
 	   //modifyuserView.displayMessage("User with the Banner ID " + userProperties.getProperty("bannerId") + " has been updated successfully");
 	}
+	public void processUpdateWorkerData(Properties workerProperties)
+	{
+		Worker updateWorker = new Worker(workerProperties);
+		updateWorker.updateWorkerInfo();
+	}
 	
 
 	public void workerDataDone() {
@@ -249,6 +256,13 @@ public class Peon {
 		myFrame.getContentPane().add(modifyBikeView);
 		myFrame.pack();
 		swapToView(modifyBikeView);
+	}
+	
+	public void createAndShowModifyWorkerView(){
+		modifyWorkerView = new ModifyWorkerView(this);
+		myFrame.getContentPane().add(modifyWorkerView);
+		myFrame.pack();
+		swapToView(modifyWorkerView);
 	}
 
 	public void swapToView(JPanel otherView) {

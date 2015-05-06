@@ -1,1 +1,1 @@
-java -cp mysql-connector-java-5.1.7-bin.jar;classes;. BikeSystem
+java -cp mysql-connector-java-5.1.7-bin.jar;jdatepicker-1.3.4.jar;classes;. BikeSystem

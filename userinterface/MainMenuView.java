@@ -29,7 +29,7 @@ import model.Peon;
 public class MainMenuView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Peon man;
-	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, modifyBikeButton;
+	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, modifyBikeButton, modifyWorkerButton;
 	private JLabel userLabel, bicycleLabel, loggedInUserLabel;
 
 	private MessageView statusLog;
@@ -148,7 +148,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		JPanel tempBike = new JPanel();
 		
 		//WORKER ADMIN BUTTONS
-		tempWorker.setLayout(new GridLayout(1,2,10,10));
+		tempWorker.setLayout(new GridLayout(1,3,10,10));
 		tempWorker.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
 		newWorkerLabel = new JLabel(localizedBundle.getString("worker") + ":");
@@ -156,7 +156,10 @@ public class MainMenuView extends JPanel implements ActionListener {
 		
 		insertNewWorkerButton = new JButton(localizedBundle.getString("addWorker"));
 		insertNewWorkerButton.addActionListener(this);
+		modifyWorkerButton = new JButton(localizedBundle.getString("modifyEmployee"));
+		modifyWorkerButton.addActionListener(this);
 		tempWorker.add(insertNewWorkerButton);
+		tempWorker.add(modifyWorkerButton);
 		//temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
 		temp.add(tempWorker);
 		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
@@ -212,6 +215,8 @@ public class MainMenuView extends JPanel implements ActionListener {
 			man.createAndShowReturnBicycleView();
 		} else if(event.getSource() == modifyBikeButton) {
 			man.createAndShowRenewBicycleView();
+		}else if(event.getSource() == modifyWorkerButton){
+			man.createAndShowModifyWorkerView();
 		}
 	}
 
