@@ -30,3 +30,7 @@
 [5/6/15 5:02 PM]|Worker|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '` = '800539469')' at line 1>
 [5/6/15 5:08 PM]|Worker|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '` = '800111111')' at line 1>
 [5/6/15 5:13 PM]|Worker|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '` = '800111111')' at line 1>
+[5/7/15 10:00 AM]|RentBike|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 0: !Statement.GeneratedKeysNotRequested!>
+[5/7/15 10:04 AM]|RentBike|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 0: !Statement.GeneratedKeysNotRequested!>
+[5/7/15 10:19 AM]|Worker|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 0: !Statement.GeneratedKeysNotRequested!>
+[5/7/15 10:23 AM]|Bicycle|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 0: !Statement.GeneratedKeysNotRequested!>
