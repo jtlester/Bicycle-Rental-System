@@ -34,7 +34,6 @@ public class ReturnView extends JPanel implements ActionListener {
 	private MessageView statusLog;
 	private JTextField bannerTextField, bikeTextField;
 	private JButton backButton, submitButton;
-	private JComboBox dayComboBox, monthComboBox, yearComboBox;
 	private JDatePickerImpl returnDatePicker;
 
     public ResourceBundle localizedBundle;
@@ -185,9 +184,6 @@ public class ReturnView extends JPanel implements ActionListener {
 				
 				bannerTextField.setText("");
 				bikeTextField.setText("");
-				dayComboBox.setSelectedIndex(0);
-				monthComboBox.setSelectedIndex(0);
-				yearComboBox.setSelectedIndex(0);
 				//date.setText("");
 			}
 		}

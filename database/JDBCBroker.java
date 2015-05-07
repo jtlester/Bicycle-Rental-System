@@ -23,13 +23,14 @@
 package database;
 
 /// system imports
-import java.sql.Connection;
+import java.util.Enumeration;
 import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 // project imports
 import common.PropertyFile;
-
 import event.Event;
 
 //==============================================================
@@ -85,16 +86,8 @@ public class JDBCBroker
 			username = props.getProperty("username");
 			password = props.getProperty("password");
 			server = props.getProperty("server");
-			if (server == null) {
+			if (server == null)
 				server = "localhost";
-			}
-		} 
-		if(dbName == null || username == null || password == null) {
-			//DEBUG
-			dbName = "elewi2_spring15_1";
-			username = "elewi2";
-			password = "800548775";
-			server = "csdb.brockport.edu";
 		}
 		String driverClassName = "com.mysql.jdbc.Driver";
 		try
