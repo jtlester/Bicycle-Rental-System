@@ -29,7 +29,7 @@ import model.Peon;
 public class MainMenuView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Peon man;
-	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, modifyBikeButton, modifyWorkerButton;
+	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, modifyBikeButton, modifyWorkerButton, modifyUserButton;
 	private JLabel userLabel, bicycleLabel, loggedInUserLabel;
 
 	private MessageView statusLog;
@@ -165,7 +165,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
 			
 		//USER ADMIN BUTTONS		
-		tempUser.setLayout(new GridLayout(1,2,10,10));
+		tempUser.setLayout(new GridLayout(1,3,10,10));
 		tempUser.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		
 		userLabel = new JLabel(localizedBundle.getString("user") + ":");
@@ -174,6 +174,11 @@ public class MainMenuView extends JPanel implements ActionListener {
 		insertNewUserButton = new JButton(localizedBundle.getString("addUser"));
 		insertNewUserButton.addActionListener(this);
 		tempUser.add(insertNewUserButton);
+		
+		modifyUserButton = new JButton(localizedBundle.getString("modifyUser"));
+		modifyUserButton.addActionListener(this);
+		tempUser.add(modifyUserButton);
+		
 		temp.add(tempUser);
 		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
 		
