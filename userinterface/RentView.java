@@ -41,7 +41,6 @@ public class RentView extends JPanel implements ActionListener {
 	public Bicycle newBike;
 	private JDatePickerImpl rentDatePicker;
 	private JDatePickerImpl dueDatePicker;
-	private JComboBox dueDateDayComboBox, dueDateMonthComboBox, dueDateYearComboBox, rentDateDayComboBox, rentDateMonthComboBox, rentDateYearComboBox;
 
     public ResourceBundle localizedBundle;
 	
@@ -290,6 +289,7 @@ public class RentView extends JPanel implements ActionListener {
 				rentBikeProperties.setProperty("bannerId", bannerTextField.getText());
 				rentBikeProperties.setProperty("rentalDate", day + "-" + month + "-" + year);
 				rentBikeProperties.setProperty("dueDate", dayDue + "-" + monthDue + "-" + yearDue);	
+				rentBikeProperties.setProperty("status", "Active");
 				
 				peon.processRentData(rentBikeProperties);
 				
@@ -306,12 +306,6 @@ public class RentView extends JPanel implements ActionListener {
 				serialNumberTextField.setText("");
 				locationOnCampusTextField.setText("");
 				descriptionTextField.setText("");
-				rentDateDayComboBox.setSelectedIndex(0);
-				rentDateMonthComboBox.setSelectedIndex(0);
-				rentDateYearComboBox.setSelectedIndex(0);
-				dueDateDayComboBox.setSelectedIndex(0);
-				dueDateMonthComboBox.setSelectedIndex(0);
-				dueDateYearComboBox.setSelectedIndex(0);
 			}
 		} else if(event.getSource() == findButton) {
 			Properties bicycleId = new Properties();
