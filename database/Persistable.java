@@ -23,17 +23,16 @@
 package database;
 
 // system imports
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
 
-
-
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.DatabaseMetaData;
 
 
 // project imports
@@ -90,7 +89,7 @@ abstract public class Persistable
 		{
 		// Create a connection to the database
 		Connection theDBConnection = myBroker.getConnection();
-
+			
 		/* System.out.println("Persistable.getSchemaInfo(..) connection = " + theDBConnection); */
 
 		// extract the metadata from the database
@@ -143,8 +142,7 @@ abstract public class Persistable
      * containing the columnName=columnValue mappings
      */
     //------------------------------------------------------------
-    @SuppressWarnings("unchecked")
-	protected Vector getPersistentState(Properties schema,
+    protected Vector getPersistentState(Properties schema,
 					Properties where)
     {
 		int numRSColumns = 0; 			// number of columns in ResultSet
@@ -172,6 +170,13 @@ abstract public class Persistable
 			SQLSelectStatement theSQLStatement = new SQLSelectStatement(schema, where);
 
 			// DEBUG System.out.println("SQL Statement: " + theSQLStatement.toString());
+
+			// verify the construction (should be exception?)
+			if(theSQLStatement == null)
+			{
+				System.err.println("Persistable.getPersistentState - Could not create SQL Statement!");
+				return null;
+			}
 
 			// Once a connection has been established we can create an instance
 			// of Statement, through which we will send queries to the database.
@@ -248,8 +253,7 @@ abstract public class Persistable
      * containing the columnName=columnValue mappings
      */
     //------------------------------------------------------------
-    @SuppressWarnings("unchecked")
-	protected Vector getQueriedState(Properties selSchema,
+    protected Vector getQueriedState(Properties selSchema,
     								 Properties projectionSchema,
 									 Properties where)
     {
@@ -272,6 +276,13 @@ abstract public class Persistable
 			SQLQueryStatement theSQLStatement = new SQLQueryStatement(selSchema, projectionSchema, where);
 
 			// DEBUG: System.out.println("SQLQueryStatement: " + theSQLStatement.toString());
+
+			// verify the construction (should be exception?)
+			if(theSQLStatement == null)
+			{
+				System.err.println("Persistable.getQueriedState - Could not create SQL Statement!");
+				return null;
+			}
 
 			// Once a connection has been established we can create an instance
 			// of Statement, through which we will send queries to the database.
@@ -349,8 +360,7 @@ abstract public class Persistable
      * containing the columnName=columnValue mappings
      */
     //------------------------------------------------------------
-    @SuppressWarnings("unchecked")
-	protected Vector getQueriedStateWithExactMatches(Properties selSchema,
+    protected Vector getQueriedStateWithExactMatches(Properties selSchema,
     								 Properties projectionSchema,
 									 Properties where)
     {
@@ -374,6 +384,13 @@ abstract public class Persistable
 				new SQLQueryStatementWithExactMatches(selSchema, projectionSchema, where);
 
 			// DEBUG: System.out.println("SQLQueryStatement: " + theSQLStatement.toString());
+
+			// verify the construction (should be exception?)
+			if(theSQLStatement == null)
+			{
+				System.err.println("Persistable.getQueriedState - Could not create SQL Statement!");
+				return null;
+			}
 
 			// Once a connection has been established we can create an instance
 			// of Statement, through which we will send queries to the database.
@@ -450,8 +467,7 @@ abstract public class Persistable
      * containing the columnName=columnValue mappings
      */
     //------------------------------------------------------------
-    @SuppressWarnings("unchecked")
-	protected Vector getSelectQueryResult(String sqlSelectStatement)
+    protected Vector getSelectQueryResult(String sqlSelectStatement)
     {
 		int numRSColumns = 0; 			// number of columns in ResultSet
 		Vector namesRSColumns = null;	// names of columns in ResultSet
@@ -561,6 +577,9 @@ abstract public class Persistable
 			throws SQLException
     {
 
+		int numRSColumns = 0; 			// number of columns in ResultSet
+		Vector namesRSColumns = null;	// names of columns in ResultSet
+
 		try
 		{
 			// connect to the database
@@ -575,6 +594,13 @@ abstract public class Persistable
 	    	// construct a SQL statement from the passed parameters
 			SQLUpdateStatement theSQLStatement = new SQLUpdateStatement(schema, updateValues, whereValues);
 			// DEBUG System.out.println("SQL Statement: " + theSQLStatement.toString());
+
+			// verify the construction (should be exception?)
+			if(theSQLStatement == null)
+			{
+				System.err.println("Persistable.updatePersistentState - Could not create SQL Statement!");
+				return null;
+			}
 
 			// Once a connection has been established we can create an instance
 			// of Statement, through which we will send queries to the database.
@@ -633,6 +659,17 @@ abstract public class Persistable
 				return null;
 			}
 
+			// construct a SQL statement from the passed parameters
+			SQLInsertStatement theSQLStatement = new SQLInsertStatement(schema, insertValues);
+			// DEBUG System.out.println("Persistable.insertPersistentState - SQL Statement: " + theSQLStatement.toString());
+
+			// verify the construction (should be exception?)
+			if(theSQLStatement == null)
+			{
+				System.err.println("Persistable.insertPersistentState - Could not create SQL Statement!");
+				return null;
+			}
+
 			// Once a connection has been established we can create an instance
 			// of Statement, through which we will send queries to the database.
 			// Only the Global Pool connection should be used!
@@ -641,6 +678,9 @@ abstract public class Persistable
 			// Stop Runaway Queries
 			theStatement.setMaxRows(20000);
 
+			// The method executeUpdate executes a query on the database. The
+			// return result is of type integer which indicates the number of rows updated
+			int numRows = theStatement.executeUpdate(theSQLStatement.toString(), Statement.RETURN_GENERATED_KEYS);
 
 			// DEBUG: throw new SQLException("Testing only");
 			
@@ -688,6 +728,9 @@ abstract public class Persistable
     			throws SQLException
 
     {
+		int numRSColumns = 0; 			// number of columns in ResultSet
+		Vector namesRSColumns = null;	// names of columns in ResultSet
+
 		try
 		{
 			// connect to the database
@@ -703,6 +746,13 @@ abstract public class Persistable
 			SQLInsertStatement theSQLStatement = new SQLInsertStatement(schema, insertValues);
 			// DEBUG System.out.println("Persistable.insertPersistentState - SQL Statement: " + theSQLStatement.toString());
 		
+			// verify the construction (should be exception?)
+			if(theSQLStatement == null)
+			{
+				System.err.println("Persistable.insertPersistentState - Could not create SQL Statement!");
+				return null;
+			}
+
 			// Once a connection has been established we can create an instance
 			// of Statement, through which we will send queries to the database.
 			// Only the Global Pool connection should be used!
@@ -743,7 +793,10 @@ abstract public class Persistable
     										Properties whereValues)		// the values to use to identify the delete row
     			throws SQLException
     {
-    	try
+    	int numRSColumns = 0; 			// number of columns in ResultSet
+		Vector namesRSColumns = null;	// names of columns in ResultSet
+
+		try
 		{
 			// connect to the database
 			theDBConnection = myBroker.getConnection();
@@ -757,6 +810,13 @@ abstract public class Persistable
 	    	// construct a SQL statement from the passed parameters
 			SQLDeleteStatement theSQLStatement = new SQLDeleteStatement(schema, whereValues);
 			// DEBUG System.out.println("Persistable.deletePersistentState - SQL Statement: " + theSQLStatement.toString());
+
+			// verify the construction (should be exception?)
+			if(theSQLStatement == null)
+			{
+				System.err.println("Persistable.deletePersistentState - Could not create SQL Statement!");
+				return null;
+			}
 
 			// Once a connection has been established we can create an instance
 			// of Statement, through which we will send queries to the database.
