@@ -59,7 +59,7 @@ public class User extends EntityBase implements IView {
 				updateStatusMessage = "User data for bannerId : " + persistentState.getProperty("bannerId") + " updated successfully in database!";
 			} else {
 				Integer userId =  insertAutoIncrementalPersistentState(mySchema, persistentState);
-				persistentState.setProperty("banerId", "" + userId.intValue());
+				persistentState.setProperty("bannerId", "" + userId.intValue());
 
 				updateStatusMessage = "Inserted user "+persistentState.getProperty("userId");
 			}

@@ -40,9 +40,6 @@ public class UserView extends JPanel implements ActionListener {
 	private JButton backButton;
 	private JDatePickerImpl registrationDatePicker;
 	public ResourceBundle localizedBundle;
-	public MessageView statusLog;
-
-
 
 	public UserView(Peon p) {
 		peon = p;
@@ -59,14 +56,8 @@ public class UserView extends JPanel implements ActionListener {
 		titlePanel.add(lbl);
 		add(titlePanel);
 		add(dataEntryPanel());
-		add(createDate());
+		add(datePanel());
 		add(navigationPanel());
-		add(createStatusLog("                          "));
-
-	}
-	private JPanel createStatusLog(String initialMessage) {
-		statusLog = new MessageView(initialMessage);
-		return statusLog;
 	}
 
 	private JPanel dataEntryPanel() {
@@ -130,7 +121,7 @@ public class UserView extends JPanel implements ActionListener {
 	}
 
 	//Create Date
-	private JPanel createDate() {
+	private JPanel datePanel() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
 
@@ -150,13 +141,6 @@ public class UserView extends JPanel implements ActionListener {
 		return temp;
 	}
 
-	public void displayMessage(String message) {
-		statusLog.displayMessage(message);
-	}
-
-	public void displayErrorMessage(String message) {
-		statusLog.displayErrorMessage(message);
-	}
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText())) {
@@ -184,6 +168,8 @@ public class UserView extends JPanel implements ActionListener {
 				
 				if(peon.processUserData(userProperties)){
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUser"), "Success", JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorUser"), "Error", JOptionPane.PLAIN_MESSAGE);
 				}
 				clearEntries();
 			}
