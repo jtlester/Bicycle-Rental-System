@@ -12,12 +12,14 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -25,16 +27,14 @@ import javax.swing.JTextField;
 
 import model.LocaleConfig;
 import model.Peon;
-// system imports
-// project imports
 
 public class LoginView extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	// GUI stuff
 	private Peon peon;
-	private JTextField bannerID;
-	private JPasswordField password;
+	private JTextField bannerIdField;
+	private JPasswordField passwordField;
 	private JButton submitButton;
 	private JButton cancelButton;
 	private JRadioButton englshButton;
@@ -48,8 +48,8 @@ public class LoginView extends JPanel implements ActionListener {
 	public Locale currentLocale;
 	public String userName;
 
-	public LoginView(Peon p) {
-		peon = p;
+	public LoginView(Peon peon) {
+		this.peon = peon;
 
 		currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
@@ -63,24 +63,19 @@ public class LoginView extends JPanel implements ActionListener {
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		bannerID.requestFocus();
+		bannerIdField.requestFocus();
 	}
 	
 	private JPanel greetingPanel() {
-		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JPanel titlePanel = new JPanel();
+		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		BufferedImage logo = null;
-		BufferedImage reverseLogo = null;
-		
+		BufferedImage logo = null;		
 		try {
 			logo = ImageIO.read(new File("images/logo.jpg"));
 			JLabel picLabel = new JLabel(new ImageIcon(logo));
-			temp.add(picLabel);
+			titlePanel.add(picLabel);
 			
-			reverseLogo = ImageIO.read(new File("images/logo_reversed.jpg"));
-			JLabel rightLabel = new JLabel(new ImageIcon(reverseLogo));
-			temp.add(rightLabel);
 		} catch(IOException e) {
 			System.out.println("ERROR: Could not load logos");
 		}
@@ -88,13 +83,11 @@ public class LoginView extends JPanel implements ActionListener {
 		titleLabel = new JLabel(localizedBundle.getString("greetings"));
 		Font myFont = new Font("Arial", Font.BOLD, 24);
 		titleLabel.setFont(myFont);
-		temp.add(titleLabel);
-		return temp;
+		titlePanel.add(titleLabel);
+		return titlePanel;
 	}
 
 	public void populateFields() {
-		bannerID.setText("");
-		password.setText("");
 		englshButton.setSelected(true);
 		frenchButton.setSelected(false);
 	}
@@ -111,9 +104,9 @@ public class LoginView extends JPanel implements ActionListener {
 		useridLabel = new JLabel("BannerID");
 		entryFieldPanel.add(useridLabel);
 
-		bannerID = new JTextField(20);
-		bannerID.addActionListener(this);
-		entryFieldPanel.add(bannerID);
+		bannerIdField = new JTextField(20);
+		bannerIdField.addActionListener(this);
+		entryFieldPanel.add(bannerIdField);
 
 		dataEntryPanel.add(entryFieldPanel);
 
@@ -123,9 +116,9 @@ public class LoginView extends JPanel implements ActionListener {
 		passwordLabel = new JLabel(localizedBundle.getString("password") + ": ");
 		dataFieldPanel2.add(passwordLabel);
 
-		password = new JPasswordField(20);
-		password.addActionListener(this);
-		dataFieldPanel2.add(password);
+		passwordField = new JPasswordField(20);
+		passwordField.addActionListener(this);
+		dataFieldPanel2.add(passwordField);
 
 		dataEntryPanel.add(dataFieldPanel2);
 
@@ -151,51 +144,36 @@ public class LoginView extends JPanel implements ActionListener {
 	}
 	
 	private JPanel navigationButtons() {
-		JPanel temp = new JPanel();		// default FlowLayout is fine
+		JPanel navPanel = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(1);
 		f1.setHgap(25);
-		temp.setLayout(f1);
+		navPanel.setLayout(f1);
 
 		// create the buttons, listen for events, add them to the panel
 		cancelButton = new JButton(localizedBundle.getString("exit"));
 		cancelButton.addActionListener(this);
-		temp.add(cancelButton);
+		navPanel.add(cancelButton);
 
-		//submitButton.setDefaultCapable(true);
 		submitButton = new JButton(localizedBundle.getString("login"));
-		//submitButton.setDefaultCapable(true);
 		submitButton.addActionListener(this);
-		//submitButton.addActionListener(this);
-		temp.add(submitButton);
-		//myFrame.getRootPane().setDefaultButton( submitButton );
-		
+		navPanel.add(submitButton);
 
-		//JRootPane root = submitButton.getRootPane();
-		//root.setDefaultButton(submitButton);
-
-		return temp;
+		return navPanel;
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
-		String bannerIDEntered = bannerID.getText();
+		String bannerIDEntered = bannerIdField.getText();
 
 		if(evt.getSource() == submitButton) {
 			if ((bannerIDEntered == null) || (bannerIDEntered.length() == 0)) {
-				//displayErrorMessage("Please enter a Banner ID");
-				peon.errorMessagePopup("bannerId");
-				
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else {
-				char[] passwordValueEntered = password.getPassword();
-				String passwordEntered = new String(passwordValueEntered);
-				
+				String passwordEntered = String.valueOf(passwordField.getPassword());
 				if ((passwordEntered == null) || passwordEntered.length() == 0) {
-					//displayErrorMessage("Please enter a Password");
-					peon.errorMessagePopup("password");
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
+					passwordField.setText("");
 				} else {
-					for (int cnt = 0; cnt < passwordValueEntered.length; cnt++) {
-						passwordValueEntered[cnt] = 0;
-					}
 					processUserIDAndPassword(bannerIDEntered, passwordEntered);
 				}
 			}
@@ -244,36 +222,19 @@ public class LoginView extends JPanel implements ActionListener {
 	 * Process userid and pwd supplied when Submit button is hit.
 	 * Action is to pass this info on to the teller object
 	 */
-	//----------------------------------------------------------
 	private void processUserIDAndPassword(String useridString,
 			String passwordString) {
 		Properties props = new Properties();
 		props.setProperty("bannerId", useridString);
 		props.setProperty("password", passwordString);
 
-		// clear fields for next time around
-		bannerID.setText("");
-		password.setText("");
+		bannerIdField.setText("");
+		passwordField.setText("");
 		if (englshButton.isSelected()) {
 			LocaleConfig.setLocale(new Locale("en", "US"));
 		} else {
 			LocaleConfig.setLocale(new Locale("fr", "FR"));
 		}
-		//userName = props.getProperty("bannerId");
-		//returnUserName();
 		peon.authenticateLogin(props);
-	}
-	/*public String returnUserName()
-	{
-		return userName;
-	}*/
-
-	public void updateState(String key, Object value) {
-		// STEP 6: Be sure to finish the end of the 'perturbation'
-		// by indicating how the view state gets updated.
-		if (key.equals("LoginError")) {
-			// display the passed text
-			System.out.println((String)value);
-		}
 	}
 }

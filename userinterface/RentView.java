@@ -1,6 +1,5 @@
 // specify the package
 package userinterface;
-// system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -9,44 +8,39 @@ import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import model.Bicycle;
 import model.DateLabelFormatter;
 import model.LocaleConfig;
 import model.Peon;
+
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-// project imports
 
 public class RentView extends JPanel implements ActionListener {
-	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Peon peon;
 	private MessageView statusLog;
 	private JTextField bannerTextField, statusTextField, bikeTextField, makeTextField, modelTextField, colorTextField, serialNumberTextField, locationOnCampusTextField, descriptionTextField;
 	private JButton backButton, submitButton, findButton;
-	public Bicycle newBike;
 	private JDatePickerImpl rentDatePicker;
 	private JDatePickerImpl dueDatePicker;
-
-    public ResourceBundle localizedBundle;
+    private ResourceBundle localizedBundle;
 	
-	public RentView(Peon p)
-	{
-		peon = p;
+	public RentView(Peon peon)	{
+		this.peon = peon;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 		
@@ -60,25 +54,16 @@ public class RentView extends JPanel implements ActionListener {
 		titlePanel.add(mainLabel);
 		add(titlePanel);
 		add(dataEntryPanel());
-		add(createBikeSearchFunction());
+		add(bikeSearchFunction());
 		add(new JSeparator(SwingConstants.HORIZONTAL));
 		add(bicycleField());
 		add(new JSeparator(SwingConstants.HORIZONTAL));
-		add(createRentDate());
-		add(createDueDate());
-		add(navigationPanel());
-		
-		add(createStatusLog("                      "));
-		
+		add(rentDatePanel());
+		add(dueDatePanel());
+		add(navigationPanel());		
 	}
 	
-	private JPanel createStatusLog(String initialMessage) {
-		statusLog = new MessageView(initialMessage);
-		return statusLog;
-	}
-	
-	private JPanel dataEntryPanel()
-	{
+	private JPanel dataEntryPanel() {
 		JPanel entryPanel = new JPanel();
 		
 		//SET LAYOUT
@@ -92,33 +77,27 @@ public class RentView extends JPanel implements ActionListener {
 		bannerTextField.addActionListener(this);
 		entryPanel.add(bannerLabel);
 		entryPanel.add(bannerTextField);
-		
 		return entryPanel;
 	}
 	
-	private JPanel createBikeSearchFunction()
-	{
+	private JPanel bikeSearchFunction() {
 		//BIKE ID ENTRY FELDS
-		JPanel temp = new JPanel();
+		JPanel bikeSearchPanel = new JPanel();
 		FlowLayout layoutOne = new FlowLayout(FlowLayout.CENTER);
-		//layoutOne.setHgap(2);
-		temp.setLayout(layoutOne);
-		//temp.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
+		bikeSearchPanel.setLayout(layoutOne);
 
 		JLabel bikeLabel = new JLabel(localizedBundle.getString("bicycleSerialNumber") + ": ");
 		bikeTextField = new JTextField(20);
 		bikeTextField.addActionListener(this);
 		findButton = new JButton(localizedBundle.getString("find"));
 		findButton.addActionListener(this);
-		temp.add(bikeLabel);
-		temp.add(bikeTextField);
-		temp.add(findButton);
-		
-		return temp;
+		bikeSearchPanel.add(bikeLabel);
+		bikeSearchPanel.add(bikeTextField);
+		bikeSearchPanel.add(findButton);
+		return bikeSearchPanel;
 	}
 	
-	private JPanel bicycleField()
-	{
+	private JPanel bicycleField() {
 		JPanel entryPanel = new JPanel();
 		// set the layout for this panel
 		entryPanel.setLayout(new GridLayout(7,2,20,20));
@@ -185,13 +164,12 @@ public class RentView extends JPanel implements ActionListener {
 	}
 	
 	//Create Date
-	private JPanel createRentDate()
-	{
-		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+	private JPanel rentDatePanel() {
+		JPanel rentDatePanel = new JPanel();
+		rentDatePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		JLabel rentDateLabel = new JLabel(localizedBundle.getString("rentDate") + ": ");
-		temp.add(rentDateLabel);
+		rentDatePanel.add(rentDateLabel);
 
 		UtilDateModel model = new UtilDateModel();
 		model.setSelected(true);
@@ -201,18 +179,17 @@ public class RentView extends JPanel implements ActionListener {
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		rentDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
-		temp.add(rentDatePicker);
-		return temp;
+		rentDatePanel.add(rentDatePicker);
+		return rentDatePanel;
 	}
 	
 	//Create Date
-	private JPanel createDueDate()
-	{
-		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
+	private JPanel dueDatePanel() {
+		JPanel dueDatePanel = new JPanel();
+		dueDatePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		JLabel rentDateLabel = new JLabel(localizedBundle.getString("dueDate") + ": ");
-		temp.add(rentDateLabel);
+		dueDatePanel.add(rentDateLabel);
 
 		UtilDateModel model = new UtilDateModel();
 		model.setSelected(true);
@@ -222,15 +199,12 @@ public class RentView extends JPanel implements ActionListener {
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		dueDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
-		temp.add(dueDatePicker);
-		
-		return temp;
+		dueDatePanel.add(dueDatePicker);
+		return dueDatePanel;
 	}
 	
 	// Create the navigation buttons
-	//-------------------------------------------------------------
-	private JPanel navigationPanel()
-	{
+	private JPanel navigationPanel() {
 		JPanel navPanel = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(50);
@@ -261,21 +235,13 @@ public class RentView extends JPanel implements ActionListener {
 		statusLog.displayMessage(message);
 	}
 	
-	public void actionPerformed(ActionEvent event)
-	{
-
-		if(event.getSource() == submitButton)
-		{
-			if(bannerTextField.getText().equals(""))
-			{
-				peon.errorMessagePopup("bannerId");
-			}
-			else if(bikeTextField.getText().equals(""))
-			{
-				peon.errorMessagePopup("bikeId");
-			}
-			else
-			{
+	public void actionPerformed(ActionEvent event) {
+		if(event.getSource() == submitButton) {
+			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText()) || bannerTextField.getText().length() != 9) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(bikeTextField.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else {
 				String day = String.valueOf(rentDatePicker.getModel().getDay());
 				String month = String.valueOf(rentDatePicker.getModel().getMonth() + 1);
 				String year = String.valueOf(rentDatePicker.getModel().getYear());
@@ -291,12 +257,13 @@ public class RentView extends JPanel implements ActionListener {
 				rentBikeProperties.setProperty("dueDate", dayDue + "-" + monthDue + "-" + yearDue);	
 				rentBikeProperties.setProperty("status", "Active");
 				
-				peon.processRentData(rentBikeProperties);
-				
 				Properties statusChange = new Properties();
 				statusChange.setProperty("bikeId", bikeTextField.getText());
 				statusChange.setProperty("status", "Unavailable");
-				peon.changeStatus(statusChange);
+				
+				if(peon.processRentData(rentBikeProperties) && peon.changeStatus(statusChange)) {
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successRent"), "Success", JOptionPane.PLAIN_MESSAGE);
+				}
 				
 				bannerTextField.setText("");
 				bikeTextField.setText("");
@@ -308,24 +275,25 @@ public class RentView extends JPanel implements ActionListener {
 				descriptionTextField.setText("");
 			}
 		} else if(event.getSource() == findButton) {
-			Properties bicycleId = new Properties();
-			bicycleId.setProperty("bikeId", bikeTextField.getText());
-			newBike = new Bicycle(bicycleId);
-			newBike.getBikeInfo(bicycleId);
-			
-			makeTextField.setText(newBike.getMake());
-			modelTextField.setText(newBike.getModel());
-			colorTextField.setText(newBike.getColor());
-			serialNumberTextField.setText(newBike.getSerial());
-			locationOnCampusTextField.setText(newBike.getLocation());
-			descriptionTextField.setText(newBike.getDescription());
-			statusTextField.setText(newBike.getStatus());
+			//User clicked find button
+			Properties bicycleProps = new Properties();
+			bicycleProps.setProperty("bikeId", bikeTextField.getText());
+			Bicycle bicycle = new Bicycle(bicycleProps);
+			Properties bicycleProperties = bicycle.getBikeInfo(bikeTextField.getText());
+			if(bicycleProperties == null) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), "Error", JOptionPane.WARNING_MESSAGE);
+				bikeTextField.setText("");
+				return;
+			}
+			makeTextField.setText(bicycleProperties.getProperty("make"));
+			modelTextField.setText(bicycleProperties.getProperty("model"));
+			colorTextField.setText(bicycleProperties.getProperty("color"));
+			serialNumberTextField.setText(bicycleProperties.getProperty("make"));
+			locationOnCampusTextField.setText(bicycleProperties.getProperty("locationOnCampus"));
+			descriptionTextField.setText(bicycleProperties.getProperty("description"));
+			statusTextField.setText(bicycleProperties.getProperty("status"));
+		} else if(event.getSource() == backButton) {
+			peon.createAndShowMainMenuView();
 		}
-		else if(event.getSource() == backButton)
-		{
-			peon.returnDataDone();
-		}
-		
 	}
-	
 }

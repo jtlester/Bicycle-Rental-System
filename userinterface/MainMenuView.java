@@ -219,9 +219,11 @@ public class MainMenuView extends JPanel implements ActionListener {
 		} else if(event.getSource() == returnBikeButton) {
 			man.createAndShowReturnBicycleView();
 		} else if(event.getSource() == modifyBikeButton) {
-			man.createAndShowRenewBicycleView();
-		}else if(event.getSource() == modifyWorkerButton){
+			man.createAndShowModifyBicycleView();
+		} else if(event.getSource() == modifyWorkerButton) {
 			man.createAndShowModifyWorkerView();
+		} else if(event.getSource() == modifyUserButton) {
+			man.createAndShowModifyUserView();
 		}
 	}
 

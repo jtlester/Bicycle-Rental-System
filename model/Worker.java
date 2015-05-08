@@ -88,15 +88,15 @@ public class Worker extends EntityBase implements IView {
 		}
 		return true;
 	}
-	
+
 	public boolean updateWorkerInfo()
 	{
 		try
 		{
-				Properties whereClause = new Properties();
-				whereClause.setProperty("bannerId", persistentState.getProperty("bannerId"));
-				updatePersistentState(mySchema, persistentState, whereClause);
-			
+			Properties whereClause = new Properties();
+			whereClause.setProperty("bannerId", persistentState.getProperty("bannerId"));
+			updatePersistentState(mySchema, persistentState, whereClause);
+
 		}
 		catch(SQLException ex)
 		{
@@ -104,8 +104,8 @@ public class Worker extends EntityBase implements IView {
 		}
 		return true;
 	}
-	
-	
+
+
 	public void getWorkerInfo(Properties props) 
 	{
 		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bannerId` = '" + props.getProperty("bannerId") + "');";
@@ -114,22 +114,22 @@ public class Worker extends EntityBase implements IView {
 		if (length == 1) 
 		{
 			Properties retrievedWorkerData = 
-				(Properties)allDataRetrieved.elementAt(0);
+					(Properties)allDataRetrieved.elementAt(0);
 			workerInfo = new Properties();
-    
+
 			Enumeration allKeys = retrievedWorkerData.propertyNames();
 			while(allKeys.hasMoreElements() == true) 
 			{
 				String nextKey = (String)allKeys.nextElement();
 				String nextValue = retrievedWorkerData.getProperty(nextKey);
-			
+
 				if(nextValue != null) 
 				{
 					workerInfo.setProperty(nextKey, nextValue);
 				}
-    
+
 			}
-    
+
 			bannerId = workerInfo.getProperty("bannerId");
 			password = workerInfo.getProperty("password");
 			adminLevel = workerInfo.getProperty("adminLevel");
@@ -142,32 +142,32 @@ public class Worker extends EntityBase implements IView {
 		{
 			System.out.println("No Employee Found");
 		}
-    }
+	}
 	//Info being obtained
-    
-		public String getBannerId() {
-			return bannerId;
-		}
-		public String getPassword() {
-			return password;
-		}
-		public String getAdminLevel() {
-			return adminLevel;
-		}
-		public String getFirstName() {
-			return firstName;
-		}
-		public String getLastName() {
-			return lastName;
-		}
-		public String getPhoneNumber() {
-			return phoneNumber;
-		}
-		public String getEmail() {
-			return email;
-		}
-	
-	
+
+	public String getBannerId() {
+		return bannerId;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public String getAdminLevel() {
+		return adminLevel;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public String getEmail() {
+		return email;
+	}
+
+
 
 	private void setDependencies() {
 		dependencies = new Properties();

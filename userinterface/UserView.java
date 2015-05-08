@@ -96,12 +96,10 @@ public class UserView extends JPanel implements ActionListener {
 		emailTextField = new JTextField(20);
 		emailTextField.addActionListener(this);
 		entryPanel.add(emailTextField);
-
 		return entryPanel;
 	}
 
 	// Create the navigation buttons
-	//-------------------------------------------------------------
 	private JPanel navigationPanel() {
 		JPanel navPanel = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
@@ -143,7 +141,7 @@ public class UserView extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText())) {
+			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText()) || bannerTextField.getText().length() != 9) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(firstNameTextField.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
@@ -175,7 +173,7 @@ public class UserView extends JPanel implements ActionListener {
 			}
 		} else if(event.getSource() == backButton) {
 			clearEntries();
-			peon.userDataDone();
+			peon.createAndShowMainMenuView();
 		}
 	}
 

@@ -23,9 +23,7 @@
 package database;
 
 /// system imports
-import java.util.Enumeration;
 import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -88,6 +86,13 @@ public class JDBCBroker
 			server = props.getProperty("server");
 			if (server == null)
 				server = "localhost";
+		}
+		
+		if (dbName == null) {
+			dbName = "elewi2_spring15_1";
+			username = "elewi2";
+			password = "800548775";
+			server = "csdb.brockport.edu";
 		}
 		String driverClassName = "com.mysql.jdbc.Driver";
 		try

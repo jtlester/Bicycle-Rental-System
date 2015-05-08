@@ -167,7 +167,7 @@ public class WorkerView extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
-			if (bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText())) {
+			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText())) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if (passwordTextField.getPassword().equals("")) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
@@ -197,13 +197,14 @@ public class WorkerView extends JPanel implements ActionListener {
 
 				if(peon.processWorkerData(workerProperties)) {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successWorker"), "Success", JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorker"), "Error", JOptionPane.PLAIN_MESSAGE);
 				}
-
 				clearEntries();
 			}
 		} else if (event.getSource() == backButton) {
 			clearEntries();
-			peon.workerDataDone();
+			peon.createAndShowMainMenuView();
 		}
 	}
 

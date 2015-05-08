@@ -1,6 +1,4 @@
-// specify the package
 package userinterface;
-// system imports
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -9,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,18 +15,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-
 import model.DateLabelFormatter;
 import model.LocaleConfig;
 import model.Peon;
 
 public class BicycleView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Peon peon;
 	private JTextField makeTextField;
 	private JTextField modelTextField;
@@ -40,15 +35,14 @@ public class BicycleView extends JPanel implements ActionListener {
 	private JTextField descriptionTextField;
 	private JButton submitButton;
 	private JButton backButton;
-    private ResourceBundle localizedBundle;
-    private JDatePickerImpl rentDatePicker;
+	private ResourceBundle localizedBundle;
+	private JDatePickerImpl rentDatePicker;
 
 	public BicycleView(Peon peon) {
 		this.peon = peon;
-		
+
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
-		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		//Title panel
 		JPanel titlePanel = new JPanel();
@@ -62,28 +56,28 @@ public class BicycleView extends JPanel implements ActionListener {
 		add(datePanel());
 		add(navigationPanel());
 	}
-	
+
 	// Create the main data entry fields
 	private JPanel dataEntryPanel() {
 		JPanel entryPanel = new JPanel();
 		//Set the layout for this panel
 		entryPanel.setLayout(new GridLayout(7,2,20,20));
 		entryPanel.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
-		
+
 		//Make
 		JLabel makeLabel = new JLabel(localizedBundle.getString("make") + ": ");
 		makeTextField = new JTextField(20);
 		makeTextField.addActionListener(this);
 		entryPanel.add(makeLabel);
 		entryPanel.add(makeTextField);
-		
+
 		//Model
 		JLabel modelLabel = new JLabel(localizedBundle.getString("model") + ": ");
 		modelTextField = new JTextField(20);
 		modelTextField.addActionListener(this);
 		entryPanel.add(modelLabel);
 		entryPanel.add(modelTextField);
-		
+
 		//Condition
 		JLabel bikeConditionLabel = new JLabel(localizedBundle.getString("condition") + ": ");
 		bikeConditionComboBox = new JComboBox();
@@ -93,32 +87,32 @@ public class BicycleView extends JPanel implements ActionListener {
 		bikeConditionComboBox.addActionListener(this);
 		entryPanel.add(bikeConditionLabel);
 		entryPanel.add(bikeConditionComboBox);
-		
+
 		//Color
 		JLabel colorLabel = new JLabel(localizedBundle.getString("color") + ": ");
 		colorComboBox = new JComboBox();
 		String [] colorPossibilities = {"---", localizedBundle.getString("red"), localizedBundle.getString("orange"), localizedBundle.getString("yellow"),
-			localizedBundle.getString("green"), localizedBundle.getString("blue"), localizedBundle.getString("purple"), localizedBundle.getString("brown"),
+				localizedBundle.getString("green"), localizedBundle.getString("blue"), localizedBundle.getString("purple"), localizedBundle.getString("brown"),
 				localizedBundle.getString("black"), localizedBundle.getString("white")};
 		colorComboBox = new JComboBox(colorPossibilities);
 		colorComboBox.addActionListener(this);
 		entryPanel.add(colorLabel);
 		entryPanel.add(colorComboBox);
-		
+
 		//Serial Number
 		JLabel serialNumberLabel = new JLabel(localizedBundle.getString("serialNumber") + ": ");
 		entryPanel.add(serialNumberLabel);
 		serialNumberTextField = new JTextField(20);
 		serialNumberTextField.addActionListener(this);
 		entryPanel.add(serialNumberTextField);
-		
+
 		//Location
 		JLabel locationOnCampusLabel = new JLabel(localizedBundle.getString("campusLocation") + ": ");
 		entryPanel.add(locationOnCampusLabel);
 		locationOnCampusTextField = new JTextField(20);
 		locationOnCampusTextField.addActionListener(this);
 		entryPanel.add(locationOnCampusTextField);
-		
+
 		//Description
 		JLabel descriptionLabel = new JLabel(localizedBundle.getString("description") + ": ");
 		entryPanel.add(descriptionLabel);
@@ -127,7 +121,7 @@ public class BicycleView extends JPanel implements ActionListener {
 		entryPanel.add(descriptionTextField); 
 		return entryPanel;
 	}
-	
+
 	private JPanel datePanel() {
 		//Create Date Picker
 		JPanel date = new JPanel();
@@ -144,10 +138,9 @@ public class BicycleView extends JPanel implements ActionListener {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		rentDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());		 
 		date.add(rentDatePicker);
-	
 		return date;
 	}
-	
+
 	private JPanel navigationPanel() {
 		// Create the navigation buttons
 		JPanel navPanel = new JPanel();
@@ -155,7 +148,7 @@ public class BicycleView extends JPanel implements ActionListener {
 		f1.setVgap(50);
 		f1.setHgap(25);
 		navPanel.setLayout(f1);
-		
+
 		// Create the buttons, listen for events, add them to the panel
 		backButton = new JButton(localizedBundle.getString("back"));
 		backButton.addActionListener(this);
@@ -166,7 +159,7 @@ public class BicycleView extends JPanel implements ActionListener {
 		navPanel.add(submitButton);
 		return navPanel;
 	}
-	
+
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(makeTextField.getText().equals("")) {
@@ -175,9 +168,9 @@ public class BicycleView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(bikeConditionComboBox.getSelectedIndex() == 0 || bikeConditionComboBox.getSelectedIndex() == -1) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidCondition"), "Error", JOptionPane.WARNING_MESSAGE);
-		 	} else if(colorComboBox.getSelectedIndex() == 0 || colorComboBox.getSelectedIndex() == -1) {
+			} else if(colorComboBox.getSelectedIndex() == 0 || colorComboBox.getSelectedIndex() == -1) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidColor"), "Error", JOptionPane.WARNING_MESSAGE);
-		 	} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
+			} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(locationOnCampusTextField.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), "Error", JOptionPane.WARNING_MESSAGE);
@@ -186,7 +179,7 @@ public class BicycleView extends JPanel implements ActionListener {
 				String day = String.valueOf(rentDatePicker.getModel().getDay());
 				String month = String.valueOf(rentDatePicker.getModel().getMonth() + 1);
 				String year = String.valueOf(rentDatePicker.getModel().getYear());
-				
+
 				Properties bicycleProperties = new Properties();
 				bicycleProperties.setProperty("make",makeTextField.getText());
 				bicycleProperties.setProperty("model",modelTextField.getText());
@@ -197,18 +190,20 @@ public class BicycleView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
 				bicycleProperties.setProperty("status", "in");
 				bicycleProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
-				
+
 				if(peon.processBicycleData(bicycleProperties)) {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successBicycle"), "Success", JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycle"), "Error", JOptionPane.PLAIN_MESSAGE);
 				}
 				clearEntries();
 			}
 		} else if(event.getSource() == backButton) {
 			clearEntries();
-			peon.bicycleDataDone();
+			peon.createAndShowMainMenuView();
 		}
 	}
-	
+
 	private void clearEntries() {
 		//Clear entry boxes
 		makeTextField.setText("");

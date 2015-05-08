@@ -35,6 +35,7 @@ public class Peon {
 	public ReturnView returnView;
 	public RentView rentView;
 	public ModifyBikeView modifyBikeView;
+	public ModifyUserView modifyUserView;
 	public BicycleView bicycleView;
 	public ModifyWorkerView modifyWorkerView;
 	public Login login;
@@ -84,13 +85,8 @@ public class Peon {
 		currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 
-		if(error.equals("bannerId")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
-		} else if(error.equals("password")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
-		}
 		//Bike Error Checking
-		else if(error.equals("make")) {
+		if(error.equals("make")) {
 			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidMake"), "Error", JOptionPane.WARNING_MESSAGE);
 		} else if(error.equals("model")) {
 			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidModel"), "Error", JOptionPane.WARNING_MESSAGE);
@@ -143,16 +139,21 @@ public class Peon {
 		return false;
 	}
 
-	public void processRentData(Properties rentProperties) {
+	public boolean processRentData(Properties rentProperties) {
 		RentBike newRentBike = new RentBike(rentProperties);
-		newRentBike.update();
-		rentView.displayMessage("Rental successfully registered");
+		if(newRentBike.update()) {
+			return true;
+		}
+		return false;
 	}
 
-	public void changeStatus(Properties p)
+	public boolean changeStatus(Properties p)
 	{
 		Bicycle bicycle = new Bicycle(p);
-		bicycle.changeStatus();
+		if(bicycle.changeStatus()) {
+			return true;
+		}
+		return false;
 	}
 
 	public void processReturnData(Properties returnProperties) {
@@ -162,22 +163,21 @@ public class Peon {
 		returnView.displayMessage("Bike  " + returnProperties.getProperty("bikeId") + " has been updated successfully");
 	}
 
-	public void processRenewData(Properties bicycleProperties) {
+	public void processModifyData(Properties bicycleProperties) {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
-		newBicycle.update();		
+		newBicycle.updateBicycleInfo();		
 		//modifyBikeView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
 	}
-       public void processUpdateUserData(Properties userProperties) {
-	   User newUser = new User(userProperties);
-	   newUser.update();
-	   //modifyuserView.displayMessage("User with the Banner ID " + userProperties.getProperty("bannerId") + " has been updated successfully");
+	public void processUpdateUserData(Properties userProperties) {
+		User newUser = new User(userProperties);
+		newUser.updateUserInfo();
 	}
 	public void processUpdateWorkerData(Properties workerProperties)
 	{
 		Worker updateWorker = new Worker(workerProperties);
 		updateWorker.updateWorkerInfo();
 	}
-	
+
 
 	public void workerDataDone() {
 		createAndShowMainMenuView();
@@ -251,18 +251,25 @@ public class Peon {
 		swapToView(returnView);
 	}
 
-	public void createAndShowRenewBicycleView() {
+	public void createAndShowModifyBicycleView() {
 		modifyBikeView = new ModifyBikeView(this);
 		myFrame.getContentPane().add(modifyBikeView);
 		myFrame.pack();
 		swapToView(modifyBikeView);
 	}
-	
+
 	public void createAndShowModifyWorkerView(){
 		modifyWorkerView = new ModifyWorkerView(this);
 		myFrame.getContentPane().add(modifyWorkerView);
 		myFrame.pack();
 		swapToView(modifyWorkerView);
+	}
+
+	public void createAndShowModifyUserView() {
+		modifyUserView = new ModifyUserView(this);
+		myFrame.getContentPane().add(modifyUserView);
+		myFrame.pack();
+		swapToView(modifyUserView);
 	}
 
 	public void swapToView(JPanel otherView) {

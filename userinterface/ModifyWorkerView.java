@@ -28,9 +28,7 @@ import model.LocaleConfig;
 import model.Peon;
 
 public class ModifyWorkerView extends JPanel implements ActionListener{
-	/**
-	*
-	*/
+
 	private static final long serialVersionUID = 1L;
 	private Peon peon;
 	private JTextField bannerIdTextField, firstNameTextField, lastNameTextField, phoneNumberTextField, emailTextField;
@@ -52,7 +50,7 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		JLabel lbl = new JLabel("Modify Worker");
+		JLabel lbl = new JLabel(localizedBundle.getString("modifyEmployee"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
 		titlePanel.add(lbl);
@@ -184,7 +182,7 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 		{
 			Properties newWorkerProperties = new Properties();
 			newWorkerProperties.setProperty("bannerId", bannerIdTextField.getText());
-			newWorkerProperties.setProperty("password", passwordTextField.getText());
+			newWorkerProperties.setProperty("password", String.valueOf(passwordTextField.getPassword()));
 			newWorkerProperties.setProperty("adminLevel", (String)adminLevelComboBox.getSelectedItem());
 			newWorkerProperties.setProperty("firstName", firstNameTextField.getText());
 			newWorkerProperties.setProperty("lastName", lastNameTextField.getText());

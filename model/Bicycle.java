@@ -1,7 +1,5 @@
 package model;
 
-//System imports
-//GUI Imports
 import impresario.IView;
 import java.sql.SQLException;
 import java.util.Enumeration;
@@ -13,8 +11,6 @@ public class Bicycle extends EntityBase implements IView {
     private static final String myTableName = "Bicycle";
     protected Properties persistentState;
     protected Properties dependencies;
-	Properties bikeInfo;
-	public String make, model, color, condition,serialNumber, locationOnCampus, description, status;
     
     // GUI Components
     private String updateStatusMessage = "";
@@ -35,7 +31,6 @@ public class Bicycle extends EntityBase implements IView {
                 persistentState.setProperty(nextKey, nextValue);
             }
         }
-
     }
 
     //Takes an array of strings to insert bicycle into Database
@@ -80,80 +75,48 @@ public class Bicycle extends EntityBase implements IView {
     	return true;
     }
 	
-	public void changeStatus() {
+    public boolean updateBicycleInfo() {
 		try {
 			Properties whereClause = new Properties();
-			
 			whereClause.setProperty("bikeId", persistentState.getProperty("bikeId"));
 			updatePersistentState(mySchema, persistentState, whereClause);
-			updateStatusMessage = " Updated Bike!";
+
+		} catch(SQLException ex) {
+			return false;
 		}
-		catch(SQLException ex) {
-			updateStatusMessage = "Failed to update!";
+		return true;
+	}
+    
+	public boolean changeStatus() {
+		try {
+			Properties whereClause = new Properties();
+			whereClause.setProperty("bikeId", persistentState.getProperty("bikeId"));
+			updatePersistentState(mySchema, persistentState, whereClause);
+			return true;
+		} catch(SQLException ex) {
+			return false;
 		}
-		System.out.println(updateStatusMessage);
 	}
 	
-	//-------------------------------------------------------------------
-	public void getBikeInfo(Properties props) {
-		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bikeId` = '" + props.getProperty("bikeId") + "');";
+	public Properties getBikeInfo(String bikeId) {
+		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bikeId` = '" + bikeId + "');";
 		Vector allDataRetrieved = getSelectQueryResult(authQuery);
 		int size = allDataRetrieved.size();
 		if(size == 1) {
-			Properties retrievedBikeData = (Properties)allDataRetrieved.elementAt(0);
-			bikeInfo = new Properties();
-			
+			Properties retrievedBikeData = (Properties)allDataRetrieved.elementAt(0);			
 			Enumeration allKeys = retrievedBikeData.propertyNames();
 			while(allKeys.hasMoreElements() == true) {
 				String nextKey = (String)allKeys.nextElement();
 				String nextValue = retrievedBikeData.getProperty(nextKey);
-				
 				if(nextValue != null) {
-					bikeInfo.setProperty(nextKey, nextValue);
+					retrievedBikeData.setProperty(nextKey, nextValue);
 				}
 			}
-			
-			make = bikeInfo.getProperty("make");
-			model = bikeInfo.getProperty("model");
-			condition = bikeInfo.getProperty("bikeCondition");
-			color = bikeInfo.getProperty("color");
-			serialNumber = bikeInfo.getProperty("serialNumber");
-			locationOnCampus = bikeInfo.getProperty("locationOnCampus");
-			description = bikeInfo.getProperty("description");
-			status = bikeInfo.getProperty("status");
-			
-		} else {
-			System.out.println("No Bike Found");
-		}
-		
+			return retrievedBikeData;
+		} 
+		return null;	
 	}
-	//GETTERS FOR BIKE INFO
-	public String getMake() {
-		return make;
-	}
-	public String getModel() {
-		return model;
-	}
-	public String getCondition() {
-		return condition;
-	}
-	public String getColor() {
-		return color;
-	}
-	public String getSerial() {
-		return serialNumber;
-	}
-	public String getLocation() {
-		return locationOnCampus;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public String getStatus() {
-		return status;
-	}
-
-//-----------------------------------------------------------------------
+	
     public void updateState(String key, Object value) {
         stateChangeRequest(key, value);
     }

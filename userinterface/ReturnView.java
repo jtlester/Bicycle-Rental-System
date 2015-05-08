@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -25,10 +24,7 @@ import org.jdatepicker.impl.UtilDateModel;
 // project imports
 
 public class ReturnView extends JPanel implements ActionListener {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Peon peon;
 	private MessageView statusLog;
@@ -38,8 +34,7 @@ public class ReturnView extends JPanel implements ActionListener {
 
     public ResourceBundle localizedBundle;
 	
-	public ReturnView(Peon p)
-	{
+	public ReturnView(Peon p) {
 		peon = p;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
@@ -54,34 +49,24 @@ public class ReturnView extends JPanel implements ActionListener {
 		titlePanel.add(mainLabel);
 		add(titlePanel);
 		add(dataEntryPanel());
-		add(createDate());
-		add(navigationPanel());
-		
-		
-		add(createStatusLog("                      "));
-		
+		add(datePanel());
+		add(navigationPanel());		
 	}
 	
-	private JPanel createStatusLog(String initialMessage) {
-		statusLog = new MessageView(initialMessage);
-		return statusLog;
-	}
-	
-	private JPanel dataEntryPanel()
-	{
+	private JPanel dataEntryPanel() {
 		JPanel entryPanel = new JPanel();
 		
 		//SET LAYOUT
 		entryPanel.setLayout(new GridLayout(3,2,10,10));
 		entryPanel.setBorder(BorderFactory.createEmptyBorder(10,15,10,15));
 		
-		//ENTRY FIELDS 
-		//BANNER ID
-		JLabel bannerLabel = new JLabel(localizedBundle.getString("renterBannerId") + ": ");
-		bannerTextField = new JTextField(20);
-		bannerTextField.addActionListener(this);
-		entryPanel.add(bannerLabel);
-		entryPanel.add(bannerTextField);
+//		//ENTRY FIELDS 
+//		//BANNER ID
+//		JLabel bannerLabel = new JLabel(localizedBundle.getString("renterBannerId") + ": ");
+//		bannerTextField = new JTextField(20);
+//		bannerTextField.addActionListener(this);
+//		entryPanel.add(bannerLabel);
+//		entryPanel.add(bannerTextField);
 		
 		//BIKE ID ENTRY FELDS
 		JLabel bikeLabel = new JLabel(localizedBundle.getString("bicycleSerialNumber") + ": ");
@@ -94,13 +79,9 @@ public class ReturnView extends JPanel implements ActionListener {
 	}
 	
 	//Create Date
-	private JPanel createDate()
-	{
+	private JPanel datePanel() {
 		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		//Date
-		//dayComboBox = new JComboBox();
-		
+		temp.setLayout(new FlowLayout(FlowLayout.CENTER));		
 		JLabel returnDateLabel = new JLabel(localizedBundle.getString("returnDate") + ": ");
 		temp.add(returnDateLabel);
 
@@ -118,9 +99,7 @@ public class ReturnView extends JPanel implements ActionListener {
 	}
 	
 	// Create the navigation buttons
-	//-------------------------------------------------------------
-	private JPanel navigationPanel()
-	{
+	private JPanel navigationPanel() {
 		JPanel navPanel = new JPanel();		// default FlowLayout is fine
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(50);
@@ -151,20 +130,13 @@ public class ReturnView extends JPanel implements ActionListener {
 		statusLog.displayMessage(message);
 	}
 	
-	public void actionPerformed(ActionEvent event)
-	{
-		if(event.getSource() == submitButton)
-		{
-			if(bannerTextField.getText().equals(""))
-			{
+	public void actionPerformed(ActionEvent event) {
+		if(event.getSource() == submitButton) {
+			if(bannerTextField.getText().equals("")) {
 				peon.errorMessagePopup("bannerId");
-			}
-			else if(bikeTextField.getText().equals(""))
-			{
+			} else if(bikeTextField.getText().equals("")) {
 				peon.errorMessagePopup("bikeId");
-			}
-			else
-			{
+			} else {
 				String day = String.valueOf(returnDatePicker.getModel().getDay());
 				String month = String.valueOf(returnDatePicker.getModel().getMonth() + 1);
 				String year = String.valueOf(returnDatePicker.getModel().getYear());
@@ -174,7 +146,6 @@ public class ReturnView extends JPanel implements ActionListener {
 				returnBikeProperties.setProperty("bannerId", bannerTextField.getText());
 				returnBikeProperties.setProperty("returnDate", day + "-" + month + "-" + year);
 				returnBikeProperties.setProperty("status", "Inactive");
-				
 				peon.processReturnData(returnBikeProperties);
 				
 				Properties statusChange = new Properties();
@@ -184,14 +155,9 @@ public class ReturnView extends JPanel implements ActionListener {
 				
 				bannerTextField.setText("");
 				bikeTextField.setText("");
-				//date.setText("");
 			}
+		} else if(event.getSource() == backButton) {
+			peon.createAndShowMainMenuView();
 		}
-		else if(event.getSource() == backButton)
-		{
-			peon.returnDataDone();
-		}
-		
 	}
-	
 }
