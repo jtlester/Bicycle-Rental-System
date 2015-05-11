@@ -94,8 +94,8 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 
 	private void statusHash() {
 		statusMap = new HashMap<String, Integer>();
-		statusMap.put("In", 0);
-		statusMap.put("Out", 1);
+		statusMap.put("Available", 0);
+		statusMap.put("Unavailable", 1);
 	}
 
 	// Create the main data entry fields
@@ -175,7 +175,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 		JPanel searchPanel = new JPanel();
 		FlowLayout layoutOne = new FlowLayout(FlowLayout.CENTER);
 		searchPanel.setLayout(layoutOne);
-		JLabel bikeLabel = new JLabel(localizedBundle.getString("bicycleSerialNumber") + ": ");
+		JLabel bikeLabel = new JLabel(localizedBundle.getString("bicycleId") + ": ");
 		bikeTextField = new JTextField(20);
 		bikeTextField.addActionListener(this);
 		findButton = new JButton(localizedBundle.getString("find"));
@@ -213,9 +213,9 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 		f1.setVgap(8);
 		f1.setHgap(25);
 		cBox.setLayout(f1);
-		JLabel rentalLabel = new JLabel(localizedBundle.getString("inOrOut"));
+		JLabel rentalLabel = new JLabel(localizedBundle.getString("status"));
 		cBox.add(rentalLabel);
-		String [] rentalPossibilites = { localizedBundle.getString("in"), localizedBundle.getString("out")};
+		String [] rentalPossibilites = { localizedBundle.getString("available"), localizedBundle.getString("unavailable")};
 		statusComboBox = new JComboBox(rentalPossibilites);
 		statusComboBox.addActionListener(this);
 		cBox.add(statusComboBox);
@@ -244,16 +244,24 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
 				bicycleProperties.setProperty("status",(String)statusComboBox.getSelectedItem());
-				peon.processModifyData(bicycleProperties);
-				clearEntries();
+				if(peon.processUpdateBicycleData(bicycleProperties)) {
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdateBicycle"), "Success", JOptionPane.PLAIN_MESSAGE);
+					clearEntries();
+					peon.createAndShowMainMenuView();
+				}
 			}
 		} else if(event.getSource() == findButton) {
 			//User clicked find button
-			Properties bicycleProperties = new Properties();
-			bicycleProperties.setProperty("bikeId", bikeTextField.getText());
-			Bicycle bicycle = new Bicycle(bicycleProperties);
-			bicycleProperties = bicycle.getBikeInfo(bikeTextField.getText());
-
+			bikeId = bikeTextField.getText();
+			Properties bicycleProps = new Properties();
+			bicycleProps.setProperty("bikeId", bikeId);
+			Bicycle bicycle = new Bicycle(bicycleProps);
+			Properties bicycleProperties = bicycle.getBikeInfo(bikeTextField.getText());
+			if(bicycleProperties == null) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), "Error", JOptionPane.WARNING_MESSAGE);
+				bikeTextField.setText("");
+				return;
+			}
 			makeTextField.setText(bicycleProperties.getProperty("make"));
 			modelTextField.setText(bicycleProperties.getProperty("model"));
 			if(colorMap.containsKey(bicycleProperties.getProperty("color"))) {
@@ -273,7 +281,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 			descriptionTextField.setText(bicycleProperties.getProperty("description"));
 		} else if(event.getSource() == backButton) {
 			clearEntries();
-			peon.bicycleDataDone();
+			peon.createAndShowMainMenuView();
 		}
 	}
 

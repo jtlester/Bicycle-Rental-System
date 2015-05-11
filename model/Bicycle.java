@@ -80,7 +80,6 @@ public class Bicycle extends EntityBase implements IView {
 			Properties whereClause = new Properties();
 			whereClause.setProperty("bikeId", persistentState.getProperty("bikeId"));
 			updatePersistentState(mySchema, persistentState, whereClause);
-
 		} catch(SQLException ex) {
 			return false;
 		}

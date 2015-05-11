@@ -16,21 +16,18 @@ public class ReturnBike extends EntityBase implements IView
 	private String updateStatusMessage = "";
 
 	//initialize return object
-	public ReturnBike(Properties props)
-	{
+	public ReturnBike(Properties props) {
 		super(myTableName);
 
 		setDependencies();
 		persistentState = new Properties();
 
 		Enumeration allKeys = props.propertyNames();
-		while(allKeys.hasMoreElements() == true)
-		{
+		while(allKeys.hasMoreElements() == true) {
 			String nextKey = (String)allKeys.nextElement();
 			String nextValue = props.getProperty(nextKey);
 
-			if(nextValue != null)
-			{
+			if(nextValue != null) {
 				persistentState.setProperty(nextKey, nextValue);
 			}
 
@@ -53,18 +50,19 @@ public class ReturnBike extends EntityBase implements IView
 	}
 
 	//Update the return info/table
-	public void update() {
+	public boolean update() {
 		try {
 			Properties whereClause = new Properties();
 			whereClause.setProperty("bikeId", persistentState.getProperty("bikeId"));
-			whereClause.setProperty("bannerId", persistentState.getProperty("bannerId"));
 			whereClause.setProperty("status", "Active");
 			updatePersistentState(mySchema, persistentState, whereClause);
 			updateStatusMessage = "Updated return for Bike: " + persistentState.getProperty("bikeId");
+			return true;
 		} catch(SQLException ex) {
 			updateStatusMessage = "Error in updating";
 		}
 		System.out.println(updateStatusMessage);
+		return false;
 	}
 
 	public Object getState(String key) {

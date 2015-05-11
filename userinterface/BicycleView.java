@@ -193,6 +193,8 @@ public class BicycleView extends JPanel implements ActionListener {
 
 				if(peon.processBicycleData(bicycleProperties)) {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successBicycle"), "Success", JOptionPane.PLAIN_MESSAGE);
+					clearEntries();
+					peon.createAndShowMainMenuView();
 				} else {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycle"), "Error", JOptionPane.PLAIN_MESSAGE);
 				}

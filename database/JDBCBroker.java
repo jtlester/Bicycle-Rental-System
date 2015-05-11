@@ -23,7 +23,9 @@
 package database;
 
 /// system imports
+import java.util.Enumeration;
 import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 

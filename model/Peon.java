@@ -156,43 +156,35 @@ public class Peon {
 		return false;
 	}
 
-	public void processReturnData(Properties returnProperties) {
+	public boolean processReturnData(Properties returnProperties) {
 		ReturnBike newReturnBike = new ReturnBike(returnProperties);
-		newReturnBike.update();
-
-		returnView.displayMessage("Bike  " + returnProperties.getProperty("bikeId") + " has been updated successfully");
+		if(newReturnBike.update()) {
+			return true;
+		}
+		return false;
 	}
 
-	public void processModifyData(Properties bicycleProperties) {
+	public boolean processUpdateBicycleData(Properties bicycleProperties) {
 		Bicycle newBicycle = new Bicycle(bicycleProperties);
-		newBicycle.updateBicycleInfo();		
-		//modifyBikeView.displayMessage("Bicycle with a serial number of " + bicycleProperties.getProperty("serialNumber") + " saved successfully");
+		if(newBicycle.updateBicycleInfo()) {
+			return true;
+		}
+		return false;
 	}
-	public void processUpdateUserData(Properties userProperties) {
+	public boolean processUpdateUserData(Properties userProperties) {
 		User newUser = new User(userProperties);
-		newUser.updateUserInfo();
+		if(newUser.updateUserInfo()) {
+			return true;
+		}
+		return false;
 	}
-	public void processUpdateWorkerData(Properties workerProperties)
+	public boolean processUpdateWorkerData(Properties workerProperties)
 	{
 		Worker updateWorker = new Worker(workerProperties);
-		updateWorker.updateWorkerInfo();
-	}
-
-
-	public void workerDataDone() {
-		createAndShowMainMenuView();
-	}
-
-	public void userDataDone() {
-		createAndShowMainMenuView();
-	}
-
-	public void bicycleDataDone() {
-		createAndShowMainMenuView();
-	}
-
-	public void returnDataDone() {
-		createAndShowMainMenuView();
+		if(updateWorker.updateWorkerInfo()) {
+			return true;
+		}
+		return false;
 	}
 
 	public void exitSystem() {
@@ -308,10 +300,15 @@ public class Peon {
 	}
 
 	//Check if date is valid
-	public static boolean isValidDate(Date dateToCheck) {
-		if(dateToCheck.before(new Date())) {
+	public static boolean isValidDate(Date dateToCheck, Date laterDateToCheck) {
+		if(laterDateToCheck != null) {
+			if(!dateToCheck.before(laterDateToCheck)) {
+				return false;
+			}
+		} else if(dateToCheck.before(new Date())) {
 			return false;
 		}
 		return true;
 	}
+
 }

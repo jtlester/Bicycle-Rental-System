@@ -89,28 +89,23 @@ public class User extends EntityBase implements IView {
 	}
 
 
-	public void getUserInfo(Properties props) {
+	public Properties userInfo(Properties props) {
 		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bannerId` = '" + props.getProperty("bannerId") + "');";
 		Vector allDataRetrieved = getSelectQueryResult(authQuery);
 		int size = allDataRetrieved.size();
 		if(size == 1) {
 			Properties retrievedUserData = (Properties)allDataRetrieved.elementAt(0);
-			userInfo = new Properties();
-
 			Enumeration allKeys = retrievedUserData.propertyNames();
 			while(allKeys.hasMoreElements() == true) {
 				String nextKey = (String)allKeys.nextElement();
 				String nextValue = retrievedUserData.getProperty(nextKey);
-
 				if(nextValue != null) {
-					userInfo.setProperty(nextKey, nextValue);
+					retrievedUserData.setProperty(nextKey, nextValue);
 				}
 			}
-
-		} else {
-			System.out.println("No User Found");
+			return retrievedUserData;
 		}
-
+		return null;
 	}
 
 	public void delete() {

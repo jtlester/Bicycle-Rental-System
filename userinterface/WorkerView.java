@@ -197,6 +197,7 @@ public class WorkerView extends JPanel implements ActionListener {
 
 				if(peon.processWorkerData(workerProperties)) {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successWorker"), "Success", JOptionPane.PLAIN_MESSAGE);
+					peon.createAndShowMainMenuView();
 				} else {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorker"), "Error", JOptionPane.PLAIN_MESSAGE);
 				}

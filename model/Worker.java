@@ -12,7 +12,6 @@ import exception.InvalidPrimaryKeyException;
 public class Worker extends EntityBase implements IView {
 	private static final String myTableName = "Worker";
 	protected Properties dependencies;
-	public String bannerId, adminLevel, password, firstName, lastName, phoneNumber, email;
 	Properties workerInfo;
 	private String updateStatusMessage = "";
 
@@ -89,85 +88,38 @@ public class Worker extends EntityBase implements IView {
 		return true;
 	}
 
-	public boolean updateWorkerInfo()
-	{
-		try
-		{
+	public boolean updateWorkerInfo() {
+		try {
 			Properties whereClause = new Properties();
 			whereClause.setProperty("bannerId", persistentState.getProperty("bannerId"));
 			updatePersistentState(mySchema, persistentState, whereClause);
-
 		}
-		catch(SQLException ex)
-		{
+		catch(SQLException ex) {
 			return false;
 		}
 		return true;
 	}
 
-
-	public void getWorkerInfo(Properties props) 
-	{
+	public Properties workerInfo(Properties props) {
 		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bannerId` = '" + props.getProperty("bannerId") + "');";
 		Vector allDataRetrieved = getSelectQueryResult(authQuery);
 		int length = allDataRetrieved.size();
-		if (length == 1) 
-		{
+		if (length == 1) {
 			Properties retrievedWorkerData = 
 					(Properties)allDataRetrieved.elementAt(0);
-			workerInfo = new Properties();
-
 			Enumeration allKeys = retrievedWorkerData.propertyNames();
-			while(allKeys.hasMoreElements() == true) 
-			{
+			while(allKeys.hasMoreElements() == true) {
 				String nextKey = (String)allKeys.nextElement();
 				String nextValue = retrievedWorkerData.getProperty(nextKey);
 
-				if(nextValue != null) 
-				{
-					workerInfo.setProperty(nextKey, nextValue);
+				if(nextValue != null) {
+					retrievedWorkerData.setProperty(nextValue, nextValue);//workerInfo.setProperty(nextKey, nextValue);
 				}
-
 			}
-
-			bannerId = workerInfo.getProperty("bannerId");
-			password = workerInfo.getProperty("password");
-			adminLevel = workerInfo.getProperty("adminLevel");
-			firstName = workerInfo.getProperty("firstName");
-			lastName = workerInfo.getProperty("lastName");
-			phoneNumber = workerInfo.getProperty("phoneNumber");    
-			email = workerInfo.getProperty("email");
+			return retrievedWorkerData;
 		}
-		else 
-		{
-			System.out.println("No Employee Found");
-		}
+		return null;
 	}
-	//Info being obtained
-
-	public String getBannerId() {
-		return bannerId;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public String getAdminLevel() {
-		return adminLevel;
-	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	public String getEmail() {
-		return email;
-	}
-
-
 
 	private void setDependencies() {
 		dependencies = new Properties();
