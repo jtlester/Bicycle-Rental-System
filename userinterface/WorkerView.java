@@ -28,14 +28,9 @@ import org.jdatepicker.impl.UtilDateModel;
 public class WorkerView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Peon peon;
-	private JTextField firstNameTextField;
-	private JTextField lastNameTextField;
-	private JTextField bannerTextField;
-	private JTextField emailTextField;
-	private JTextField phoneTextField;
+	private JTextField firstNameTextField, lastNameTextField, bannerTextField, emailTextField, phoneTextField;
 	private JPasswordField passwordTextField;
-	private JButton submitButton;
-	private JButton backButton;
+	private JButton submitButton, backButton;
 	private JComboBox adminComboBox;
 
 	private JDatePickerImpl registrationDatePicker;
@@ -175,7 +170,7 @@ public class WorkerView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(lastNameTextField.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), "Error", JOptionPane.WARNING_MESSAGE);
-			} else if(phoneTextField.getText().length() != 11) {
+			} else if(phoneTextField.getText().length() <= 10) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(emailTextField.getText() == null) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), "Error", JOptionPane.WARNING_MESSAGE);

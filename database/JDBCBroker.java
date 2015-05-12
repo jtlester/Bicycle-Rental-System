@@ -90,12 +90,6 @@ public class JDBCBroker
 				server = "localhost";
 		}
 		
-		if (dbName == null) {
-			dbName = "elewi2_spring15_1";
-			username = "elewi2";
-			password = "800548775";
-			server = "csdb.brockport.edu";
-		}
 		String driverClassName = "com.mysql.jdbc.Driver";
 		try
 		{	

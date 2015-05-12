@@ -1,7 +1,6 @@
 // specify the package
 package userinterface;
 
-// system imports
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -24,20 +23,17 @@ import javax.swing.border.TitledBorder;
 
 import model.LocaleConfig;
 import model.Peon;
-// project imports
 
 public class MainMenuView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private Peon man;
+	private Peon peon;
 	private JButton insertNewWorkerButton, insertNewUserButton, insertNewBicycleButton, logoutButton, doneButton, rentBikeButton, returnBikeButton, modifyBikeButton, modifyWorkerButton, modifyUserButton;
 	private JLabel userLabel, bicycleLabel, loggedInUserLabel;
 
-	private MessageView statusLog;
-
 	public ResourceBundle localizedBundle;
 
-	public MainMenuView(Peon p) {
-		man = p;
+	public MainMenuView(Peon peon) {
+		this.peon = peon;
 		Locale currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
 
@@ -46,192 +42,166 @@ public class MainMenuView extends JPanel implements ActionListener {
 		add(loggedInUserLabel());
 		add(new JSeparator(SwingConstants.HORIZONTAL));
 		add(navigationButtons());
-		if(man.obtainAdminLevel().equals("Yes")) {
+		if(peon.obtainAdminLevel().equals("Yes")) {
 			add(adminAccessPanel());
 		}
 		add(cancelButtons());
-		add(statusLog("     "));
 	}
-	
-	private JPanel loggedInUserLabel() {
-		JPanel temp = new JPanel();
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
-		if(man.obtainAdminLevel().equals("Yes")) {
-			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + man.userName() + ". " + localizedBundle.getString("welcomeAdmin"));
-		} else {
-			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + man.userName());
 
+	private JPanel loggedInUserLabel() {
+		JPanel userPanel = new JPanel();
+		userPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+		if(peon.obtainAdminLevel().equals("Yes")) {
+			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + peon.userName() + ". " + localizedBundle.getString("welcomeAdmin"));
+		} else {
+			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + peon.userName());
 		}
-		
-		temp.add(loggedInUserLabel);
-		//temp.add(new JSeparator(SwingConstants.HORIZONTAL));
-		return temp;
+		userPanel.add(loggedInUserLabel);
+		return userPanel;
 	}
 
 	private JPanel title() {
-		JPanel temp = new JPanel();
-		//temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-
+		JPanel titlePanel = new JPanel();
 		JLabel label = new JLabel(localizedBundle.getString("greetings"), SwingConstants.CENTER);
 		Font myFont = new Font("Arial", Font.BOLD, 24);
 		label.setFont(myFont);
-		temp.add(label);
-		
-
-		return temp;
+		titlePanel.add(label);
+		return titlePanel;
 	}
 
 	private JPanel navigationButtons() {
-		JPanel mainTemp = new JPanel();
-		mainTemp.setLayout(new BoxLayout(mainTemp, BoxLayout.Y_AXIS));
-		
-		//NORMAL WORKER CREDENTIAL BUTTONS
-		//---------------------------------------------------------------------------
-		JPanel temp = new JPanel();
+		JPanel navPanel = new JPanel();
+		navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
 
-		temp.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		temp.setBorder(BorderFactory.createEmptyBorder(10,20,5,20));
-	
+		//NORMAL WORKER CREDENTIAL BUTTONS
+		JPanel workerPanel = new JPanel();
+
+		workerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		workerPanel.setBorder(BorderFactory.createEmptyBorder(10,20,5,20));
+
 		rentBikeButton = new JButton(localizedBundle.getString("rentBicycle"));
 		rentBikeButton.addActionListener(this);
 		returnBikeButton = new JButton(localizedBundle.getString("returnBicycle"));
 		returnBikeButton.addActionListener(this);
-		temp.add(rentBikeButton);
-		temp.add(returnBikeButton);
-		mainTemp.add(temp);
-		
-		JPanel temp2 = new JPanel();
-		temp2.setLayout(new FlowLayout(FlowLayout.CENTER));
-		temp2.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+		workerPanel.add(rentBikeButton);
+		workerPanel.add(returnBikeButton);
+		navPanel.add(workerPanel);
+
+		JPanel bikePanel = new JPanel();
+		bikePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		bikePanel.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
 		modifyBikeButton = new JButton(localizedBundle.getString("modifyBicycle"));
 		modifyBikeButton.addActionListener(this);
-		temp2.add(modifyBikeButton);
-		mainTemp.add(temp2);
+		bikePanel.add(modifyBikeButton);
+		navPanel.add(bikePanel);
 
-		mainTemp.add(new JSeparator(SwingConstants.HORIZONTAL));
-		
-		//---------------------------------------------------------------------------
-		return mainTemp;
+		navPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+		return navPanel;
 	}
-	
+
 	private JPanel cancelButtons() {
 		//EXIT AND LOGOUT BUTTON
-		JPanel temp = new JPanel();
+		JPanel cancelPanel = new JPanel();
 		FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
 		f1.setVgap(25);
 		f1.setHgap(25);
-		temp.setLayout(f1);
-		
+		cancelPanel.setLayout(f1);
+
 		doneButton = new JButton(localizedBundle.getString("exit"));
 		doneButton.addActionListener(this);
-		temp.add(doneButton);
-		temp.setAlignmentY(Component.CENTER_ALIGNMENT);
-		
+		cancelPanel.add(doneButton);
+		cancelPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
 		logoutButton = new JButton(localizedBundle.getString("logout"));
 		logoutButton.addActionListener(this);
-		temp.add(logoutButton);
-		temp.setAlignmentY(Component.CENTER_ALIGNMENT);
-		
-		return temp;
+		cancelPanel.add(logoutButton);
+		cancelPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+		return cancelPanel;
 	}
-	
+
 	private JPanel adminAccessPanel() {
-		JPanel temp = new JPanel();
+		JPanel accessPanel = new JPanel();
 		Border one = BorderFactory.createLineBorder(Color.black);
-		temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
-		temp.setBorder(BorderFactory.createTitledBorder(one, localizedBundle.getString("administrativePanel"), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
-		
-		JPanel tempWorker = new JPanel();
+		accessPanel.setLayout(new BoxLayout(accessPanel, BoxLayout.Y_AXIS));
+		accessPanel.setBorder(BorderFactory.createTitledBorder(one, localizedBundle.getString("administrativePanel"), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+
+		JPanel workerPanel = new JPanel();
 		JLabel newWorkerLabel;
-		JPanel tempUser = new JPanel();
-		JPanel tempBike = new JPanel();
-		
+		JPanel userPanel = new JPanel();
+		JPanel bikePanel = new JPanel();
+
 		//WORKER ADMIN BUTTONS
-		tempWorker.setLayout(new GridLayout(1,3,10,10));
-		tempWorker.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		
+		workerPanel.setLayout(new GridLayout(1,3,10,10));
+		workerPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
 		newWorkerLabel = new JLabel(localizedBundle.getString("worker") + ":");
-		tempWorker.add(newWorkerLabel);
-		
+		workerPanel.add(newWorkerLabel);
+
 		insertNewWorkerButton = new JButton(localizedBundle.getString("addWorker"));
 		insertNewWorkerButton.addActionListener(this);
 		modifyWorkerButton = new JButton(localizedBundle.getString("modifyEmployee"));
 		modifyWorkerButton.addActionListener(this);
-		tempWorker.add(insertNewWorkerButton);
-		tempWorker.add(modifyWorkerButton);
+		workerPanel.add(insertNewWorkerButton);
+		workerPanel.add(modifyWorkerButton);
 		//temp.setAlignmentX(insertNewWorkerButton.CENTER_ALIGNMENT);
-		temp.add(tempWorker);
-		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
-			
+		accessPanel.add(workerPanel);
+		accessPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+
 		//USER ADMIN BUTTONS		
-		tempUser.setLayout(new GridLayout(1,3,10,10));
-		tempUser.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		
+		userPanel.setLayout(new GridLayout(1,3,10,10));
+		userPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
 		userLabel = new JLabel(localizedBundle.getString("user") + ":");
-		tempUser.add(userLabel);
-		
+		userPanel.add(userLabel);
+
 		insertNewUserButton = new JButton(localizedBundle.getString("addUser"));
 		insertNewUserButton.addActionListener(this);
-		tempUser.add(insertNewUserButton);
-		
+		userPanel.add(insertNewUserButton);
+
 		modifyUserButton = new JButton(localizedBundle.getString("modifyUser"));
 		modifyUserButton.addActionListener(this);
-		tempUser.add(modifyUserButton);
-		
-		temp.add(tempUser);
-		temp.add(new JSeparator(SwingConstants.HORIZONTAL));
-		
+		userPanel.add(modifyUserButton);
+
+		accessPanel.add(userPanel);
+		accessPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+
 		//ADD BIKE BUTTON AND LABEL
-		tempBike.setLayout(new GridLayout(1,2,10,10));
-		tempBike.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		bikePanel.setLayout(new GridLayout(1,2,10,10));
+		bikePanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		bicycleLabel = new JLabel(localizedBundle.getString("bicycle") + ":");
-		tempBike.add(bicycleLabel);
-		
+		bikePanel.add(bicycleLabel);
+
 		insertNewBicycleButton = new JButton(localizedBundle.getString("addBicycle"));
 		insertNewBicycleButton.addActionListener(this);
-		tempBike.add(insertNewBicycleButton);
-		temp.add(tempBike);
-		
-		return temp;
-	}
-
-	private JPanel statusLog(String initialMessage) {
-		statusLog = new MessageView(initialMessage);
-		return statusLog;
+		bikePanel.add(insertNewBicycleButton);
+		accessPanel.add(bikePanel);
+		return accessPanel;
 	}
 
 	public void actionPerformed(ActionEvent event) {
-		clearErrorMessage();
 
 		if(event.getSource() == insertNewWorkerButton) {
-			man.createAndShowWorkerView();
+			peon.createAndShowWorkerView();
 		} else if(event.getSource() == insertNewUserButton) {
-			man.createAndShowUserView();
+			peon.createAndShowUserView();
 		} else if(event.getSource() == insertNewBicycleButton) {
-			man.createAndShowBicycleView();
+			peon.createAndShowBicycleView();
 		} else if(event.getSource() == logoutButton) {
-			man.createAndShowLoginView();
+			peon.createAndShowLoginView();
 		} else if(event.getSource() == doneButton) {
-			man.exitSystem();
+			peon.exitSystem();
 		} else if(event.getSource() == rentBikeButton) {
-			man.createAndShowRentBicycleView();
+			peon.createAndShowRentBicycleView();
 		} else if(event.getSource() == returnBikeButton) {
-			man.createAndShowReturnBicycleView();
+			peon.createAndShowReturnBicycleView();
 		} else if(event.getSource() == modifyBikeButton) {
-			man.createAndShowModifyBicycleView();
+			peon.createAndShowModifyBicycleView();
 		} else if(event.getSource() == modifyWorkerButton) {
-			man.createAndShowModifyWorkerView();
+			peon.createAndShowModifyWorkerView();
 		} else if(event.getSource() == modifyUserButton) {
-			man.createAndShowModifyUserView();
+			peon.createAndShowModifyUserView();
 		}
-	}
-
-	public void displayErrorMessage(String message) {
-		statusLog.displayErrorMessage(message);
-	}
-
-	public void clearErrorMessage() {
-		statusLog.clearErrorMessage();
 	}
 }
