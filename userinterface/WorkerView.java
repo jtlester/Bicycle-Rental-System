@@ -191,7 +191,7 @@ public class WorkerView extends JPanel implements ActionListener {
 				workerProperties.setProperty("registrationDate", day + "-" + month + "-" + year);
 
 				if(peon.processWorkerData(workerProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successWorker"), "Success", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successEmployee"), "Success", JOptionPane.PLAIN_MESSAGE);
 					peon.createAndShowMainMenuView();
 				} else {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorker"), "Error", JOptionPane.PLAIN_MESSAGE);
