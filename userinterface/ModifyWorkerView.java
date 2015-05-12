@@ -51,7 +51,7 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		JLabel lbl = new JLabel(localizedBundle.getString("modifyEmployee"));
+		JLabel lbl = new JLabel(localizedBundle.getString("modifyWorker"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
 		titlePanel.add(lbl);
@@ -170,15 +170,15 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 		if(event.getSource() == submitButton) {
 			Properties newWorkerProperties = new Properties();
 			if (passwordTextField.getPassword().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(firstNameTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(lastNameTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(phoneNumberTextField.getText().length() <= 10) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(emailTextField.getText() == null) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else {
 				newWorkerProperties.setProperty("bannerId", bannerId);
 				newWorkerProperties.setProperty("password", String.valueOf(passwordTextField.getPassword()));
@@ -189,7 +189,7 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 				newWorkerProperties.setProperty("email", emailTextField.getText());
 
 				if(peon.processUpdateWorkerData(newWorkerProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdateWorker"), "Success", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdate"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					clearFields();
 					peon.createAndShowMainMenuView();
 				}
@@ -202,7 +202,7 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 			worker = new Worker(workerBanner);
 			Properties workerProperties = worker.workerInfo(workerBanner);
 			if(workerProperties == null) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorkerNotFound"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorkerNotFound"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 				bannerIdTextField.setText("");
 				return;
 			}

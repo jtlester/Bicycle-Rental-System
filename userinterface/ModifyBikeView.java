@@ -226,13 +226,13 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 		if(event.getSource() == submitButton) {
 			//User clicked submit
 			if(makeTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidMake"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidMake"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(modelTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(locationOnCampusTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else {
 				Properties bicycleProperties = new Properties();
 				bicycleProperties.setProperty("bikeId",bikeId);
@@ -245,7 +245,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
 				bicycleProperties.setProperty("status",(String)statusComboBox.getSelectedItem());
 				if(peon.processUpdateBicycleData(bicycleProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdateBicycle"), "Success", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdateBicycle"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					clearEntries();
 					peon.createAndShowMainMenuView();
 				}
@@ -258,7 +258,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 			Bicycle bicycle = new Bicycle(bicycleProps);
 			Properties bicycleProperties = bicycle.getBikeInfo(bikeTextField.getText());
 			if(bicycleProperties == null) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 				bikeTextField.setText("");
 				return;
 			}

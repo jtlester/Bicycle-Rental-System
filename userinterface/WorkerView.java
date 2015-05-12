@@ -163,17 +163,17 @@ public class WorkerView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText())) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if (passwordTextField.getPassword().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(firstNameTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(lastNameTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(phoneTextField.getText().length() <= 10) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(emailTextField.getText() == null) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else {
 
 				String day = String.valueOf(registrationDatePicker.getModel().getDay());
@@ -191,10 +191,10 @@ public class WorkerView extends JPanel implements ActionListener {
 				workerProperties.setProperty("registrationDate", day + "-" + month + "-" + year);
 
 				if(peon.processWorkerData(workerProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successEmployee"), "Success", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successWorker"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					peon.createAndShowMainMenuView();
 				} else {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorker"), "Error", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorker"), localizedBundle.getString("error"), JOptionPane.PLAIN_MESSAGE);
 				}
 				clearEntries();
 			}

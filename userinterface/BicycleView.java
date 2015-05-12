@@ -163,17 +163,17 @@ public class BicycleView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(makeTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidMake"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidMake"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(modelTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(bikeConditionComboBox.getSelectedIndex() == 0 || bikeConditionComboBox.getSelectedIndex() == -1) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidCondition"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidCondition"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(colorComboBox.getSelectedIndex() == 0 || colorComboBox.getSelectedIndex() == -1) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidColor"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidColor"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(locationOnCampusTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else {
 				//The form is valid
 				String day = String.valueOf(rentDatePicker.getModel().getDay());
@@ -192,7 +192,7 @@ public class BicycleView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
 
 				if(peon.processBicycleData(bicycleProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successBicycle"), "Success", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successBicycle"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					clearEntries();
 					peon.createAndShowMainMenuView();
 				} else {

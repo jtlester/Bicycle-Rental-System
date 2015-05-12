@@ -113,7 +113,7 @@ public class ReturnView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(bikeTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 				bikeTextField.setText("");
 			} else {
 				String day = String.valueOf(returnDatePicker.getModel().getDay());
@@ -130,7 +130,7 @@ public class ReturnView extends JPanel implements ActionListener {
 				statusChange.setProperty("status", "Available");
 
 				if(peon.processReturnData(returnBikeProperties) && peon.changeStatus(statusChange)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successReturn"), "Success", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successReturn"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					peon.createAndShowMainMenuView();
 				}
 			}

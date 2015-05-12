@@ -141,7 +141,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 
 		insertNewWorkerButton = new JButton(localizedBundle.getString("addWorker"));
 		insertNewWorkerButton.addActionListener(this);
-		modifyWorkerButton = new JButton(localizedBundle.getString("modifyEmployee"));
+		modifyWorkerButton = new JButton(localizedBundle.getString("modifyWorker"));
 		modifyWorkerButton.addActionListener(this);
 		workerPanel.add(insertNewWorkerButton);
 		workerPanel.add(modifyWorkerButton);

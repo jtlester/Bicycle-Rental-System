@@ -167,11 +167,11 @@ public class LoginView extends JPanel implements ActionListener {
 
 		if(evt.getSource() == submitButton) {
 			if ((bannerIDEntered == null) || (bannerIDEntered.length() == 0)) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else {
 				String passwordEntered = String.valueOf(passwordField.getPassword());
 				if ((passwordEntered == null) || passwordEntered.length() == 0) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 					passwordField.setText("");
 				} else {
 					processUserIDAndPassword(bannerIDEntered, passwordEntered);
