@@ -41,7 +41,6 @@ public class Peon {
 	public Login login;
 	public String userName;
 	public String adminLevel;
-	//public JLabel loggedInUser;
 
 	public ResourceBundle localizedBundle;
 	public Locale currentLocale;
@@ -78,41 +77,6 @@ public class Peon {
 
 	public String obtainAdminLevel() {
 		return adminLevel;
-	}
-
-	public void errorMessagePopup(String error) {
-
-		currentLocale = LocaleConfig.currentLocale();
-		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
-
-		//Bike Error Checking
-		if(error.equals("make")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidMake"), "Error", JOptionPane.WARNING_MESSAGE);
-		} else if(error.equals("model")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidModel"), "Error", JOptionPane.WARNING_MESSAGE);
-		} else if(error.equals("serialNumber")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidSerial"), "Error", JOptionPane.WARNING_MESSAGE);
-		} else if(error.equals("location")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidLocation"), "Error", JOptionPane.WARNING_MESSAGE);
-		} else if(error.equals("noBike")){
-			JOptionPane.showMessageDialog(myFrame, "Bike not found, please try again", "Error", JOptionPane.WARNING_MESSAGE);
-		}
-
-		//User error checking
-		else if(error.equals("firstName")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
-		} else if(error.equals("lastName")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidLastName"), "Error", JOptionPane.WARNING_MESSAGE);
-		} else if(error.equals("phoneNumber")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidPhoneNumber"), "Error", JOptionPane.WARNING_MESSAGE);
-		} else if(error.equals("email")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidEmail"), "Error", JOptionPane.WARNING_MESSAGE);
-		}
-
-		//Calendar error checking
-		else if(error.equals("noDate")) {
-			JOptionPane.showMessageDialog(myFrame, localizedBundle.getString("errorInvalidDate"), "Error", JOptionPane.WARNING_MESSAGE);
-		}
 	}
 
 	public boolean processWorkerData(Properties workerProperties) {

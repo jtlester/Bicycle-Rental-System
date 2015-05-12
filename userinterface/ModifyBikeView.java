@@ -229,7 +229,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidMake"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(modelTextField.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), "Error", JOptionPane.WARNING_MESSAGE);
-			} else if(serialNumberTextField.getText().length() != 10) {
+			} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), "Error", JOptionPane.WARNING_MESSAGE);
 			} else if(locationOnCampusTextField.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), "Error", JOptionPane.WARNING_MESSAGE);

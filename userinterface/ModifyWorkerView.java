@@ -61,8 +61,6 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 		add(createEditFields());
 		add(createAdminBox());
 		add(navigationPanel());
-
-
 	}
 
 	private JPanel createWorkerSearch() {
@@ -171,18 +169,30 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			Properties newWorkerProperties = new Properties();
-			newWorkerProperties.setProperty("bannerId", bannerId);
-			newWorkerProperties.setProperty("password", String.valueOf(passwordTextField.getPassword()));
-			newWorkerProperties.setProperty("adminLevel", (String)adminLevelComboBox.getSelectedItem());
-			newWorkerProperties.setProperty("firstName", firstNameTextField.getText());
-			newWorkerProperties.setProperty("lastName", lastNameTextField.getText());
-			newWorkerProperties.setProperty("phoneNumber", phoneNumberTextField.getText());
-			newWorkerProperties.setProperty("email", emailTextField.getText());
+			if (passwordTextField.getPassword().equals("")) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(firstNameTextField.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(lastNameTextField.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(phoneNumberTextField.getText().length() != 11) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else if(emailTextField.getText() == null) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), "Error", JOptionPane.WARNING_MESSAGE);
+			} else {
+				newWorkerProperties.setProperty("bannerId", bannerId);
+				newWorkerProperties.setProperty("password", String.valueOf(passwordTextField.getPassword()));
+				newWorkerProperties.setProperty("adminLevel", (String)adminLevelComboBox.getSelectedItem());
+				newWorkerProperties.setProperty("firstName", firstNameTextField.getText());
+				newWorkerProperties.setProperty("lastName", lastNameTextField.getText());
+				newWorkerProperties.setProperty("phoneNumber", phoneNumberTextField.getText());
+				newWorkerProperties.setProperty("email", emailTextField.getText());
 
-			if(peon.processUpdateWorkerData(newWorkerProperties)) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdateWorker"), "Success", JOptionPane.PLAIN_MESSAGE);
-				clearFields();
-				peon.createAndShowMainMenuView();
+				if(peon.processUpdateWorkerData(newWorkerProperties)) {
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdateWorker"), "Success", JOptionPane.PLAIN_MESSAGE);
+					clearFields();
+					peon.createAndShowMainMenuView();
+				}
 			}
 		} else if(event.getSource() == findButton) {
 			//User clicked find button

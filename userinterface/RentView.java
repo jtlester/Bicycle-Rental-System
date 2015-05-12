@@ -1,5 +1,6 @@
 // specify the package
 package userinterface;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -288,7 +289,15 @@ public class RentView extends JPanel implements ActionListener {
 			serialNumberTextField.setText(bicycleProperties.getProperty("make"));
 			locationOnCampusTextField.setText(bicycleProperties.getProperty("locationOnCampus"));
 			descriptionTextField.setText(bicycleProperties.getProperty("description"));
-			statusTextField.setText(bicycleProperties.getProperty("status"));
+			if(!bicycleProperties.getProperty("status").equals("Available")) {
+				statusTextField.setText(localizedBundle.getString("unavailable"));
+				submitButton.setEnabled(false);
+				statusTextField.setForeground(Color.red);
+			} else {
+				statusTextField.setText(localizedBundle.getString("available"));
+				submitButton.setEnabled(true);
+				statusTextField.setForeground(Color.black);
+			}
 		} else if(event.getSource() == backButton) {
 			clearTextFields();
 			peon.createAndShowMainMenuView();
@@ -304,5 +313,7 @@ public class RentView extends JPanel implements ActionListener {
 		serialNumberTextField.setText("");
 		locationOnCampusTextField.setText("");
 		descriptionTextField.setText("");
+		submitButton.setEnabled(true);
+		statusTextField.setForeground(Color.black);
 	}
 }
