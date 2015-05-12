@@ -188,7 +188,7 @@ public class BicycleView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("serialNumber",serialNumberTextField.getText());
 				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
-				bicycleProperties.setProperty("status", "in");
+				bicycleProperties.setProperty("status", "Available");
 				bicycleProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
 
 				if(peon.processBicycleData(bicycleProperties)) {

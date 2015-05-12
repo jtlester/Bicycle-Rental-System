@@ -168,6 +168,8 @@ public class UserView extends JPanel implements ActionListener {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUser"), "Success", JOptionPane.PLAIN_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorUser"), "Error", JOptionPane.PLAIN_MESSAGE);
+					clearEntries();
+					peon.createAndShowMainMenuView();
 				}
 				clearEntries();
 			}
