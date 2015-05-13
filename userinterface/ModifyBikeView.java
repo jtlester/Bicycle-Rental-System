@@ -39,10 +39,11 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 	private JButton backButton;
 	private JComboBox colorComboBox;
 	private JComboBox bikeConditionComboBox;
-	private JComboBox statusComboBox;
+	private JComboBox statusComboBox, locationComboBox;
 	private Map<String, Integer> colorMap;
 	private Map<String, Integer> conditionMap;
 	private Map<String, Integer> statusMap;
+	private Map locationMap;
 	private String bikeId;
 	private ResourceBundle localizedBundle;
 
@@ -54,6 +55,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 		setupColorHash();
 		setupConditionHash();
 		statusHash();
+		locationHash();
 		bikeId = new String();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel titlePanel = new JPanel();
@@ -96,6 +98,22 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 		statusMap = new HashMap<String, Integer>();
 		statusMap.put("Available", 0);
 		statusMap.put("Unavailable", 1);
+	}
+	private void locationHash(){
+		locationMap = new HashMap();
+		locationMap.put("Seymour College Union", 0);
+		locationMap.put("Welcome Center", 1);
+		locationMap.put("Rakov", 2);
+		locationMap.put("Bramley", 3);
+		locationMap.put("Briggs", 4);
+		locationMap.put("Perry", 5);
+		locationMap.put("Mortimer", 6);
+		locationMap.put("McFarlane", 7);
+		locationMap.put("McClean", 8);
+		locationMap.put("McVicar", 9);
+		locationMap.put("Thompson", 10);
+		locationMap.put("Dobson", 11);
+		locationMap.put("Gordon", 12);
 	}
 
 	// Create the main data entry fields
@@ -156,9 +174,11 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 		//Location
 		JLabel locationOnCampusLabel = new JLabel(localizedBundle.getString("campusLocation") + ": ");
 		entryPanel.add(locationOnCampusLabel);
-		locationOnCampusTextField = new JTextField(20);
-		locationOnCampusTextField.addActionListener(this);
-		entryPanel.add(locationOnCampusTextField);
+		locationComboBox = new JComboBox();
+		String [] locations = {"Seymour College Union", "Welcome Center", "Rakov", "Bramley", "Briggs", "Perry", "Mortimer", "McFarlane", "McClean", "McVicar", "Thompson", "Dobson", "Gordon" };
+		locationComboBox = new JComboBox(locations);
+		locationComboBox.addActionListener(this);
+		entryPanel.add(locationComboBox);
 
 		//Description
 		JLabel descriptionLabel = new JLabel(localizedBundle.getString("description") + ": ");
@@ -231,7 +251,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
-			} else if(locationOnCampusTextField.getText().equals("")) {
+			} else if(locationComboBox.getSelectedIndex() == 0 || locationComboBox.getSelectedIndex() == -1) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else {
 				Properties bicycleProperties = new Properties();
@@ -241,11 +261,11 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("bikeCondition", (String)bikeConditionComboBox.getSelectedItem());
 				bicycleProperties.setProperty("color",(String)colorComboBox.getSelectedItem());
 				bicycleProperties.setProperty("serialNumber",serialNumberTextField.getText());
-				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
+				bicycleProperties.setProperty("locationOnCampus",(String)locationComboBox.getSelectedItem());
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
 				bicycleProperties.setProperty("status",(String)statusComboBox.getSelectedItem());
 				if(peon.processUpdateBicycleData(bicycleProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdateBicycle"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdate"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					clearEntries();
 					peon.createAndShowMainMenuView();
 				}
@@ -275,9 +295,13 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 			if(statusMap.containsKey(bicycleProperties.getProperty("status"))) {
 				statusComboBox.setSelectedIndex((Integer) statusMap.get(bicycleProperties.getProperty("status")));
 			}
-
+			//System.out.println("*******************************************" + bicycleProperties.getProperty("locationOnCampus"));
+			//String location = bicycleProperties.getProperty("locationOnCampus");
+			if(locationMap.containsKey(bicycleProperties.getProperty("locationOnCampus"))){
+				locationComboBox.setSelectedIndex((Integer) locationMap.get(bicycleProperties.getProperty("locationOnCampus")));
+			}
 			serialNumberTextField.setText(bicycleProperties.getProperty("serialNumber"));
-			locationOnCampusTextField.setText(bicycleProperties.getProperty("locationOnCampus"));
+			//locationOnCampusTextField.setText(bicycleProperties.getProperty("locationOnCampus"));
 			descriptionTextField.setText(bicycleProperties.getProperty("description"));
 		} else if(event.getSource() == backButton) {
 			clearEntries();
@@ -289,7 +313,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 		makeTextField.setText("");
 		modelTextField.setText("");
 		serialNumberTextField.setText("");
-		locationOnCampusTextField.setText("");
+		//locationOnCampusTextField.setText("");
 		descriptionTextField.setText("");
 	}
 }
