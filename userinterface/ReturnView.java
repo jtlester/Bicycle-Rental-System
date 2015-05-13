@@ -113,7 +113,7 @@ public class ReturnView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(bikeTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 				bikeTextField.setText("");
 			} else {
 				String day = String.valueOf(returnDatePicker.getModel().getDay());

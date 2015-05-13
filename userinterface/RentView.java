@@ -241,11 +241,11 @@ public class RentView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText()) || bannerTextField.getText().length() != 9) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(bikeTextField.getText().isEmpty() || bikeId == null) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(!Peon.isValidDate((Date)rentDatePicker.getModel().getValue(), (Date)dueDatePicker.getModel().getValue())) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidDate"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidDate"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else {
 				String day = String.valueOf(rentDatePicker.getModel().getDay());
 				String month = String.valueOf(rentDatePicker.getModel().getMonth() + 1);
@@ -279,7 +279,7 @@ public class RentView extends JPanel implements ActionListener {
 			Bicycle bicycle = new Bicycle(bicycleProps);
 			Properties bicycleProperties = bicycle.getBikeInfo(bikeTextField.getText());
 			if(bicycleProperties == null) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 				bikeTextField.setText("");
 				return;
 			}
