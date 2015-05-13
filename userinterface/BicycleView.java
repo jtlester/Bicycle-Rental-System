@@ -29,7 +29,7 @@ public class BicycleView extends JPanel implements ActionListener {
 	private JTextField makeTextField;
 	private JTextField modelTextField;
 	private JComboBox bikeConditionComboBox;
-	private JComboBox colorComboBox;
+	private JComboBox colorComboBox, locationComboBox;
 	private JTextField serialNumberTextField;
 	private JTextField locationOnCampusTextField;
 	private JTextField descriptionTextField;
@@ -109,9 +109,10 @@ public class BicycleView extends JPanel implements ActionListener {
 		//Location
 		JLabel locationOnCampusLabel = new JLabel(localizedBundle.getString("campusLocation") + ": ");
 		entryPanel.add(locationOnCampusLabel);
-		locationOnCampusTextField = new JTextField(20);
-		locationOnCampusTextField.addActionListener(this);
-		entryPanel.add(locationOnCampusTextField);
+		String [] locations = {"---", "Seymour College Union", "Welcome Center", "Rakov", "Bramley", "Briggs", "Perry", "Mortimer", "McFarlane", "McClean", "McVicar", "Thompson", "Dobson", "Gordon" };
+		locationComboBox = new JComboBox(locations);
+		locationComboBox.addActionListener(this);
+		entryPanel.add(locationComboBox);
 
 		//Description
 		JLabel descriptionLabel = new JLabel(localizedBundle.getString("description") + ": ");
@@ -172,7 +173,7 @@ public class BicycleView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidColor"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
-			} else if(locationOnCampusTextField.getText().equals("")) {
+			} else if(locationComboBox.getSelectedIndex() == 0 || locationComboBox.getSelectedIndex() == -1) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
 			} else {
 				//The form is valid
@@ -186,7 +187,7 @@ public class BicycleView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("bikeCondition", (String)bikeConditionComboBox.getSelectedItem());
 				bicycleProperties.setProperty("color",(String)colorComboBox.getSelectedItem());
 				bicycleProperties.setProperty("serialNumber",serialNumberTextField.getText());
-				bicycleProperties.setProperty("locationOnCampus",locationOnCampusTextField.getText());
+				bicycleProperties.setProperty("locationOnCampus",(String)locationComboBox.getSelectedItem());
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
 				bicycleProperties.setProperty("status", "Available");
 				bicycleProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
