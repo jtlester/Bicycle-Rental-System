@@ -28,7 +28,7 @@ import org.jdatepicker.impl.UtilDateModel;
 public class WorkerView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Peon peon;
-	private JTextField firstNameTextField, lastNameTextField, bannerTextField, emailTextField, phoneTextField;
+	private JTextField firstNameTextField, lastNameTextField, bannerTextField, emailTextField, phoneTextField, ccTextField;
 	private JPasswordField passwordTextField;
 	private JButton submitButton, backButton;
 	private JComboBox adminComboBox;
@@ -46,7 +46,7 @@ public class WorkerView extends JPanel implements ActionListener {
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		JLabel lbl = new JLabel(localizedBundle.getString("addWorker"));
+		JLabel lbl = new JLabel(localizedBundle.getString("newWorker"));
 		Font myFont = new Font("Helvetica", Font.BOLD, 20);
 		lbl.setFont(myFont);
 		titlePanel.add(lbl);
@@ -88,10 +88,17 @@ public class WorkerView extends JPanel implements ActionListener {
 		entryPanel.add(lastNameLabel);
 		entryPanel.add(lastNameTextField);
 
+		JPanel phonePanel = new JPanel();
+		phonePanel.setLayout(new GridLayout(1,3));
 		JLabel phoneLabel = new JLabel(localizedBundle.getString("phoneNumber") + ": ");
+		phonePanel.add(phoneLabel);
+		ccTextField = new JTextField(6);
+		ccTextField.setText("+");
+		ccTextField.addActionListener(this);
 		phoneTextField = new JTextField(20);
 		phoneTextField.addActionListener(this);
-		entryPanel.add(phoneLabel);
+		phonePanel.add(ccTextField);
+		entryPanel.add(phonePanel);
 		entryPanel.add(phoneTextField);
 
 		JLabel emailLabel = new JLabel(localizedBundle.getString("email") + ": ");
@@ -163,17 +170,17 @@ public class WorkerView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText())) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidBannerID"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if (passwordTextField.getPassword().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPassword"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(firstNameTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(lastNameTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
-			} else if(phoneTextField.getText().length() <= 10) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
+			} else if(phoneTextField.getText().length() <= 10 || ccTextField.getText().length() < 2 || ccTextField.getText().length() > 7 ) {
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(emailTextField.getText() == null) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else {
 
 				String day = String.valueOf(registrationDatePicker.getModel().getDay());
@@ -186,7 +193,7 @@ public class WorkerView extends JPanel implements ActionListener {
 				workerProperties.setProperty("adminLevel",(String)adminComboBox.getSelectedItem());
 				workerProperties.setProperty("firstName",firstNameTextField.getText());
 				workerProperties.setProperty("lastName",lastNameTextField.getText());
-				workerProperties.setProperty("phoneNumber",phoneTextField.getText());
+				workerProperties.setProperty("phoneNumber",ccTextField.getText() + phoneTextField.getText());
 				workerProperties.setProperty("email",emailTextField.getText());
 				workerProperties.setProperty("registrationDate", day + "-" + month + "-" + year);
 
@@ -194,7 +201,7 @@ public class WorkerView extends JPanel implements ActionListener {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successWorker"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					peon.createAndShowMainMenuView();
 				} else {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorker"), localizedBundle.getString("error"), JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("errorWorker"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 				}
 				clearEntries();
 			}

@@ -246,13 +246,13 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 		if(event.getSource() == submitButton) {
 			//User clicked submit
 			if(makeTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidMake"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidMake"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(modelTextField.getText().equals("")) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(locationComboBox.getSelectedIndex() == 0 || locationComboBox.getSelectedIndex() == -1) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else {
 				Properties bicycleProperties = new Properties();
 				bicycleProperties.setProperty("bikeId",bikeId);
@@ -278,7 +278,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 			Bicycle bicycle = new Bicycle(bicycleProps);
 			Properties bicycleProperties = bicycle.getBikeInfo(bikeTextField.getText());
 			if(bicycleProperties == null) {
-				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorBicycleNotFound"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 				bikeTextField.setText("");
 				return;
 			}

@@ -139,7 +139,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		newWorkerLabel = new JLabel(localizedBundle.getString("worker") + ":");
 		workerPanel.add(newWorkerLabel);
 
-		insertNewWorkerButton = new JButton(localizedBundle.getString("addWorker"));
+		insertNewWorkerButton = new JButton(localizedBundle.getString("newWorker"));
 		insertNewWorkerButton.addActionListener(this);
 		modifyWorkerButton = new JButton(localizedBundle.getString("modifyWorker"));
 		modifyWorkerButton.addActionListener(this);
