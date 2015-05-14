@@ -175,7 +175,7 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidFirstName"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(lastNameTextField.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLastName"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
-			} else if(phoneNumberTextField.getText().length() <= 10) {
+			} else if(phoneNumberTextField.getText().length() <= 17) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidPhoneNumber"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(emailTextField.getText() == null) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidEmail"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
