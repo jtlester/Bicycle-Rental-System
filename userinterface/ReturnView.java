@@ -122,7 +122,7 @@ public class ReturnView extends JPanel implements ActionListener {
 
 				Properties returnBikeProperties = new Properties();
 				returnBikeProperties.setProperty("bikeId", bikeTextField.getText());
-				returnBikeProperties.setProperty("returnDate", day + "-" + month + "-" + year);
+				returnBikeProperties.setProperty("returnDate", year + "-" + month + "-" + day);
 				returnBikeProperties.setProperty("status", "Inactive");
 
 				Properties statusChange = new Properties();

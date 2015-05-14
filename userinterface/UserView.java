@@ -169,7 +169,7 @@ public class UserView extends JPanel implements ActionListener {
 				userProperties.setProperty("lastName",lastNameTextField.getText());
 				userProperties.setProperty("phoneNumber", ccTextField.getText() + phoneTextField.getText());
 				userProperties.setProperty("email",emailTextField.getText());
-				userProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
+				userProperties.setProperty("dateRegistered", year + "-" + month + "-" + day);
 				
 				if(peon.processUserData(userProperties)){
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successAdded") + " " + firstNameTextField.getText() + " " + lastNameTextField.getText(), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);

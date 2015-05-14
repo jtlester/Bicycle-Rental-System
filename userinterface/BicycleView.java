@@ -189,7 +189,7 @@ public class BicycleView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("locationOnCampus",(String)locationComboBox.getSelectedItem());
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
 				bicycleProperties.setProperty("status", "Available");
-				bicycleProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
+				bicycleProperties.setProperty("dateRegistered", year + "-" + month + "-" + day);
 
 				if(peon.processBicycleData(bicycleProperties)) {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successAdded") + " " + makeTextField.getText() + " " + modelTextField.getText(), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);

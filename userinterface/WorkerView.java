@@ -195,7 +195,7 @@ public class WorkerView extends JPanel implements ActionListener {
 				workerProperties.setProperty("lastName",lastNameTextField.getText());
 				workerProperties.setProperty("phoneNumber",ccTextField.getText() + phoneTextField.getText());
 				workerProperties.setProperty("email",emailTextField.getText());
-				workerProperties.setProperty("registrationDate", day + "-" + month + "-" + year);
+				workerProperties.setProperty("registrationDate", year + "-" + month + "-" + day);
 
 				if(peon.processWorkerData(workerProperties)) {
 					JOptionPane.showMessageDialog(this, localizedBundle.getString("successAdded") + " " + firstNameTextField.getText() + " " + lastNameTextField.getText(), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);

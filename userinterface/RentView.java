@@ -245,8 +245,8 @@ public class RentView extends JPanel implements ActionListener {
 				Properties rentBikeProperties = new Properties();
 				rentBikeProperties.setProperty("bikeId", bikeTextField.getText());
 				rentBikeProperties.setProperty("bannerId", bannerTextField.getText());
-				rentBikeProperties.setProperty("rentalDate", day + "-" + month + "-" + year);
-				rentBikeProperties.setProperty("dueDate", dayDue + "-" + monthDue + "-" + yearDue);	
+				rentBikeProperties.setProperty("rentalDate", year + "-" + month + "-" + day);
+				rentBikeProperties.setProperty("dueDate", yearDue + "-" + monthDue + "-" + dayDue);	
 				rentBikeProperties.setProperty("status", "Active");
 
 				Properties statusChange = new Properties();
