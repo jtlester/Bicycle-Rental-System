@@ -189,7 +189,7 @@ public class ModifyWorkerView extends JPanel implements ActionListener{
 				newWorkerProperties.setProperty("email", emailTextField.getText());
 
 				if(peon.processUpdateWorkerData(newWorkerProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdate"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdate") + " " + firstNameTextField.getText() + " " + lastNameTextField.getText(), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					clearFields();
 					peon.createAndShowMainMenuView();
 				}

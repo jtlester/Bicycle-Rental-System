@@ -72,22 +72,39 @@ public class User extends EntityBase implements IView {
 		return true;
 	}
 
-	public boolean updateUserInfo()
-	{
-		try
-		{
+	public boolean updateUserInfo() {
+		try {
 			Properties whereClause = new Properties();
 			whereClause.setProperty("bannerId", persistentState.getProperty("bannerId"));
 			updatePersistentState(mySchema, persistentState, whereClause);
 
-		}
-		catch(SQLException ex)
-		{
+		} catch(SQLException ex) {
 			return false;
 		}
 		return true;
 	}
-
+	
+	public String userNameForBannerId(String bannerId) {
+    	String authQuery = "SELECT DISTINCT `firstName`, `lastName` FROM `User` WHERE `bannerId` = " + bannerId + ";";
+		Vector allDataRetrieved = getSelectQueryResult(authQuery);
+		int size = allDataRetrieved.size(); 
+		
+		if(size == 1) {
+			// Copy all the retrieved data into persistent state
+			Properties retrievedUserData = (Properties)allDataRetrieved.elementAt(0);
+			Properties userInfo = new Properties();
+			Enumeration allKeys = retrievedUserData.propertyNames();
+			while (allKeys.hasMoreElements() == true) {
+				String nextKey = (String)allKeys.nextElement();
+				String nextValue = retrievedUserData.getProperty(nextKey);
+				if (nextValue != null) {
+					userInfo.setProperty(nextKey, nextValue);
+				}
+			}
+			return userInfo.getProperty("firstName") + " " + userInfo.getProperty("lastName");
+		}
+		return "";
+    }
 
 	public Properties userInfo(Properties props) {
 		String authQuery = "SELECT * FROM `" + myTableName + "` WHERE (`bannerId` = '" + props.getProperty("bannerId") + "');";

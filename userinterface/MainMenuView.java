@@ -42,7 +42,7 @@ public class MainMenuView extends JPanel implements ActionListener {
 		add(loggedInUserLabel());
 		add(new JSeparator(SwingConstants.HORIZONTAL));
 		add(navigationButtons());
-		if(peon.obtainAdminLevel().equals("Yes")) {
+		if(peon.adminLevel.equals("Yes")) {
 			add(adminAccessPanel());
 		}
 		add(cancelButtons());
@@ -52,10 +52,10 @@ public class MainMenuView extends JPanel implements ActionListener {
 		JPanel userPanel = new JPanel();
 		userPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		if(peon.obtainAdminLevel().equals("Yes")) {
-			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + peon.userName() + ". " + localizedBundle.getString("welcomeAdmin"));
+		if(peon.adminLevel.equals("Yes")) {
+			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + peon.firstName + " " + peon.lastName + ". " + localizedBundle.getString("welcomeAdmin"));
 		} else {
-			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + peon.userName());
+			loggedInUserLabel = new JLabel(localizedBundle.getString("welcomeUser") + " " + peon.firstName + " " + peon.lastName);
 		}
 		userPanel.add(loggedInUserLabel);
 		return userPanel;

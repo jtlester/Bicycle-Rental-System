@@ -39,7 +39,8 @@ public class Peon {
 	public BicycleView bicycleView;
 	public ModifyWorkerView modifyWorkerView;
 	public Login login;
-	public String userName;
+	public String firstName;
+	public String lastName;
 	public String adminLevel;
 
 	public ResourceBundle localizedBundle;
@@ -48,7 +49,6 @@ public class Peon {
 	public Peon() {
 		currentLocale = LocaleConfig.currentLocale();
 		localizedBundle = ResourceBundle.getBundle("BicycleStringsBundle", currentLocale);
-
 		myFrame = MainFrame.getInstance();
 		createAndShowLoginView();
 	}
@@ -56,21 +56,13 @@ public class Peon {
 	public void authenticateLogin(Properties props) {
 		login = new Login(props);
 		if(login.authentication(props) == true) {
-			userName = props.getProperty("bannerId");
+			firstName = login.workerFirstName;
+			lastName = login.workerLastName;
 			adminLevel = login.adminLevel();
 			createAndShowMainMenuView();
-
 		} else {
 			JOptionPane.showMessageDialog(myFrame, "Invalid Username or Password", "Login Error", JOptionPane.ERROR_MESSAGE);
 		}
-	}
-
-	public String userName() {
-		return userName;
-	}
-
-	public String obtainAdminLevel() {
-		return adminLevel;
 	}
 
 	public boolean processWorkerData(Properties workerProperties) {
@@ -129,6 +121,7 @@ public class Peon {
 		}
 		return false;
 	}
+	
 	public boolean processUpdateUserData(Properties userProperties) {
 		User newUser = new User(userProperties);
 		if(newUser.updateUserInfo()) {
@@ -136,13 +129,23 @@ public class Peon {
 		}
 		return false;
 	}
-	public boolean processUpdateWorkerData(Properties workerProperties)
-	{
+	
+	public boolean processUpdateWorkerData(Properties workerProperties) {
 		Worker updateWorker = new Worker(workerProperties);
 		if(updateWorker.updateWorkerInfo()) {
 			return true;
 		}
 		return false;
+	}
+	
+	public String fetchUserName(String bannerId) {
+		User newUser = new User(new Properties());
+		return newUser.userNameForBannerId(bannerId);
+	}
+	
+	public String fetchBicycleName(String bikeId) {
+		Bicycle newBike = new Bicycle(new Properties());
+		return newBike.bikeName(bikeId);
 	}
 
 	public void exitSystem() {

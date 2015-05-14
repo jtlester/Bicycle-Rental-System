@@ -14,6 +14,8 @@ public class Login extends EntityBase implements IView {
     protected Properties dependencies;
 	public Properties workerInfo;
 	public String adminLevel;
+	public String workerFirstName;
+	public String workerLastName;
     
     private String updateStatusMessage = "";
 
@@ -58,7 +60,7 @@ public class Login extends EntityBase implements IView {
 	}
 
     public boolean authentication(Properties props) {
-		String authQuery = "SELECT DISTINCT `firstName`, `adminLevel` FROM `" + myTableName + "` WHERE ((`bannerId` = '" + props.getProperty("bannerId") + "') & (`password` = '" + props.getProperty("password") + "'))";
+		String authQuery = "SELECT DISTINCT `firstName`, `lastName`, `adminLevel` FROM `" + myTableName + "` WHERE ((`bannerId` = '" + props.getProperty("bannerId") + "') & (`password` = '" + props.getProperty("password") + "'))";
 		Vector allDataRetrieved = getSelectQueryResult(authQuery);
 		int size = allDataRetrieved.size(); 
 		
@@ -70,17 +72,18 @@ public class Login extends EntityBase implements IView {
 			while (allKeys.hasMoreElements() == true) {
 				String nextKey = (String)allKeys.nextElement();
 				String nextValue = retrievedWorkerData.getProperty(nextKey);
-
 				if (nextValue != null) {
 					workerInfo.setProperty(nextKey, nextValue);
 				}
 			}
 			adminLevel = workerInfo.getProperty("adminLevel");
+			workerFirstName = workerInfo.getProperty("firstName");
+			workerLastName = workerInfo.getProperty("lastName");
 			return true;
 		}
 		return false;
 	}
-	
+    
 	public String adminLevel() {
 		return adminLevel;
 	}

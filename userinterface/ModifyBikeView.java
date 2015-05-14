@@ -33,7 +33,6 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 	private JTextField makeTextField;
 	private JTextField modelTextField;
 	private JTextField serialNumberTextField;
-	private JTextField locationOnCampusTextField;
 	private JTextField descriptionTextField;
 	private JButton submitButton;
 	private JButton backButton;
@@ -249,7 +248,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidMake"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(modelTextField.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidModel"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
-			} else if(serialNumberTextField.getText().length() != 10 || !Peon.isNumber(serialNumberTextField.getText())) {
+			} else if(serialNumberTextField.getText().length() != 10) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidSerial"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} else if(locationComboBox.getSelectedIndex() == 0 || locationComboBox.getSelectedIndex() == -1) {
 				JOptionPane.showMessageDialog(this, localizedBundle.getString("errorInvalidLocation"), localizedBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
@@ -265,7 +264,7 @@ public class ModifyBikeView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("description",descriptionTextField.getText());
 				bicycleProperties.setProperty("status",(String)statusComboBox.getSelectedItem());
 				if(peon.processUpdateBicycleData(bicycleProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdate"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdate") + " " + makeTextField.getText() + " " + modelTextField.getText(), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					clearEntries();
 					peon.createAndShowMainMenuView();
 				}

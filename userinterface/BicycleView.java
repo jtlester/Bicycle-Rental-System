@@ -31,7 +31,6 @@ public class BicycleView extends JPanel implements ActionListener {
 	private JComboBox bikeConditionComboBox;
 	private JComboBox colorComboBox, locationComboBox;
 	private JTextField serialNumberTextField;
-	private JTextField locationOnCampusTextField;
 	private JTextField descriptionTextField;
 	private JButton submitButton;
 	private JButton backButton;
@@ -193,7 +192,7 @@ public class BicycleView extends JPanel implements ActionListener {
 				bicycleProperties.setProperty("dateRegistered", day + "-" + month + "-" + year);
 
 				if(peon.processBicycleData(bicycleProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successBicycle"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successAdded") + " " + makeTextField.getText() + " " + modelTextField.getText(), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					clearEntries();
 					peon.createAndShowMainMenuView();
 				} else {
@@ -212,7 +211,6 @@ public class BicycleView extends JPanel implements ActionListener {
 		makeTextField.setText("");
 		modelTextField.setText("");
 		serialNumberTextField.setText("");
-		locationOnCampusTextField.setText("");
 		descriptionTextField.setText("");
 	}
 }

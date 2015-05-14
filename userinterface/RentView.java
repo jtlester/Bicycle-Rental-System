@@ -1,5 +1,6 @@
 // specify the package
 package userinterface;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -34,11 +35,9 @@ public class RentView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private Peon peon;
-	private MessageView statusLog;
 	private JTextField bannerTextField, statusTextField, bikeTextField, makeTextField, modelTextField, colorTextField, serialNumberTextField, locationOnCampusTextField, descriptionTextField;
 	private JButton backButton, submitButton, findButton;
-	private JDatePickerImpl rentDatePicker;
-	private JDatePickerImpl dueDatePicker;
+	private JDatePickerImpl rentDatePicker, dueDatePicker;
 	private ResourceBundle localizedBundle;
 	private String bikeId;
 
@@ -226,18 +225,6 @@ public class RentView extends JPanel implements ActionListener {
 		return navPanel;
 	}
 
-	public void displayErrorMessage(String message) {
-		statusLog.displayErrorMessage(message);
-	}
-
-	public void clearErrorMessage() {
-		statusLog.clearErrorMessage();
-	}
-
-	public void displayMessage(String message) {
-		statusLog.displayMessage(message);
-	}
-
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			if(bannerTextField.getText().equals("") || !Peon.isNumber(bannerTextField.getText()) || bannerTextField.getText().length() != 9) {
@@ -266,7 +253,8 @@ public class RentView extends JPanel implements ActionListener {
 				statusChange.setProperty("bikeId", bikeTextField.getText());
 				statusChange.setProperty("status", "Unavailable");
 				if(peon.processRentData(rentBikeProperties) && peon.changeStatus(statusChange)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successRent") + "\n" + localizedBundle.getString("bicycle") + ": " + makeTextField.getText() + " " + modelTextField.getText() + "\n" + localizedBundle.getString("dueDate") + ": " + dayDue + "-" + monthDue + "-" + yearDue, "Success", JOptionPane.PLAIN_MESSAGE);
+					String userName = peon.fetchUserName(bannerTextField.getText());
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successRent") + " " + makeTextField.getText() + " " + modelTextField.getText() + "\n" + localizedBundle.getString("name") + ": " + userName + "\n" + localizedBundle.getString("renterBannerId") + ": " + bannerTextField.getText() + "\n" + localizedBundle.getString("dueDate") + ": " + dayDue + "-" + monthDue + "-" + yearDue, "Success", JOptionPane.PLAIN_MESSAGE);
 					clearTextFields();
 					peon.createAndShowMainMenuView();
 				}
