@@ -122,7 +122,7 @@ public class ReturnView extends JPanel implements ActionListener {
 
 				Properties returnBikeProperties = new Properties();
 				returnBikeProperties.setProperty("bikeId", bikeTextField.getText());
-				returnBikeProperties.setProperty("returnDate", day + "-" + month + "-" + year);
+				returnBikeProperties.setProperty("returnDate", year + "-" + month + "-" + day);
 				returnBikeProperties.setProperty("status", "Inactive");
 
 				Properties statusChange = new Properties();
@@ -130,7 +130,7 @@ public class ReturnView extends JPanel implements ActionListener {
 				statusChange.setProperty("status", "Available");
 
 				if(peon.processReturnData(returnBikeProperties) && peon.changeStatus(statusChange)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successReturn"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successReturn") + peon.fetchBicycleName(bikeTextField.getText()), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					peon.createAndShowMainMenuView();
 				}
 			}

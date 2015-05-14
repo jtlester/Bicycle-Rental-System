@@ -75,7 +75,6 @@ public class LoginView extends JPanel implements ActionListener {
 			logo = ImageIO.read(new File("images/logo.jpg"));
 			JLabel picLabel = new JLabel(new ImageIcon(logo));
 			titlePanel.add(picLabel);
-			
 		} catch(IOException e) {
 			System.out.println("ERROR: Could not load logos");
 		}
@@ -222,8 +221,7 @@ public class LoginView extends JPanel implements ActionListener {
 	 * Process userid and pwd supplied when Submit button is hit.
 	 * Action is to pass this info on to the teller object
 	 */
-	private void processUserIDAndPassword(String useridString,
-			String passwordString) {
+	private void processUserIDAndPassword(String useridString, String passwordString) {
 		Properties props = new Properties();
 		props.setProperty("bannerId", useridString);
 		props.setProperty("password", passwordString);

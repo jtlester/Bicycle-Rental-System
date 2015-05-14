@@ -116,6 +116,25 @@ public class Bicycle extends EntityBase implements IView {
 		return null;	
 	}
 	
+	public String bikeName(String bikeId) {
+		String authQuery = "SELECT `make`, `model` FROM `Bicycle` WHERE (`bikeId` = '" + bikeId + "');";
+		Vector allDataRetrieved = getSelectQueryResult(authQuery);
+		int size = allDataRetrieved.size();
+		if(size == 1) {
+			Properties retrievedBikeData = (Properties)allDataRetrieved.elementAt(0);			
+			Enumeration allKeys = retrievedBikeData.propertyNames();
+			while(allKeys.hasMoreElements() == true) {
+				String nextKey = (String)allKeys.nextElement();
+				String nextValue = retrievedBikeData.getProperty(nextKey);
+				if(nextValue != null) {
+					retrievedBikeData.setProperty(nextKey, nextValue);
+				}
+			}
+			return retrievedBikeData.getProperty("make") + " " + retrievedBikeData.getProperty("model");
+		} 
+		return null;
+	}
+	
     public void updateState(String key, Object value) {
         stateChangeRequest(key, value);
     }

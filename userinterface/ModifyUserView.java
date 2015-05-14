@@ -146,7 +146,7 @@ public class ModifyUserView extends JPanel implements ActionListener {
 				userProperties.setProperty("phoneNumber",phoneTextField.getText());
 				userProperties.setProperty("email",emailTextField.getText());
 				if(peon.processUpdateUserData(userProperties)) {
-					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdateUser"), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(this, localizedBundle.getString("successUpdate") + " " + firstNameTextField.getText() + " " + lastNameTextField.getText(), localizedBundle.getString("success"), JOptionPane.PLAIN_MESSAGE);
 					clearEntries();
 					peon.createAndShowMainMenuView();
 				}
